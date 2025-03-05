@@ -1,32 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<<<<<<< HEAD
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- D3 library -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <!-- Link to the external JavaScript file -->
+  <script src="global.js" defer></script>
+  <link rel="stylesheet" href="style.css" />
+  <title>Document</title>
+=======
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script src="global.js" defer></script>    
+    <script src="global.js"></script>
+    
     <link rel="stylesheet" href="style.css">
     <title>Document</title>
+>>>>>>> d3d64d592fcd2585a4ce3e4e31e3fc9dfa97a22d
 </head>
 <body>
-    <header>
-        <h1>Glycemic Index Project</h1>
-    </header>
-    <div class="container">
-        <div class="human-model" id="humanModel">
-        </div>
-        <div class="food-selection">
-            <label for="foodSelect">Select a food item:</label>
-            <select id="foodSelect">
-                <option value="apple">Apple</option>
-                <option value="banana">Banana</option>
-                <option value="carrot">Carrot</option>
-            </select>
-        </div>
-        <div class="food-info" id="foodInfo">
-            <h2>Food Information</h2>
-            <p>Select a food item to see its nutritional information.</p>
-        </div>
+  <header>
+    <h1>Glycemic Index Project</h1>
+  </header>
+
+    <!-- Multi-Select for 5 Foods + Button -->
+    <div class="food-selection">
+      <label for="multiFoodSelect">Choose up to 5 foods for pie chart:</label>
+      <select id="multiFoodSelect" multiple size="5">
+        <option value="Apple">Apple</option>
+        <option value="Banana">Banana</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Rice">Rice</option>
+        <option value="Chicken">Chicken</option>
+        <!-- Add as many food options as you want -->
+      </select>
+      <button id="updateChartBtn">Update Pie Chart</button>
     </div>
+
+    <!-- Pie Chart Container -->
+    <div id="pieChart"></div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
+  </div>
 </body>
 </html>
