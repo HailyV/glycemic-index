@@ -56,14 +56,32 @@ async function loadGlucoseCSV() {
     }
 }
 
-// Example function to process or visualize food data
-function processFoodData(data) {
-    console.log("First 5 Food Rows:", data.slice(0, 5));
-}
+// Function to calculate average values for each unique food
+function calculateFoodAverages(data) {
+    let foodTotals = {};
+    let foodCounts = {};
 
-// Example function to process or visualize glucose data
-function processGlucoseData(data) {
-    console.log("First 5 Glucose Rows:", data.slice(0, 5));
+    data.forEach(entry => {
+        const foodName = entry["Food"] || "Unknown";
+        const value = parseFloat(entry["Value"]);  // Adjust column name as needed
+
+        if (!isNaN(value)) {
+            if (!foodTotals[foodName]) {
+                foodTotals[foodName] = 0;
+                foodCounts[foodName] = 0;
+            }
+            foodTotals[foodName] += value;
+            foodCounts[foodName] += 1;
+        }
+    });
+
+    // Calculate averages
+    let avgData = Object.keys(foodTotals).map(food => ({
+        name: food,
+        avgValue: foodTotals[food] / foodCounts[food]
+    }));
+
+    return avgData;
 }
 
 // Load both CSV datasets separately
