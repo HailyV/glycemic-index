@@ -60,3 +60,17 @@ h1 {
     width: 300px;
     text-align: center;
 }
+
+.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    pointer-events: none; /* allows mouse to pass through the tooltip */
+    font-size: 14px;
+    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); // optional styling */
+  }
+  
+
+
