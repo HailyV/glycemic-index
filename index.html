@@ -5,9 +5,28 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://d3js.org/d3.v7.min.js"></script>
     <script src="global.js" defer></script>    
+    <link rel="stylesheet" href="style.css">
     <title>Document</title>
 </head>
 <body>
-    
+    <header>
+        <h1>Glycemic Index Project</h1>
+    </header>
+    <div class="container">
+        <div class="human-model" id="humanModel">
+        </div>
+        <div class="food-selection">
+            <label for="foodSelect">Select a food item:</label>
+            <select id="foodSelect">
+                <option value="apple">Apple</option>
+                <option value="banana">Banana</option>
+                <option value="carrot">Carrot</option>
+            </select>
+        </div>
+        <div class="food-info" id="foodInfo">
+            <h2>Food Information</h2>
+            <p>Select a food item to see its nutritional information.</p>
+        </div>
+    </div>
 </body>
 </html>
