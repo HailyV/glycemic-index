@@ -208,3 +208,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
 });
+
+// hides summary stats and legend until you submit
+document.addEventListener("DOMContentLoaded", function () {
+    const updateChartBtn = document.getElementById("updateChartBtn");
+    const summaryStats = document.getElementById("summaryStats");
+    const legend = document.getElementById("legend");
+
+    updateChartBtn.addEventListener("click", function () {
+        // Get selected options
+        const selectedFoods = Array.from(document.getElementById("multiFoodSelect").selectedOptions)
+                                   .map(option => option.value);
+
+        if (selectedFoods.length > 0) {
+            // Show summary stats and legend if at least one food is selected
+            summaryStats.classList.remove("hidden");
+            legend.classList.remove("hidden");
+
+            // Example: Update summary stats dynamically
+            document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
+        } else {
+            // Hide if nothing is selected
+            summaryStats.classList.add("hidden");
+            legend.classList.add("hidden");
+        }
+    });
+});
