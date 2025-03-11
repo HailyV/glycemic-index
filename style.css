@@ -1,19 +1,16 @@
 /* Ensure body allows content to be properly aligned */
 
- /* Main content uses Flexbox */
- body {
+/* ✅ Body: Adjust padding to prevent excess space */
+body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;  /* Everything is stacked vertically */
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    height: 100vh;
-    padding-top: 80px; /* Prevents navbar overlap */
 }
-
 
 h1 {
     margin: 0;
@@ -22,7 +19,8 @@ h1 {
 /* Food Search and Selection */
 .food-search-container, .food-selection {
     text-align: center;
-    margin-bottom: 15px;
+    margin-bottom: 5px;
+    margin-top: 10px;
 }
 
 /* ✅ Fix Layout: Ensure Stats, Pie Chart, and Legend are in a Row */
@@ -48,13 +46,10 @@ h1 {
     text-align: left;
 }
 
-.hidden {
-    display: none; /* Initially hide summary stats and legend */
-}
-
-/* ✅ Legend (Right) */
+/* ✅ Legend container auto-sizes based on content */
 .legend-container {
-    width: 200px;
+    width: auto; /* Allows it to expand based on text size */
+    max-width: 300px; /* Optional: Prevents it from getting too wide */
     background: #f4f4f4;
     padding: 15px;
     border-radius: 8px;
@@ -63,42 +58,57 @@ h1 {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin-top: 20px;
 }
 
-/* ✅ Legend items */
+/* ✅ Ensures space between legend items */
 .legend-item {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;
+    gap: 10px; /* Consistent spacing between box and text */
+    margin-bottom: 8px; /* Ensures spacing between items */
+    white-space: nowrap; /* Prevents text from wrapping */
 }
 
+/* ✅ Ensures color boxes stay uniform */
 .legend-box {
     width: 20px;
     height: 20px;
+    min-width: 20px; /* Prevents shrinking */
+    min-height: 20px;
     border-radius: 4px;
-    margin-right: 10px;
     border: 1px solid #000;
+    flex-shrink: 0; /* Prevents shrinking */
 }
 
+/* ✅ Adjusts text to ensure readability */
 .legend-item span {
     font-size: 16px;
     font-weight: bold;
     color: #333;
+    white-space: normal; /* Allows wrapping for longer text */
+    max-width: 200px; /* Ensures it doesn’t overflow */
+    word-wrap: break-word; /* Breaks long words properly */
 }
 
 
-/* Header positioned below the navbar */
+/* ✅ Hide initially */
+.hidden {
+    display: none;
+}
+
+
 header {
     background-color: #4CAF50;
     color: white;
-    padding: 15px 0;
+    padding: 10px 0; /* Reduced padding */
     width: 100%;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 24px;
     font-weight: bold;
+    margin-top: -20px; /* Remove any top margin */
 }
-
 h1 {
     margin: 0;
 }
@@ -186,13 +196,10 @@ nav {
     color: white;
     text-align: center;
     padding: 15px 0; /* Adds padding for better spacing */
-    position: fixed;
-    top: 0;
-    left: 0;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-    font-size: 18px;
-    font-weight: bold;
     z-index: 1000; /* Ensures it stays above other elements */
+    position: relative; /* Removes fixed positioning */
+    margin-bottom: 20px; /* Adds space below the nav */
 }
 
 nav a {
@@ -204,4 +211,13 @@ nav a {
 
 nav a:hover {
     text-decoration: underline;
+}
+
+/* ✅ Default nav links (non-bold) */
+.nav-link {
+    color: white;
+    text-decoration: none;
+    margin-right: 16px;
+    font-size: 16px;
+    font-weight: normal; /* Default state */
 }

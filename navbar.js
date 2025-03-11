@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Define the pages and their correct paths
     const pages = [
-        { name: "Home", url: isGlucosePage ? "../index.html" : "index.html" },  // Adjust path dynamically
+        { name: "Home", url: isGlucosePage ? "../index.html" : "index.html" },
         { name: "Glucose", url: isGlucosePage ? "index.html" : "glucose-vis/index.html" }
     ];
 
@@ -24,7 +24,13 @@ document.addEventListener("DOMContentLoaded", function () {
         let link = document.createElement("a");
         link.href = page.url;
         link.textContent = page.name;
-        link.style.marginRight = "15px"; // Add spacing
+        link.classList.add("nav-link"); // Add base class
+
+        // Check if this is the active page
+        if (window.location.pathname.includes(page.url.split("/").pop())) {
+            link.classList.add("active");
+        }
+
         navbar.appendChild(link);
     });
 
