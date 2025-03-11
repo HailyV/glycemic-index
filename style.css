@@ -1,24 +1,19 @@
 /* Ensure body allows content to be properly aligned */
-body {
+
+ /* Main content uses Flexbox */
+ body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;
+    flex-direction: column;  /* Everything is stacked vertically */
     align-items: center;
-    justify-content: flex-start; /* Prevents centering all content */
-    height: auto;
+    justify-content: flex-start;
+    height: 100vh;
+    padding-top: 80px; /* Prevents navbar overlap */
 }
 
-header {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 0;
-    width: 100%;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
 
 h1 {
     margin: 0;
@@ -53,14 +48,6 @@ h1 {
     text-align: left;
 }
 
-/* ✅ Pie Chart (Center) */
-#pieChart {
-    width: 400px;
-    height: 400px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
 
 /* ✅ Legend (Right) */
 .legend-container {
@@ -94,4 +81,99 @@ h1 {
     font-size: 16px;
     font-weight: bold;
     color: #333;
+}
+
+
+/* Header positioned below the navbar */
+header {
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px 0;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+h1 {
+    margin: 0;
+}
+/* Container for the main content */
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Food selection using Flexbox */
+.food-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Food select dropdown */
+.food-selection select {
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Food info box */
+.food-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Pie chart container */
+#pieChart {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+/* Tooltip styling */
+.tooltip {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 8px;
+    border-radius: 4px;
+    pointer-events: none;
+    font-size: 14px;
+}
+
+nav {
+    width: 100%;
+    background-color: #333; /* Dark background for contrast */
+    color: white;
+    text-align: center;
+    padding: 15px 0; /* Adds padding for better spacing */
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    font-size: 18px;
+    font-weight: bold;
+    z-index: 1000; /* Ensures it stays above other elements */
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-size: 16px;
+}
+
+nav a:hover {
+    text-decoration: underline;
 }

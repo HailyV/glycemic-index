@@ -6,23 +6,21 @@
     <title>Glucose Level Bar Chart</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script defer src="visualization.js"></script>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-        }
-        #chartContainer {
-            width: 800px;
-            margin: auto;
-        }
-    </style>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <nav id="navbar"></nav>
+    <nav id="navbar">
+        <a href="#">Home</a>
+        <a href="#">Data</a>
+        <a href="#">About</a>
+    </nav>
+    
     <h1>Average Glucose Levels</h1>
+
     <div id="chartContainer">
         <svg width="800" height="500"></svg>
     </div>
+
     <script src="../navbar.js"></script>
 </body>
 </html>
