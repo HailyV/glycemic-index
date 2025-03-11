@@ -1,4 +1,4 @@
-
+/* Ensure body allows content to be properly aligned */
 body {
     font-family: Arial, sans-serif;
     background-color: #f4f4f9;
@@ -7,8 +7,8 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start; /* Prevents centering all content */
+    height: auto;
 }
 
 header {
@@ -24,53 +24,74 @@ h1 {
     margin: 0;
 }
 
-.container {
+/* Food Search and Selection */
+.food-search-container, .food-selection {
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* ✅ Fix Layout: Ensure Stats, Pie Chart, and Legend are in a Row */
+.visualization-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-direction: row; /* ✅ Ensures elements are side-by-side */
+    justify-content: center;
+    align-items: flex-start; /* Aligns elements to the top */
+    gap: 40px; /* Adds space between summary stats, pie chart, and legend */
+    width: 90%;
+    max-width: 1200px;
     margin-top: 20px;
 }
 
-.human-model {
-    width: 200px;
-    height: 400px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    position: relative;
-    margin-bottom: 20px;
+/* ✅ Summary Stats (Left) */
+.summary-stats {
+    width: 250px;
+    padding: 15px;
+    border-radius: 8px;
+    background: #f4f4f4;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
 }
 
-.food-selection {
+/* ✅ Pie Chart (Center) */
+#pieChart {
+    width: 400px;
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ✅ Legend (Right) */
+.legend-container {
+    width: 200px;
+    background: #f4f4f4;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start;
 }
 
-.food-selection select {
-    padding: 10px;
-    font-size: 16px;
+/* ✅ Legend items */
+.legend-item {
+    display: flex;
+    align-items: center;
     margin-bottom: 10px;
 }
 
-.food-info {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
+.legend-box {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    margin-right: 10px;
+    border: 1px solid #000;
 }
 
-.tooltip {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 4px;
-    pointer-events: none; /* allows mouse to pass through the tooltip */
-    font-size: 14px;
-    /* box-shadow: 0 0 5px rgba(0, 0, 0, 0.3); // optional styling */
-  }
-  
-
-
+.legend-item span {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+}
