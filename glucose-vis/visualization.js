@@ -200,13 +200,13 @@ function loadGlucoseForPerson(personIndex) {
             glucose: parseFloat(d["Glucose Value (mg/dL)"] || d["Glucose Value"]),
         })).filter(d => !isNaN(d.glucose));
 
-        // Replace bar chart with time series chart
-        drawTimeSeriesChart(glucoseValues);
+        // Pass person index to the time-series chart
+        drawTimeSeriesChart(glucoseValues, personIndex);
     }).catch(error => {
         console.error("❌ Error loading glucose file:", error);
     });
 }
-function drawTimeSeriesChart(glucoseData) {
+function drawTimeSeriesChart(glucoseData, personIndex) {
     const svgContainer = d3.select("#chartContainer");
     svgContainer.html(""); // 🔄 Clear the previous chart
 
@@ -215,25 +215,56 @@ function drawTimeSeriesChart(glucoseData) {
 
     d3.select("#resetButton").style("display", "block"); // Show the reset button
 
+    // **Add a Dynamic Title Indicating the Person's Data**
+    svgContainer.append("h2")
+        .attr("id", "chartTitle")
+        .text(`Glucose Levels Over 24 Hours for Person ${personIndex + 1}`)
+        .style("text-align", "center")
+        .style("margin-bottom", "10px");
+
     const svg = svgContainer.append("svg")
         .attr("width", 800)
         .attr("height", 500);
 
-    const width = 800, height = 500, margin = { top: 40, right: 30, bottom: 50, left: 70 };
+    const width = 800, height = 500, margin = { top: 60, right: 50, bottom: 70, left: 80 };
 
+    // Sort data to ensure correct ordering on the X-axis
+    glucoseData.sort((a, b) => a.timestamp - b.timestamp);
+
+    // Get the first timestamp as reference point
+    const startTime = d3.min(glucoseData, d => d.timestamp);
+
+    // Define X and Y scales
     const x = d3.scaleTime()
-        .domain(d3.extent(glucoseData, d => d.timestamp))
+        .domain([startTime, d3.timeHour.offset(startTime, 24)]) // Ensure full 24-hour range
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
         .domain([0, d3.max(glucoseData, d => d.glucose)]).nice()
         .range([height - margin.bottom, margin.top]);
 
-    const line = d3.line()
-        .x(d => x(d.timestamp))
-        .y(d => y(d.glucose))
-        .curve(d3.curveMonotoneX);
+    // **Highlight AM (Midnight - 11:59 AM) and PM (Noon - 11:59 PM)**
+    svg.append("rect")
+        .attr("x", x(d3.timeHour.offset(startTime, 0)))  // Midnight start
+        .attr("y", margin.top)
+        .attr("width", x(d3.timeHour.offset(startTime, 12)) - x(d3.timeHour.offset(startTime, 0))) // 12-hour width
+        .attr("height", height - margin.bottom - margin.top)
+        .attr("fill", "rgba(135, 206, 250, 0.2)"); // Light blue for AM
 
+    svg.append("rect")
+        .attr("x", x(d3.timeHour.offset(startTime, 12))) // Noon start
+        .attr("y", margin.top)
+        .attr("width", x(d3.timeHour.offset(startTime, 24)) - x(d3.timeHour.offset(startTime, 12))) // 12-hour width
+        .attr("height", height - margin.bottom - margin.top)
+        .attr("fill", "rgba(255, 182, 193, 0.2)"); // Light pink for PM
+
+    // Create the smoothed line generator
+    const line = d3.line()
+        .x(d => x(d.timestamp)) // Keep exact timestamp for plotting
+        .y(d => y(d.glucose))
+        .curve(d3.curveCatmullRom); // 🔄 **Smooths the line!**
+
+    // Draw the line
     svg.append("path")
         .datum(glucoseData)
         .attr("fill", "none")
@@ -241,14 +272,51 @@ function drawTimeSeriesChart(glucoseData) {
         .attr("stroke-width", 2)
         .attr("d", line);
 
+    // **Custom Function to Format X-Axis Labels**
+    function customTimeFormat(d) {
+        let hour = d3.timeFormat("%I")(d); // Get hour in 12-hour format (01-12)
+        let suffix = ""; // Default: No AM/PM unless it's 12
+
+        if (hour === "12") {
+            suffix = d3.timeFormat(" %p")(d); // Only add AM/PM for 12 AM or 12 PM
+        }
+
+        return `${hour}${suffix}`;
+    }
+
+    // X-Axis (Convert to HH:00 Format, but Change `12` to AM/PM)
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x).ticks(d3.timeHour.every(1)).tickFormat(d3.timeFormat("%H:%M")));
+        .call(d3.axisBottom(x)
+            .ticks(d3.timeHour.every(1)) // 🔄 **Ensure X-axis is labeled in full hours**
+            .tickFormat(customTimeFormat) // ✅ Custom function for formatting
+        )
+        .selectAll("text")
+        .style("text-anchor", "middle");
 
+    // Y-Axis (Glucose Levels)
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
 
+    // **X-Axis Label**
+    svg.append("text")
+        .attr("x", width / 2)
+        .attr("y", height - 30)
+        .attr("text-anchor", "middle")
+        .style("font-size", "14px")
+        .text("Time of Day");
+
+    // **Y-Axis Label**
+    svg.append("text")
+        .attr("x", -height / 2)
+        .attr("y", 20)
+        .attr("text-anchor", "middle")
+        .attr("transform", "rotate(-90)")
+        .style("font-size", "14px")
+        .text("Glucose Level (mg/dL)");
+
+    // **Tooltip for Glucose Points**
     const tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
@@ -261,16 +329,17 @@ function drawTimeSeriesChart(glucoseData) {
         .style("pointer-events", "none")
         .style("font-size", "12px");
 
+    // **Scatter Plot Points (Transparent Steel Blue)**
     svg.selectAll("circle")
         .data(glucoseData)
         .enter().append("circle")
-        .attr("cx", d => x(d.timestamp))
+        .attr("cx", d => x(d.timestamp)) // Keep exact timestamp position
         .attr("cy", d => y(d.glucose))
-        .attr("r", 4)
-        .attr("fill", "red")
+        .attr("r", 5) // Slightly larger for visibility
+        .attr("fill", "rgba(70, 130, 180, 0.5)") // Transparent steel blue
         .on("mouseover", function (event, d) {
             tooltip.style("visibility", "visible")
-                .html(`<strong>${d.timestamp.toLocaleTimeString()}</strong><br>Glucose: ${d.glucose} mg/dL`);
+                .html(`<strong>${customTimeFormat(d.timestamp)}</strong><br>Glucose: ${d.glucose} mg/dL`);
         })
         .on("mousemove", function (event) {
             tooltip.style("top", (event.pageY - 20) + "px")
@@ -280,6 +349,7 @@ function drawTimeSeriesChart(glucoseData) {
             tooltip.style("visibility", "hidden");
         });
 }
+
 
 
 document.getElementById("resetButton").addEventListener("click", function () {
