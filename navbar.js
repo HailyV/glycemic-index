@@ -1,0 +1,32 @@
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("🔄 Loading Navbar...");
+
+    // Detect the current location
+    const isGlucosePage = window.location.pathname.includes("glucose-vis");
+
+    // Define the pages and their correct paths
+    const pages = [
+        { name: "Home", url: isGlucosePage ? "../index.html" : "index.html" },  // Adjust path dynamically
+        { name: "Glucose", url: isGlucosePage ? "index.html" : "glucose-vis/index.html" }
+    ];
+
+    // Get the navbar element
+    const navbar = document.getElementById("navbar");
+
+    if (!navbar) {
+        console.error("❌ Navbar element not found! Make sure <nav id='navbar'></nav> exists in index.html.");
+        return;
+    }
+
+    // Generate navigation links dynamically
+    navbar.innerHTML = ""; // Clear previous content
+    pages.forEach(page => {
+        let link = document.createElement("a");
+        link.href = page.url;
+        link.textContent = page.name;
+        link.style.marginRight = "15px"; // Add spacing
+        navbar.appendChild(link);
+    });
+
+    console.log("✅ Navbar Loaded Successfully!");
+});

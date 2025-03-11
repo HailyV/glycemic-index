@@ -228,8 +228,6 @@ function drawPieChartForSelectedFoods(selectedFoods) {
 }
 
 
-
-
 // Listen for button click to update pie chart
 document.addEventListener("DOMContentLoaded", function() {
     const updateChartBtn = document.getElementById("updateChartBtn");
