@@ -48,7 +48,6 @@ async function loadGlucoseData() {
     }
 }
 
-
 function drawGlucoseBarChart(data) {
     const svgContainer = d3.select("#chartContainer");
     svgContainer.html(""); // 🔄 **Fully clear the previous chart**
