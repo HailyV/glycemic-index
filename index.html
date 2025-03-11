@@ -3,37 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="navbar.js"></script>
   <!-- D3 library -->
   <script src="https://d3js.org/d3.v7.min.js"></script>
   <!-- Link to the external JavaScript file -->
   <script src="global.js" defer></script>
   <link rel="stylesheet" href="style.css" />
-  <title>Glycemic Index Visualization</title>
+  <title>Document</title>
 </head>
 <body>
-  <nav id="navbar"></nav>
   <header>
     <h1>Glycemic Index Project</h1>
   </header>
 
-  <!-- Search bar for filtering foods -->
-  <div class="food-search-container">
-    <label for="foodSearch">Search for a food:</label>
-    <input type="text" id="foodSearch" placeholder="Type to search..." />
-  </div>
-
-  <!-- Multi-Select for 5 Foods + Button -->
-  <div class="food-selection">
-    <label for="multiFoodSelect">Use Ctrl to select up to 5 foods:</label>
-    <select id="multiFoodSelect" multiple size="5"></select>
-    <button id="updateChartBtn">Update Pie Chart</button>
-  </div>
+    <!-- Multi-Select for 5 Foods + Button -->
+    <div class="food-selection">
+      <label for="multiFoodSelect">Use ctrl to select up to 5 foods:</label>
+      <select id="multiFoodSelect" multiple size="5">
+        <option value="Apple">Apple</option>
+        <option value="Banana">Banana</option>
+        <option value="Pizza">Pizza</option>
+        <option value="Rice">Rice</option>
+        <option value="Chicken">Chicken</option>
+        <!-- Add as many food options as you want -->
+      </select>
+      <button id="updateChartBtn">Update Pie Chart</button>
+    </div>
 
 <!-- Container for visualization -->
 <div class="visualization-container">
   <!-- Summary Statistics on the Left -->
-  <div id="summaryStats" class="hidden">
+  <div id="summaryStats" class="summary-stats hidden">
     <h3>Summary Stats</h3>
     <p id="statsContent">Select foods to see their nutritional information</p>
   </div>
@@ -43,13 +42,14 @@
   <div id="pieChart"></div>
 
   <!-- Legend on the Right -->
-  <div id="legend" class="hidden">
+  <div id="legend" class="legend-container hidden">
     <h3>Legend</h3>
-    <p>Colors correspond to selected foods.</p>
+    <p>Colors correspond to certain foods</p>
+    <div id="legend-items"></div>
+</div>
+
+    <!-- Tooltip Container -->
+    <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
   </div>
-
-
-  <!-- Tooltip Container -->
-  <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
 </body>
 </html>
