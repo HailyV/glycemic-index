@@ -18,25 +18,24 @@ async function loadGlucoseData() {
             // Skip the first 12 entries per file
             const filteredData = data.slice(12);
 
-            // Extract and clean glucose values
+            // Extract glucose values and convert to numbers
             const glucoseValues = filteredData
-                .map(d => parseFloat(d["Glucose Value (mg/dL)"] || d["Glucose Value"])) // Adjust for correct column name
-                .filter(v => !isNaN(v)); // Remove NaN values
+                .map(d => parseFloat(d["Glucose Value (mg/dL)"] || d["Glucose Value"]))
+                .filter(v => !isNaN(v));
+
+            // Extract min (row 8) and max (row 7) glucose levels
+            const minGlucose = glucoseValues.length >= 8 ? glucoseValues[7] : NaN;
+            const maxGlucose = glucoseValues.length >= 7 ? glucoseValues[6] : NaN;
 
             // Calculate average glucose level for the person
-            if (glucoseValues.length > 0) {
-                const averageGlucose = glucoseValues.reduce((sum, val) => sum + val, 0) / glucoseValues.length;
-                personGlucoseData.push({
-                    person: `Person ${index + 1}`,
-                    avgGlucose: averageGlucose
-                });
-            } else {
-                console.warn(`⚠️ No valid glucose data found for Person ${index + 1}`);
-                personGlucoseData.push({
-                    person: `Person ${index + 1}`,
-                    avgGlucose: 0 // Default to 0 if no valid data
-                });
-            }
+            const averageGlucose = glucoseValues.reduce((sum, val) => sum + val, 0) / glucoseValues.length;
+
+            personGlucoseData.push({
+                person: `Person ${index + 1}`,
+                avgGlucose: averageGlucose,
+                minGlucose,
+                maxGlucose
+            });
         });
 
         console.log("✅ Processed Glucose Data for Bar Chart:", personGlucoseData);
@@ -65,7 +64,19 @@ function drawGlucoseBarChart(data) {
         .domain([0, d3.max(data, d => d.avgGlucose)]).nice()
         .range([height - margin.bottom, margin.top]);
 
-
+    // 📌 Create Tooltip
+    const tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("position", "absolute")
+        .style("background", "#fff")
+        .style("padding", "8px")
+        .style("border-radius", "5px")
+        .style("border", "1px solid #ccc")
+        .style("box-shadow", "2px 2px 10px rgba(0,0,0,0.2)")
+        .style("visibility", "hidden")
+        .style("pointer-events", "none")
+        .style("font-size", "12px");
+        
     // Draw Bars with Initial Height = 0
     const bars = svg.selectAll("rect")
         .data(data)
@@ -74,7 +85,22 @@ function drawGlucoseBarChart(data) {
         .attr("y", height - margin.bottom) // Start from bottom
         .attr("height", 0) // Start with no height
         .attr("width", x.bandwidth())
-        .attr("fill", d3.color("steelblue"));
+        .attr("fill", d3.color("steelblue"))
+        .on("mouseover", function (event, d) {
+            tooltip.style("visibility", "visible")
+                .html(`
+                    <strong>${d.person}</strong><br>
+                    🔽 Min Glucose: ${d.minGlucose} mg/dL<br>
+                    🔼 Max Glucose: ${d.maxGlucose} mg/dL
+                `);
+        })
+        .on("mousemove", function (event) {
+            tooltip.style("top", (event.pageY - 20) + "px")
+                   .style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.style("visibility", "hidden");
+        });
 
     // 🚀 Animate Bars from Bottom to Correct Height
     bars.transition()
