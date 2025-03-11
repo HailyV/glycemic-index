@@ -331,24 +331,23 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
 
     // **Scatter Plot Points (Transparent Steel Blue)**
     svg.selectAll("circle")
-    .data(averagedData)
-    .enter().append("circle")
-    .attr("cx", d => x(d.hour)) // Align exactly to hours
-    .attr("cy", d => y(d.glucose))
-    .attr("r", 6) // Slightly larger for visibility
-    .attr("fill", "rgba(70, 130, 180, 0.7)") // More visible steel blue
-    .on("mouseover", function (event, d) {
-        tooltip.style("visibility", "visible")
-            .html(`<strong>${customTooltipFormat(d.hour)}</strong><br>Avg Glucose: ${d.glucose.toFixed(1)} mg/dL`);
-    })
-    .on("mousemove", function (event) {
-        tooltip.style("top", (event.pageY - 20) + "px")
-               .style("left", (event.pageX + 10) + "px");
-    })
-    .on("mouseout", function () {
-        tooltip.style("visibility", "hidden");
-    });
-
+        .data(averagedData)
+        .enter().append("circle")
+        .attr("cx", d => x(d.hour)) // Align exactly to hours
+        .attr("cy", d => y(d.glucose))
+        .attr("r", 6) // Slightly larger for visibility
+        .attr("fill", "rgba(70, 130, 180, 0.7)") // More visible steel blue
+        .on("mouseover", function (event, d) {
+            tooltip.style("visibility", "visible")
+                .html(`<strong>${customTimeFormat(d.hour)}</strong><br>Avg Glucose: ${d.glucose.toFixed(1)} mg/dL`);
+        })
+        .on("mousemove", function (event) {
+            tooltip.style("top", (event.pageY - 20) + "px")
+                   .style("left", (event.pageX + 10) + "px");
+        })
+        .on("mouseout", function () {
+            tooltip.style("visibility", "hidden");
+        });
 }
 
 
