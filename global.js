@@ -73,7 +73,7 @@ function populateFoodSelection() {
             if (selectedItems.size < 6) {
                 selectedItems.add(checkbox.value);
             } else {
-                alert("You can select up to 5 foods only.");
+                alert("You can select up to 6 foods only.");
                 checkbox.checked = false;
             }
         } else {
@@ -405,7 +405,7 @@ function updateSummaryStats(chartData) {
         const foodColor = colorScale(food.food); // Assign unique color to each food
 
         foodInfo.innerHTML = `
-            <strong>${food.food} <span class="food-color-dot" style="background-color: ${foodColor};"></span></strong> 
+            <strong>${food.food}<span class="food-color-dot" style="background-color: ${foodColor};"></span></strong> 
             <br/>
             🍽 Calories: ${food.calorie.toFixed(1)}<br/>
             🥑 Fat: ${food.total_fat.toFixed(1)} g<br/>
