@@ -64,7 +64,7 @@ function populateFoodSelection() {
         label.appendChild(textNode);
 
         container.appendChild(label);
-        container.appendChild(document.createElement("br"));
+        // container.appendChild(document.createElement("br"));
     });
 
     // Add event listener to save selected items to the list
