@@ -238,12 +238,12 @@ function updateSummaryStats(chartData) {
 
     chartData.forEach(food => {
         statsDiv.innerHTML += `
-            <strong>${food.food}</strong>:<br/>
-            Calories: ${food.calorie.toFixed(1)}<br/>
-            Fat: ${food.total_fat.toFixed(1)} g<br/>
-            Carbs: ${food.total_carb.toFixed(1)} g<br/>
-            Sugar: ${food.sugar.toFixed(1)} g<br/>
-            Protein: ${food.protein.toFixed(1)} g<br/><br/>
+            <strong>${food.food}</strong><br/>
+            🍽 Calories: ${food.calorie.toFixed(1)}<br/>
+            🥑 Fat: ${food.total_fat.toFixed(1)} g<br/>
+            🍞 Carbs: ${food.total_carb.toFixed(1)} g<br/>
+            🍬 Sugar: ${food.sugar.toFixed(1)} g<br/>
+            💪 Protein: ${food.protein.toFixed(1)} g<br/><br/>
         `;
     });
 }
@@ -304,6 +304,16 @@ document.addEventListener("DOMContentLoaded", function () {
             // Hide if nothing is selected
             summaryStats.classList.add("hidden");
             legend.classList.add("hidden");
+        }
+    });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll("nav a");
+
+    navLinks.forEach(link => {
+        if (window.location.href.includes(link.getAttribute("href"))) {
+            link.classList.add("active");
         }
     });
 });
