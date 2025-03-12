@@ -227,8 +227,7 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("x", width / 2)   // Center the title
         .attr("y", margin.top / 2)   // Place it within the margin area
         .attr("text-anchor", "middle")   // Ensure centered alignment
-        .style("font-size", "18px")
-        .style("font-weight", "bold")
+        .style("font-size", "16px")
         .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`);
 
     // **Step 1: Compute Hourly Averages from `glucoseData`**
@@ -362,6 +361,51 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .on("mouseout", function () {
             tooltip.style("visibility", "hidden");
         });
+
+        const legendWidth = 120;
+        const legendHeight = 60;
+    
+        const legend = svg.append("g")
+            .attr("transform", `translate(${width - margin.right - legendWidth}, ${margin.top})`);
+    
+        // **Add White Background Behind the Legend**
+        legend.append("rect")
+            .attr("x", -10)
+            .attr("y", -5)
+            .attr("width", legendWidth)
+            .attr("height", legendHeight)
+            .attr("fill", "white")
+            .attr("stroke", "black") // Optional: add border
+            .attr("rx", 5) // Rounded corners
+            .attr("ry", 5)
+            .style("opacity", 0.8); // Slight transparency if needed
+    // Day Legend (Blue)
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", "#87CEFA");
+
+    legend.append("text")
+        .attr("x", 20)
+        .attr("y", 12)
+        .style("font-size", "14px")
+        .text("Day (AM)");
+
+    // Night Legend (Red)
+    legend.append("rect")
+        .attr("x", 0)
+        .attr("y", 25)
+        .attr("width", 15)
+        .attr("height", 15)
+        .attr("fill", "#FFB6C1");
+
+    legend.append("text")
+        .attr("x", 20)
+        .attr("y", 37)
+        .style("font-size", "14px")
+        .text("Night (PM)");
 }
 
 
