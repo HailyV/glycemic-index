@@ -1,7 +1,7 @@
 
 /* ✅ Body: Adjust padding to prevent excess space */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Open Sans', sans-serif;
     background-color: #f4f4f9;
     margin: 0;
     padding: 0;
@@ -9,10 +9,6 @@ body {
     flex-direction: column;  /* Everything is stacked vertically */
     align-items: center;
     justify-content: flex-start;
-}
-
-h1 {
-    margin: 0;
 }
 
 /* Food Search and Selection */
@@ -129,16 +125,50 @@ h1 {
     margin-bottom: 20px;
 }
 
+label[for="multiFoodSelect"] {
+    display: block;  /* Ensures it appears on its own line */
+    font-size: 16px; /* Readable text size */
+    font-weight: bold; /* Make it stand out */
+    color: #333; /* Dark gray for readability */
+    margin-bottom: 5px; /* Spacing between label and select box */
+    text-align: center; /* Center aligns with food selection */
+}
+
+/* Ensure the food selection container stays narrow */
 .food-selection {
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 300px !important; /* Force fixed width */
+    max-width: 300px !important; /* Prevent expansion */
+    margin-bottom: 10px;
 }
 
+/* Ensure the select dropdown does not expand */
 .food-selection select {
     padding: 10px;
     font-size: 16px;
+    width: 100% !important; /* Match container width */
+    max-width: 100% !important; /* Prevent stretching */
     margin-bottom: 10px;
+}
+
+/* Force button width to match food selection */
+.food-selection button {
+    width: 100% !important; /* Match container */
+    max-width: 300px !important; /* Prevent unwanted expansion */
+    padding: 12px;
+    font-size: 16px;
+    background-color: #4CAF50 !important; /* Match header */
+    color: white !important; /* White text */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* Button hover effect */
+.food-selection button:hover {
+    background-color: #45a049 !important; /* Slightly darker green */
 }
 
 .food-info {
