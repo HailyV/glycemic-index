@@ -236,8 +236,9 @@ function updateSummaryStats(chartData) {
     const statsDiv = document.getElementById("summaryStats");
     statsDiv.innerHTML = "<h3>Summary Stats</h3>";
 
-    chartData.forEach(food => {
-        statsDiv.innerHTML += `
+    chartData.forEach((food, index) => {
+        const foodInfo = document.createElement("p");
+        foodInfo.innerHTML = `
             <strong>${food.food}</strong><br/>
             🍽 Calories: ${food.calorie.toFixed(1)}<br/>
             🥑 Fat: ${food.total_fat.toFixed(1)} g<br/>
@@ -245,7 +246,12 @@ function updateSummaryStats(chartData) {
             🍬 Sugar: ${food.sugar.toFixed(1)} g<br/>
             💪 Protein: ${food.protein.toFixed(1)} g<br/><br/>
         `;
+        foodInfo.style.animationDelay = `${index * 0.1}s`; // Delay each item slightly
+        statsDiv.appendChild(foodInfo);
     });
+
+    // Show the summary stats
+    statsDiv.classList.remove("hidden");
 }
 
 // Function to clear all selected items and reset the pie chart
