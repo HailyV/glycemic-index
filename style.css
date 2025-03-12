@@ -150,6 +150,39 @@ header {
 .summary-stats p:nth-child(9) { animation-delay: 0.9s; }
 .summary-stats p:nth-child(10) { animation-delay: 1.0s; }
 
+/* Total Stats Box (Styled like Summary Stats) */
+.total-stats {
+    background: #ffffff;
+    padding: 10px 15px;  /* Reduced padding from top */
+    border-radius: 10px;
+    border: 1px solid #ddd; /* Soft border */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 280px;
+    margin-top: 20px;
+}
+
+/* Reduce space between title and first item */
+.total-stats h3 {
+    margin-top: 5px; /* Reduce top margin */
+    margin-bottom: 8px; /* Slightly closer to first food item */
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Reduce space between food items */
+.total-stats strong {
+    display: block;
+    margin-top: 5px; /* Less space between items */
+    font-size: 16px;
+}
+
+/* Reduce space between nutrition rows */
+.total-stats p {
+    margin: 2px 0; /* Shrink spacing between each nutrition fact */
+    font-size: 15px;
+}
+
 /* Legend Container (Styled like Summary Stats) */
 .legend-container {
     background: #ffffff;

@@ -115,6 +115,32 @@ loadFoodCSV();
 
 // ---------------- PIE CHART AND SUMMARY STATS LOGIC ----------------
 
+// Function to update the total stats
+function updateTotalStats(chartData) {
+    const totalStatsDiv = document.getElementById("totalStats");
+    totalStatsDiv.innerHTML = "<h3>Total Stats</h3>";
+
+    const totalStats = chartData.reduce((acc, food) => {
+        acc.calorie += food.calorie;
+        acc.total_fat += food.total_fat;
+        acc.total_carb += food.total_carb;
+        acc.sugar += food.sugar;
+        acc.protein += food.protein;
+        return acc;
+    }, { calorie: 0, total_fat: 0, total_carb: 0, sugar: 0, protein: 0 });
+
+    totalStatsDiv.innerHTML += `
+        <p><strong>Total Calories:</strong> ${totalStats.calorie.toFixed(1)}</p>
+        <p><strong>Total Fat:</strong> ${totalStats.total_fat.toFixed(1)} g</p>
+        <p><strong>Total Carbs:</strong> ${totalStats.total_carb.toFixed(1)} g</p>
+        <p><strong>Total Sugar:</strong> ${totalStats.sugar.toFixed(1)} g</p>
+        <p><strong>Total Protein:</strong> ${totalStats.protein.toFixed(1)} g</p>
+    `;
+
+    // Show the total stats
+    totalStatsDiv.classList.remove("hidden");
+}
+
 // Function to draw the pie chart and update summary stats
 function drawPieChartForSelectedFoods(selectedFoods) {
     // Remove any existing chart and legend
@@ -175,6 +201,9 @@ function drawPieChartForSelectedFoods(selectedFoods) {
 
     // Update summary stats
     updateSummaryStats(chartData);
+
+    // Update total stats
+    updateTotalStats(chartData);
 
     // Dimensions
     const width = 400;
