@@ -214,6 +214,7 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
 });
 
+// hides summary stats and legend until you submit
 document.addEventListener("DOMContentLoaded", function () {
     const updateChartBtn = document.getElementById("updateChartBtn");
     const summaryStats = document.getElementById("summaryStats");
@@ -230,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
             legend.classList.remove("hidden");
 
             // Example: Update summary stats dynamically
-            document.getElementById("statsContent").innerText = You selected: ${selectedFoods.join(", ")};
+            document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
         } else {
             // Hide if nothing is selected
             summaryStats.classList.add("hidden");
