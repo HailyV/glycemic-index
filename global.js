@@ -70,7 +70,7 @@ function populateFoodSelection() {
     container.addEventListener("change", function(event) {
         const checkbox = event.target;
         if (checkbox.checked) {
-            if (selectedItems.size < 5) {
+            if (selectedItems.size < 6) {
                 selectedItems.add(checkbox.value);
             } else {
                 alert("You can select up to 5 foods only.");
@@ -387,7 +387,7 @@ function drawPieChartForSelectedFoods(selectedFoods) {
 function updateSummaryStats(chartData) {
     const statsDiv = document.getElementById("summaryStats");
 
-    // Ensure images stay in a row
+    // Keep Summary Title & Images
     statsDiv.innerHTML = `
         <h3>Summary Stats</h3>
         <div id="summaryImageContainer">
@@ -397,10 +397,16 @@ function updateSummaryStats(chartData) {
         </div>
     `;
 
+    // Define colors for each food (Using D3's color scheme)
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10); // Generates different colors
+
     chartData.forEach((food, index) => {
         const foodInfo = document.createElement("p");
+        const foodColor = colorScale(food.food); // Assign unique color to each food
+
         foodInfo.innerHTML = `
-            <strong>${food.food}</strong><br/>
+            <strong>${food.food} <span class="food-color-dot" style="background-color: ${foodColor};"></span></strong> 
+            <br/>
             🍽 Calories: ${food.calorie.toFixed(1)}<br/>
             🥑 Fat: ${food.total_fat.toFixed(1)} g<br/>
             🍞 Carbs: ${food.total_carb.toFixed(1)} g<br/>

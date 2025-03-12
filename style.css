@@ -119,6 +119,7 @@ header {
     font-weight: bold;
     text-align: left; /* Ensures left alignment */
     padding-left: 10px; /* Aligns with item titles below */
+    margin-top:10px;
 }
 
 /* Reduce space between food items */
@@ -202,55 +203,6 @@ header {
     margin: 2px 0; /* Shrink spacing between each nutrition fact */
     font-size: 15px;
 }
-
-/* Legend Container (Styled like Summary Stats) */
-.legend-container {
-    background: #ffffff;
-    padding: 15px;
-    border-radius: 10px;
-    border: 1px solid #ddd; /* Soft grey border */
-    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    margin-top: 10px;
-    max-width: 280px;
-}
-
-/* Legend Item */
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 8px;
-}
-
-/* Circle Color Indicator (Softer, No Border) */
-.legend-box {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%; /* Makes it circular */
-    flex-shrink: 0;
-}
-
-/* Updated Softer Colors */
-.legend-box[data-color="blue"] { background-color: #6ea8ff; }   /* Light Blue */
-.legend-box[data-color="orange"] { background-color: #ffb74d; } /* Light Orange */
-.legend-box[data-color="green"] { background-color: #81c784; }  /* Light Green */
-.legend-box[data-color="red"] { background-color: #e57373; }    /* Soft Red */
-.legend-box[data-color="purple"] { background-color: #ba68c8; } /* Light Purple */
-
-/* Legend Text (Remove Bold) */
-.legend-item span {
-    font-size: 15px;
-    font-weight: bold;
-    color: #333;
-    white-space: normal;
-    max-width: 200px;
-    word-wrap: break-word;
-}
-
-
 
 /* ✅ Hide initially */
 .hidden {
@@ -427,4 +379,25 @@ nav a:hover {
 /* Hide initially */
 .hidden {
     display: none;
+}
+
+/* Food Title Row: Keep Name and Square on the Same Line */
+.food-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* Pushes square to the right */
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px; /* Space between name and nutrition info */
+    width: 100%;
+}
+
+/* Change from circle to square */
+.food-color-dot {
+    display: inline-block;  /* Ensures it's visible */
+    width: 12px; /* Set a proper width */
+    height: 12px; /* Set a proper height */
+    border-radius: 3px; /* Optional: Slight rounding for a softer cube */
+    margin-left: 10px; /* Space between name and square */
+    flex-shrink: 0; /* Prevents shrinking */
 }
