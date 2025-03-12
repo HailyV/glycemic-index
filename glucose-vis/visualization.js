@@ -58,7 +58,7 @@ function drawGlucoseBarChart(data) {
         .attr("width", 800)
         .attr("height", 500);
 
-    const width = 800, height = 500, margin = { top: 40, right: 30, bottom: 80, left: 100 };
+    const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
     const averageGlucoseTarget = 100;
 
     const x = d3.scaleBand()
@@ -226,7 +226,7 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("width", 800)
         .attr("height", 500);
 
-    const width = 800, height = 500, margin = { top: 60, right: 50, bottom: 70, left: 80 };
+    const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
 
     // **Step 1: Compute Hourly Averages from `glucoseData`**
     let hourlyAverages = {};
