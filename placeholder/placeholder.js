@@ -1,377 +1,299 @@
-document.addEventListener("DOMContentLoaded", function () {
-    loadGlucoseData();
+mapboxgl.accessToken = 'pk.eyJ1Ijoia2V2aW53MTIiLCJhIjoiY203ZWg1d2doMGU4bzJycHFrOGcwaXUwdSJ9.VbAWd85HtWgGtf7fEKfijQ'; // 🔹 Replace with your Mapbox token
+
+const map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/light-v10',
+    center: [-98.5795, 39.8283], // Center on the US
+    zoom: 4
 });
 
-async function loadGlucoseData() {
-    const glucoseFiles = Array.from({ length: 16 }, (_, i) =>
-        `../data/glucose/Dexcom_${String(i + 1).padStart(3, '0')}.csv`
-    );
+// **🔹 Data: Diabetes Rate & Favorite Food**
+const stateData = [
+    { state: "Alabama", diabetes_rate: 13.4, lower_limit: 12.3, upper_limit: 14.7, food: "Pecans" },
+    { state: "Alaska", diabetes_rate: 8.3, lower_limit: 7.5, upper_limit: 9.2, food: "Salmon" },
+    { state: "Arizona", diabetes_rate: 11.3, lower_limit: 10.3, upper_limit: 12.3, food: "Chimichangas" },
+    { state: "Arkansas", diabetes_rate: 13.9, lower_limit: 12.8, upper_limit: 15.1, food: "Tomatoes" },
+    { state: "California", diabetes_rate: 10.6, lower_limit: 9.8, upper_limit: 11.4, food: "Avocado" },
+    { state: "Colorado", diabetes_rate: 7.6, lower_limit: 6.9, upper_limit: 8.3, food: "Steak" },
+    { state: "Connecticut", diabetes_rate: 9.1, lower_limit: 8.3, upper_limit: 10.0, food: "White clam pizza" },
+    { state: "Delaware", diabetes_rate: 11.7, lower_limit: 10.5, upper_limit: 13.1, food: "Blue Hen Chicken" },
+    { state: "Florida", diabetes_rate: 9.6, lower_limit: 8.7, upper_limit: 10.5, food: "Oranges" },
+    { state: "Georgia", diabetes_rate: 10.9, lower_limit: 10.1, upper_limit: 11.7, food: "Peaches" },
+    { state: "Hawaii", diabetes_rate: 10.3, lower_limit: 9.4, upper_limit: 11.3, food: "Pineapple" },
+    { state: "Idaho", diabetes_rate: 8.9, lower_limit: 8.1, upper_limit: 9.7, food: "Potatoes" },
+    { state: "Illinois", diabetes_rate: 10.7, lower_limit: 9.6, upper_limit: 11.8, food: "Deep-dish Pizza" },
+    { state: "Indiana", diabetes_rate: 11.2, lower_limit: 10.6, upper_limit: 11.9, food: "Sugar Cream Pie" },
+    { state: "Iowa", diabetes_rate: 10.2, lower_limit: 9.5, upper_limit: 10.9, food: "Corn" },
+    { state: "Kansas", diabetes_rate: 10.1, lower_limit: 9.5, upper_limit: 10.8, food: "BBQ" },
+    { state: "Kentucky", diabetes_rate: 12.9, lower_limit: 11.6, upper_limit: 14.2, food: "Blackberries" },
+    { state: "Louisiana", diabetes_rate: 13.2, lower_limit: 12.2, upper_limit: 14.2, food: "Gumbo" },
+    { state: "Maine", diabetes_rate: 9.0, lower_limit: 8.2, upper_limit: 9.8, food: "Lobster" },
+    { state: "Maryland", diabetes_rate: 10.5, lower_limit: 9.8, upper_limit: 11.2, food: "Blue Crab" },
+    { state: "Massachusetts", diabetes_rate: 9.2, lower_limit: 8.4, upper_limit: 10.0, food: "Clam Chowder" },
+    { state: "Michigan", diabetes_rate: 10.0, lower_limit: 9.3, upper_limit: 10.7, food: "Cherries" },
+    { state: "Minnesota", diabetes_rate: 9.0, lower_limit: 8.4, upper_limit: 9.6, food: "Wild Rice" },
+    { state: "Mississippi", diabetes_rate: 13.7, lower_limit: 12.4, upper_limit: 15.0, food: "Biscuits" },
+    { state: "Missouri", diabetes_rate: 10.1, lower_limit: 9.3, upper_limit: 11.0, food: "Ice Cream" },
+    { state: "Montana", diabetes_rate: 7.1, lower_limit: 6.5, upper_limit: 7.8, food: "Huckleberries" },
+    { state: "Nebraska", diabetes_rate: 9.7, lower_limit: 8.9, upper_limit: 10.5, food: "Popcorn" },
+    { state: "Nevada", diabetes_rate: 8.8, lower_limit: 7.7, upper_limit: 10.1, food: "Chateaubriand" },
+    { state: "New Hampshire", diabetes_rate: 8.1, lower_limit: 7.3, upper_limit: 9.0, food: "Lobster Rolls" },
+    { state: "New Jersey", diabetes_rate: 9.5, lower_limit: 8.6, upper_limit: 10.4, food: "Blueberries" },
+    { state: "New Mexico", diabetes_rate: 11.0, lower_limit: 9.9, upper_limit: 12.2, food: "Chiles" },
+    { state: "New York", diabetes_rate: 9.9, lower_limit: 9.3, upper_limit: 10.6, food: "Cheesecake" },
+    { state: "North Carolina", diabetes_rate: 10.6, lower_limit: 9.5, upper_limit: 11.7, food: "Strawberries" },
+    { state: "North Dakota", diabetes_rate: 8.9, lower_limit: 8.0, upper_limit: 9.8, food: "Chokecherry" },
+    { state: "Ohio", diabetes_rate: 11.3, lower_limit: 10.6, upper_limit: 12.0, food: "Pawpaw" },
+    { state: "Oklahoma", diabetes_rate: 12.1, lower_limit: 11.2, upper_limit: 13.0, food: "Watermelon" },
+    { state: "Oregon", diabetes_rate: 9.0, lower_limit: 8.1, upper_limit: 9.9, food: "Pears" },
+    { state: "Pennsylvania", diabetes_rate: 10.0, lower_limit: 8.8, upper_limit: 11.5, food: "Cheesesteaks" },
+    { state: "Rhode Island", diabetes_rate: 10.0, lower_limit: 9.1, upper_limit: 11.0, food: "Frozen Lemonade" },
+    { state: "South Carolina", diabetes_rate: 11.0, lower_limit: 10.2, upper_limit: 11.8, food: "Boiled peanuts" },
+    { state: "South Dakota", diabetes_rate: 8.0, lower_limit: 6.7, upper_limit: 9.6, food: "Kuchen" },
+    { state: "Tennessee", diabetes_rate: 13.0, lower_limit: 12.0, upper_limit: 14.1, food: "Hot Chicken" },
+    { state: "Texas", diabetes_rate: 13.2, lower_limit: 12.2, upper_limit: 14.3, food: "Texas Toast" },
+    { state: "Utah", diabetes_rate: 8.9, lower_limit: 8.3, upper_limit: 9.6, food: "Jell-o" },
+    { state: "Vermont", diabetes_rate: 7.0, lower_limit: 6.2, upper_limit: 7.8, food: "Maple syrup" },
+    { state: "Virginia", diabetes_rate: 11.3, lower_limit: 10.6, upper_limit: 12.1, food: "Ham" },
+    { state: "Washington", diabetes_rate: 8.8, lower_limit: 8.4, upper_limit: 9.2, food: "Coffee" },
+    { state: "West Virginia", diabetes_rate: 14.4, lower_limit: 13.4, upper_limit: 15.5, food: "Apples" },
+    { state: "Wisconsin", diabetes_rate: 8.8, lower_limit: 8.2, upper_limit: 9.4, food: "Cheese" },
+    { state: "Wyoming", diabetes_rate: 8.1, lower_limit: 7.3, upper_limit: 8.9, food: "Soda bread" }
+];
 
-    try {
-        // Load all CSV files asynchronously
-        const filePromises = glucoseFiles.map(file => d3.csv(file));
-        const results = await Promise.all(filePromises);
 
-        let personGlucoseData = [];
+// **🔹 Load US States GeoJSON**
+map.on('load', function () {
+    // **🔹 Load County-Level Diabetes Data and Handle Missing Values**
+d3.csv("../data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData => {
+    const countyDiabetesDict = {};
 
-        results.forEach((data, index) => {
-            // Skip the first 12 entries per file
-            const filteredData = data.slice(12);
+    countyDiabetesData.forEach(d => {
+        if (d.fips) {
+            const fips = String(d.fips).padStart(5, "0"); // Ensure FIPS codes are 5-digit strings
+            const diabetesRate = parseFloat(d.diabetes_rate);
+            countyDiabetesDict[fips] = isNaN(diabetesRate) ? 0 : diabetesRate; // Use 0 for missing values
+        }
+    });
 
-            // Extract glucose values and convert to numbers
-            const glucoseValues = filteredData
-                .map(d => parseFloat(d["Glucose Value (mg/dL)"] || d["Glucose Value"]))
-                .filter(v => !isNaN(v));
+    d3.json("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
+        .then(countyGeoJSON => {
+            // Merge county diabetes data
+            countyGeoJSON.features.forEach(feature => {
+                const countyFIPS = feature.properties.GEO_ID.slice(-5); // Extract county FIPS code
+                feature.properties.diabetes_rate = countyDiabetesDict[countyFIPS] || 0; // Use 0 if missing
+            });
 
-            // Extract min (row 8) and max (row 7) glucose levels
-            const minGlucose = glucoseValues.length >= 8 ? glucoseValues[7] : NaN;
-            const maxGlucose = glucoseValues.length >= 7 ? glucoseValues[6] : NaN;
+            // **🔹 Add County Source (Initially Hidden)**
+            map.addSource('counties', { type: 'geojson', data: countyGeoJSON });
 
-            // Calculate average glucose level for the person
-            const averageGlucose = glucoseValues.reduce((sum, val) => sum + val, 0) / glucoseValues.length;
+            map.addLayer({
+                id: 'counties-layer',
+                type: 'fill',
+                source: 'counties',
+                paint: {
+                    'fill-color': [
+                        'case',
+                        ['!=', ['get', 'diabetes_rate'], 0], // If diabetes_rate is NOT zero
+                        ['interpolate', ['linear'], ['get', 'diabetes_rate'],
+                            5, '#fee5d9',
+                            10, '#fcae91',
+                            15, '#fb6a4a',
+                            20, '#de2d26',
+                            25, '#a50f15'
+                        ],
+                        '#D3D3D3' // Gray for missing data (zero values)
+                    ],
+                    'fill-opacity': 0.75
+                },
+                layout: { 'visibility': 'none' } // Initially hidden
+            });
 
-            personGlucoseData.push({
-                person: `Person ${index + 1}`,
-                avgGlucose: averageGlucose,
-                minGlucose,
-                maxGlucose
+            // **🔹 County Hover Tooltip**
+            const tooltip = document.getElementById('tooltip');
+
+            map.on('mousemove', 'counties-layer', function (e) {
+                const county = e.features[0].properties.NAME;
+                const diabetesRate = e.features[0].properties.diabetes_rate;
+
+                if (diabetesRate > 0) {
+                    tooltip.style.display = 'block';
+                    tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
+                    tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
+                    tooltip.innerHTML = `
+                        <strong>${county} County</strong><br>
+                        📊 Diabetes Rate: ${diabetesRate.toFixed(1)}%
+                    `;
+                } else {
+                    tooltip.style.display = 'none'; // Hide tooltip for missing data
+                }
+            });
+
+            map.on('mouseleave', 'counties-layer', function () {
+                tooltip.style.display = 'none';
             });
         });
-
-        console.log("✅ Processed Glucose Data for Bar Chart:", personGlucoseData);
-
-        // Draw Bar Chart with the processed data
-        drawGlucoseBarChart(personGlucoseData);
-
-    } catch (error) {
-        console.error("❌ Error loading Glucose CSV files:", error);
-    }
-}
-
-function drawGlucoseBarChart(data) {
-    const svgContainer = d3.select("#chartContainer");
-    svgContainer.html(""); // 🔄 **Fully clear the previous chart**
-
-    d3.select("#resetButton").style("display", "none"); // Hide reset button
-
-    const svg = svgContainer.append("svg")
-        .attr("width", 800)
-        .attr("height", 500);
-
-    const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
-    const averageGlucoseTarget = 100;
-
-    const x = d3.scaleBand()
-        .domain(data.map(d => d.person))
-        .range([margin.left, width - margin.right])
-        .padding(0.2);
-
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(data, d => d.avgGlucose)]).nice()
-        .range([height - margin.bottom, margin.top]);
-
-    // 📌 Create Tooltip
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("background", "#fff")
-        .style("padding", "8px")
-        .style("border-radius", "5px")
-        .style("border", "1px solid #ccc")
-        .style("box-shadow", "2px 2px 10px rgba(0,0,0,0.2)")
-        .style("visibility", "hidden")
-        .style("pointer-events", "none")
-        .style("font-size", "12px");
-        
-    // Draw Bars with Initial Height = 0
-    const bars = svg.selectAll("rect")
-        .data(data)
-        .enter().append("rect")
-        .attr("x", d => x(d.person))
-        .attr("y", height - margin.bottom) // Start from bottom
-        .attr("height", 0) // Start with no height
-        .attr("width", x.bandwidth())
-        .attr("fill", d3.color("steelblue"))
-        .on("mouseover", function (event, d) {
-            tooltip.style("visibility", "visible")
-                .html(`
-                    <strong>${d.person}</strong><br>
-                    🔽 Min Glucose: ${d.minGlucose} mg/dL<br>
-                    🔼 Max Glucose: ${d.maxGlucose} mg/dL
-                `);
-        })
-        .on("mousemove", function (event) {
-            tooltip.style("top", (event.pageY - 20) + "px")
-                   .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.style("visibility", "hidden");
-        })
-        .on("click", function (event, d) {  // 🔄 Click replaces chart with time series
-            const personIndex = data.findIndex(person => person.person === d.person);
-            console.log(`🔍 Fetching time series for ${d.person} (Index ${personIndex})`);
-
-            if (personIndex === -1) {
-                console.error(`❌ Invalid person index: ${personIndex}`);
-                return;
-            }
-
-            loadGlucoseForPerson(personIndex);
-        });
-
-    // 🚀 Animate Bars from Bottom to Correct Height
-    bars.transition()
-        .duration(800) // Moderate pace
-        .delay((d, i) => i * 100) // Staggered delay for left-to-right effect
-        .attr("y", d => y(d.avgGlucose)) // Move up
-        .attr("height", d => height - margin.bottom - y(d.avgGlucose));
-
-    // X-Axis
-    svg.append("g")
-        .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x))
-        .selectAll("text")
-        .attr("transform", "rotate(-45)")
-        .style("text-anchor", "end");
-
-    // Y-Axis
-    svg.append("g")
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y));
-
-    // Title
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", margin.top / 2)
-        .attr("text-anchor", "middle")
-        .style("font-size", "16px")
-        .text("Average Glucose Levels Per Person");
-
-    // 📌 **Dotted Line for 100 mg/dL**
-    svg.append("line")
-        .attr("x1", margin.left)
-        .attr("x2", width - margin.right)
-        .attr("y1", y(averageGlucoseTarget))
-        .attr("y2", y(averageGlucoseTarget))
-        .attr("stroke", "red")
-        .attr("stroke-width", 2)
-        .attr("stroke-dasharray", "5,5"); // Dotted line
-
-    // 📌 **Label for Dotted Line**
-    svg.append("text")
-        .attr("x", width - margin.right - 10) // Position near right side
-        .attr("y", y(averageGlucoseTarget) - 5)
-        .attr("text-anchor", "end")
-        .style("fill", "red")
-        .style("font-size", "12px")
-        .text("Target: 100 mg/dL");
-    // 📌 **X-Axis Label**
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height + 5) // Adjusted for spacing
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text("Individuals");
-
-    // 📌 **Y-Axis Label**
-    svg.append("text")
-        .attr("transform", `rotate(-90)`) // Rotate to vertical
-        .attr("x", -height / 2)
-        .attr("y", 20) // Adjust for spacing
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text("Average Glucose Level (mg/dL)");
-}
-function loadGlucoseForPerson(personIndex) {
-    if (isNaN(personIndex) || personIndex < 0 || personIndex >= 16) {
-        console.error(`❌ Invalid person index: ${personIndex}`);
-        return;
-    }
-
-    const filePath = `../data/glucose/Dexcom_${String(personIndex + 1).padStart(3, '0')}.csv`;
-
-    console.log(`📊 Fetching time series for Person ${personIndex + 1} from ${filePath}...`);
-
-    d3.csv(filePath).then(data => {
-        console.log(`✅ Loaded glucose data for Person ${personIndex + 1}`);
-
-        const glucoseValues = data.slice(12).map(d => ({
-            timestamp: new Date(d["Timestamp (YYYY-MM-DDThh:mm:ss)"]),
-            glucose: parseFloat(d["Glucose Value (mg/dL)"] || d["Glucose Value"]),
-        })).filter(d => !isNaN(d.glucose));
-
-        // Pass person index to the time-series chart
-        drawTimeSeriesChart(glucoseValues, personIndex);
-    }).catch(error => {
-        console.error("❌ Error loading glucose file:", error);
-    });
-}
-function drawTimeSeriesChart(glucoseData, personIndex) {
-    const svgContainer = d3.select("#chartContainer");
-    svgContainer.html(""); // 🔄 Clear the previous chart
-
-    // 🔄 **Remove Any Existing Tooltip from Bar Chart**
-    d3.select(".tooltip").remove(); 
-
-    d3.select("#resetButton").style("display", "block"); // Show the reset button
-
-    // **Add a Dynamic Title Indicating the Person's Data**
-    svgContainer.append("h2")
-        .attr("id", "chartTitle")
-        .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`)
-        .style("text-align", "center")
-        .style("margin-bottom", "10px");
-
-    const svg = svgContainer.append("svg")
-        .attr("width", 800)
-        .attr("height", 500);
-
-    const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
-
-    // **Step 1: Compute Hourly Averages from `glucoseData`**
-    let hourlyAverages = {};
-    
-    glucoseData.forEach(d => {
-        let date = new Date(d.timestamp);
-        let hour = date.getHours(); // Extract hour (0 - 23)
-
-        if (!hourlyAverages[hour]) {
-            hourlyAverages[hour] = { sum: 0, count: 0 };
-        }
-        hourlyAverages[hour].sum += d.glucose;
-        hourlyAverages[hour].count += 1;
-    });
-
-    // Convert averages into an array
-    const averagedData = Object.keys(hourlyAverages).map(hour => ({
-        hour: +hour,
-        glucose: hourlyAverages[hour].sum / hourlyAverages[hour].count // Average glucose per hour
-    }));
-
-    console.log("✅ Computed Hourly Averages:", averagedData);
-
-    // Define X and Y scales
-    const x = d3.scaleLinear()
-        .domain([0, 23]) // Use 24-hour format for proper alignment
-        .range([margin.left, width - margin.right]);
-
-    const y = d3.scaleLinear()
-        .domain([0, d3.max(averagedData, d => d.glucose)]).nice()
-        .range([height - margin.bottom, margin.top]);
-
-    // **Highlight AM (Midnight - 11:59 AM) and PM (Noon - 11:59 PM)**
-    svg.append("rect")
-        .attr("x", x(0))  // Midnight start
-        .attr("y", margin.top)
-        .attr("width", x(12) - x(0)) // 12-hour width
-        .attr("height", height - margin.bottom - margin.top)
-        .attr("fill", "rgba(135, 206, 250, 0.2)"); // Light blue for AM
-
-    svg.append("rect")
-        .attr("x", x(12)) // Noon start
-        .attr("y", margin.top)
-        .attr("width", x(24) - x(12)) // 12-hour width
-        .attr("height", height - margin.bottom - margin.top)
-        .attr("fill", "rgba(255, 182, 193, 0.2)"); // Light pink for PM
-
-    // **Step 2: Create Line Chart with Averages**
-    const line = d3.line()
-        .x(d => x(d.hour)) // Align with hourly intervals
-        .y(d => y(d.glucose))
-        .curve(d3.curveMonotoneX); // Smooth interpolation
-
-    // Draw the line
-    svg.append("path")
-        .datum(averagedData)
-        .attr("fill", "none")
-        .attr("stroke", "steelblue")
-        .attr("stroke-width", 2)
-        .attr("d", line);
-
-    // **Custom Function to Format X-Axis Labels**
-    function customTimeFormat(hour) {
-        let period = hour >= 12 ? "PM" : "AM";
-        let formattedHour = hour % 12 || 12; // Convert 24-hour format to 12-hour (12 stays 12)
-        return `${formattedHour}${period}`;
-    }
-
-    // X-Axis (Ensure Proper Alignment)
-    svg.append("g")
-        .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x)
-            .ticks(24) // 🔄 **Force 1-24 interval alignment**
-            .tickFormat(customTimeFormat) // ✅ Custom function for formatting
-        )
-        .selectAll("text")
-        .style("text-anchor", "middle");
-
-    // Y-Axis (Glucose Levels)
-    svg.append("g")
-        .attr("transform", `translate(${margin.left},0)`)
-        .call(d3.axisLeft(y));
-
-    // **X-Axis Label**
-    svg.append("text")
-        .attr("x", width / 2)
-        .attr("y", height - 30)
-        .attr("text-anchor", "middle")
-        .style("font-size", "14px")
-        .text("Time of Day");
-
-    // **Y-Axis Label**
-    svg.append("text")
-        .attr("x", -height / 2)
-        .attr("y", 20)
-        .attr("text-anchor", "middle")
-        .attr("transform", "rotate(-90)")
-        .style("font-size", "14px")
-        .text("Average Glucose Level (mg/dL)");
-
-    // **Tooltip for Glucose Points**
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("background", "#fff")
-        .style("padding", "8px")
-        .style("border-radius", "5px")
-        .style("border", "1px solid #ccc")
-        .style("box-shadow", "2px 2px 10px rgba(0,0,0,0.2)")
-        .style("pointer-events", "none")
-        .style("font-size", "12px");
-
-    // **Scatter Plot Points (Transparent Steel Blue)**
-    svg.selectAll("circle")
-        .data(averagedData)
-        .enter().append("circle")
-        .attr("cx", d => x(d.hour)) // Align exactly to hours
-        .attr("cy", d => y(d.glucose))
-        .attr("r", 6) // Slightly larger for visibility
-        .attr("fill", "rgba(70, 130, 180, 0.7)") // More visible steel blue
-        .on("mouseover", function (event, d) {
-            tooltip.style("visibility", "visible")
-                .html(`<strong>${customTimeFormat(d.hour)}</strong><br>Avg Glucose: ${d.glucose.toFixed(1)} mg/dL`);
-        })
-        .on("mousemove", function (event) {
-            tooltip.style("top", (event.pageY - 20) + "px")
-                   .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.style("visibility", "hidden");
-        });
-}
-
-
-
-
-document.getElementById("resetButton").addEventListener("click", function () {
-    console.log("🔄 Resetting to bar chart...");
-
-    // 🔄 **Clear Everything Before Loading**
-    d3.select("#chartContainer").html(""); // Remove old charts
-    d3.select(".tooltip").remove(); // Remove tooltip if exists
-    d3.select("#resetButton").style("display", "none"); // Hide reset button
-
-    // 🔄 **Reload the Bar Chart**
-    loadGlucoseData();
 });
+
+
+    d3.json("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json")
+        .then(geojson => {
+            geojson.features.forEach(feature => {
+                const stateName = feature.properties.name;
+                const stateInfo = stateData.find(d => d.state === stateName);
+                if (stateInfo) {
+                    feature.properties.diabetes_rate = stateInfo.diabetes_rate;
+                    feature.properties.food = stateInfo.food;
+                }
+            });
+
+            map.addSource('states', {
+                type: 'geojson',
+                data: geojson
+            });
+
+            // **🔹 Choropleth for Diabetes Rate**
+            map.addLayer({
+                id: 'states-layer',
+                type: 'fill',
+                source: 'states',
+                paint: {
+                    'fill-color': [
+                        'interpolate',
+                        ['linear'],
+                        ['get', 'diabetes_rate'],
+                        5, '#f0f9e8',
+                        10, '#bae4bc',
+                        15, '#7bccc4',
+                        20, '#43a2ca',
+                        25, '#0868ac'
+                    ],
+                    'fill-opacity': 0.75
+                }
+            });
+
+            map.addLayer({
+                id: 'state-borders',
+                type: 'line',
+                source: 'states',
+                paint: {
+                    'line-color': '#fff',
+                    'line-width': 1
+                }
+            });
+
+            // **🔹 Add Food Markers**
+            stateData.forEach(d => {
+                fetch(`https://nominatim.openstreetmap.org/search?state=${d.state}&country=USA&format=json`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.length > 0) {
+                            const coords = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+
+                            const marker = new mapboxgl.Marker({ color: 'red' })
+                                .setLngLat(coords)
+                                .setPopup(new mapboxgl.Popup().setHTML(`
+                                    <strong>${d.state}</strong><br>
+                                    📊 Diabetes Rate: ${d.diabetes_rate}%<br>
+                                    🍽 Favorite Food: ${d.food}
+                                `))
+                                .addTo(map);
+                        }
+                    });
+            });
+
+            // **🔹 Tooltip on Hover**
+            const tooltip = document.getElementById('tooltip');
+
+            map.on('click', 'states-layer', function (e) {
+                const stateName = e.features[0].properties.name;
+                console.log(`🗺️ Expanding to counties in ${stateName}`);
+
+                // Ensure county data is available
+                if (!map.getSource('counties')) {
+                    console.error("❌ County data source not found.");
+                    return;
+                }
+
+                // Filter counties for the selected state
+                const selectedStateCounties = {
+                    type: "FeatureCollection",
+                    features: map.getSource('counties')._data.features.filter(f => f.properties.STATE_NAME === stateName)
+                };
+
+                // Update county source with selected state counties
+                map.getSource('counties').setData(selectedStateCounties);
+
+                // Hide state layer, show county layer
+                map.setLayoutProperty('states-layer', 'visibility', 'none');
+                map.setLayoutProperty('counties-layer', 'visibility', 'visible');
+
+                // Zoom into the selected state
+                map.fitBounds(e.features[0].bbox, { padding: 50 });
+            });
+
+            map.on('click', function (e) {
+                const features = map.queryRenderedFeatures(e.point);
+                if (!features.length) {
+                    console.log("🔄 Resetting to U.S. view");
+
+                    // Show states, hide counties
+                    map.setLayoutProperty('states-layer', 'visibility', 'visible');
+                    map.setLayoutProperty('counties-layer', 'visibility', 'none');
+
+                    // Reset zoom to full U.S.
+                    map.flyTo({ center: [-98.5795, 39.8283], zoom: 4 });
+                }
+            });
+
+            map.on('mousemove', 'states-layer', function (e) {
+                const state = e.features[0].properties.name;
+                const diabetesRate = e.features[0].properties.diabetes_rate;
+                const food = e.features[0].properties.food;
+
+                tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
+                tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
+                tooltip.style.display = 'block';
+                tooltip.innerHTML = `
+                    <strong>${state}</strong><br>
+                    📊 Diabetes Rate: ${diabetesRate}%<br>
+                    🍽 Favorite Food: ${food}
+                `;
+            });
+
+            map.on('mouseleave', 'states-layer', function () {
+                tooltip.style.display = 'none';
+            });
+        });
+});
+
+
+// Ensure the button exists
+const toggleButton = document.getElementById("toggleView");
+
+toggleButton.addEventListener("click", function () {
+    // Check if the county layer exists before toggling
+    if (map.getLayer('counties-layer')) {
+        const currentVisibility = map.getLayoutProperty('counties-layer', 'visibility');
+
+        if (currentVisibility === 'visible') {
+            // Hide counties, show states
+            map.setLayoutProperty('counties-layer', 'visibility', 'none');
+            map.setLayoutProperty('states-layer', 'visibility', 'visible');
+            map.setLayoutProperty('state-borders', 'visibility', 'visible');
+
+            toggleButton.textContent = "View Counties"; // Update button text
+        } else {
+            // Show counties, hide states
+            map.setLayoutProperty('counties-layer', 'visibility', 'visible');
+            map.setLayoutProperty('states-layer', 'visibility', 'none');
+            map.setLayoutProperty('state-borders', 'visibility', 'none');
+
+            toggleButton.textContent = "View States"; // Update button text
+        }
+    } else {
+        console.error("❌ 'counties-layer' does not exist yet. Please wait for the data to load.");
+        alert("County data is still loading. Please try again in a few seconds.");
+    }
+});
+
