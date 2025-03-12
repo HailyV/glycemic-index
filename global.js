@@ -118,11 +118,11 @@ loadFoodCSV();
 // Function to draw the horizontal bar chart
 function drawBarChart(totalStats) {
     const barChartContainer = document.getElementById("barChartContainer");
+    const footnote = document.getElementById("footnote");
     const svg = d3.select("#barChart");
     svg.selectAll("*").remove(); // Clear previous chart
 
     const data = [
-        { nutrient: "Calories", value: totalStats.calorie },
         { nutrient: "Carbs", value: totalStats.total_carb },
         { nutrient: "Fat", value: totalStats.total_fat },
         { nutrient: "Protein", value: totalStats.protein },
@@ -130,10 +130,10 @@ function drawBarChart(totalStats) {
     ];
 
     const recommendedIntake = {
-        carb: [0.45 * totalStats.calorie / 4, 0.65 * totalStats.calorie / 4],
-        fat: [0.2 * totalStats.calorie / 9, 0.35 * totalStats.calorie / 9],
-        protein: [0.1 * totalStats.calorie / 4, 0.35 * totalStats.calorie / 4],
-        sugar: [0, 0.1 * totalStats.calorie / 4]
+        Carbs: [0.45 * totalStats.calorie / 4, 0.65 * totalStats.calorie / 4],
+        Fat: [0.2 * totalStats.calorie / 9, 0.35 * totalStats.calorie / 9],
+        Protein: [0.1 * totalStats.calorie / 4, 0.35 * totalStats.calorie / 4],
+        Sugar: [0, 0.1 * totalStats.calorie / 4]
     };
 
     const width = 800;
@@ -157,44 +157,60 @@ function drawBarChart(totalStats) {
 
     // Draw recommended intake zones
     g.append("rect")
-     .attr("x", x(recommendedIntake.carb[0]))
+     .attr("x", x(recommendedIntake.Carbs[0]))
      .attr("y", y("Carbs"))
-     .attr("width", x(recommendedIntake.carb[1] - recommendedIntake.carb[0]))
+     .attr("width", x(recommendedIntake.Carbs[1] - recommendedIntake.Carbs[0]))
      .attr("height", y.bandwidth())
      .attr("fill", "rgba(255, 0, 255, 0.3)");
 
     g.append("rect")
-     .attr("x", x(recommendedIntake.fat[0]))
+     .attr("x", x(recommendedIntake.Fat[0]))
      .attr("y", y("Fat"))
-     .attr("width", x(recommendedIntake.fat[1] - recommendedIntake.fat[0]))
+     .attr("width", x(recommendedIntake.Fat[1] - recommendedIntake.Fat[0]))
      .attr("height", y.bandwidth())
      .attr("fill", "rgba(255, 0, 255, 0.3)");
 
     g.append("rect")
-     .attr("x", x(recommendedIntake.protein[0]))
+     .attr("x", x(recommendedIntake.Protein[0]))
      .attr("y", y("Protein"))
-     .attr("width", x(recommendedIntake.protein[1] - recommendedIntake.protein[0]))
+     .attr("width", x(recommendedIntake.Protein[1] - recommendedIntake.Protein[0]))
      .attr("height", y.bandwidth())
      .attr("fill", "rgba(255, 0, 255, 0.3)");
 
     g.append("rect")
-     .attr("x", x(recommendedIntake.sugar[0]))
+     .attr("x", x(recommendedIntake.Sugar[0]))
      .attr("y", y("Sugar"))
-     .attr("width", x(recommendedIntake.sugar[1] - recommendedIntake.sugar[0]))
+     .attr("width", x(recommendedIntake.Sugar[1] - recommendedIntake.Sugar[0]))
      .attr("height", y.bandwidth())
      .attr("fill", "rgba(255, 0, 255, 0.3)");
 
     // Draw bars
-    g.selectAll(".bar")
-     .data(data)
-     .enter()
-     .append("rect")
-     .attr("class", "bar")
-     .attr("x", 0)
-     .attr("y", d => y(d.nutrient))
-     .attr("width", d => x(d.value))
-     .attr("height", y.bandwidth())
-     .attr("fill", "#800080");
+    const bars = g.selectAll(".bar")
+                  .data(data)
+                  .enter()
+                  .append("rect")
+                  .attr("class", "bar")
+                  .attr("x", 0)
+                  .attr("y", d => y(d.nutrient))
+                  .attr("width", d => x(d.value))
+                  .attr("height", y.bandwidth())
+                  .attr("fill", "#800080")
+                  .on("mouseover", function(event, d) {
+                      d3.select(this).attr("fill", "orange");
+                      const tooltip = d3.select("#tooltip");
+                      tooltip.transition().duration(200).style("opacity", 0.9);
+                      tooltip.html(`
+                          <strong>${d.nutrient}</strong><br/>
+                          Consumed: ${d.value.toFixed(1)} g<br/>
+                          Recommended: ${recommendedIntake[d.nutrient][0].toFixed(1)} - ${recommendedIntake[d.nutrient][1].toFixed(1)} g
+                      `)
+                      .style("left", (event.pageX + 10) + "px")
+                      .style("top", (event.pageY - 28) + "px");
+                  })
+                  .on("mouseout", function() {
+                      d3.select(this).attr("fill", "#800080");
+                      d3.select("#tooltip").transition().duration(500).style("opacity", 0);
+                  });
 
     // Add x-axis
     g.append("g")
@@ -207,15 +223,16 @@ function drawBarChart(totalStats) {
      .attr("y", 40)
      .attr("fill", "#000")
      .style("text-anchor", "middle")
-     .text("Intakes in grams");
+     .text("Intakes in grams (g)");
 
     // Add y-axis
     g.append("g")
      .attr("class", "y-axis")
      .call(d3.axisLeft(y));
 
-    // Show the bar chart container
+    // Show the bar chart container and footnote
     barChartContainer.classList.remove("hidden");
+    footnote.classList.remove("hidden");
 }
 
 // Function to update the total stats
@@ -401,11 +418,12 @@ function clearSelection() {
     d3.select("#legend").html(""); // Clear legend
     d3.select("#barChart").selectAll("*").remove(); // Clear bar chart
 
-    // Hide summary stats, legend, total stats, and bar chart
+    // Hide summary stats, legend, total stats, bar chart, and footnote
     document.getElementById("summaryStats").classList.add("hidden");
     document.getElementById("legend").classList.add("hidden");
     document.getElementById("totalStats").classList.add("hidden");
     document.getElementById("barChartContainer").classList.add("hidden");
+    document.getElementById("footnote").classList.add("hidden");
 
     // Clear selected items
     selectedItems.clear();
