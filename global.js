@@ -59,7 +59,7 @@ function populateFoodSelection() {
         label.appendChild(textNode);
 
         container.appendChild(label);
-        container.appendChild(document.createElement("br"));
+        // container.appendChild(document.createElement("br"));
     });
 
     // Add event listener to limit the number of selected checkboxes to 5

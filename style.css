@@ -143,28 +143,25 @@ nav a:hover {
     max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ccc;
-    padding: 5px;
+    padding: 4px;
     width: 300px;
     background: white;
 }
 
-/* Ensure checkboxes and labels are in a single line and aligned */
 .scroll-box label {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 5px 0;
+    gap: 5px; /* Reduce spacing between checkbox and text */
+    padding: 2px 0; /* Reduce padding between labels */
+    font-size: 14px; /* Adjust text size if necessary */
     cursor: pointer;
     white-space: nowrap;
 }
-
 /* Make checkboxes stay aligned directly to the left of the text */
 .food-checkbox {
-    margin: 0;
-    width: 16px;
-    height: 16px;
-    flex-shrink: 0;
-    vertical-align: middle;
+    width: 14px; /* Reduce checkbox width */
+    height: 14px; /* Reduce checkbox height */
+    margin: 2px 5px 2px 0; /* Adjust spacing around checkbox */
 }
 
 /* Ensure label text aligns with the checkbox */
