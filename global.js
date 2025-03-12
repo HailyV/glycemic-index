@@ -42,6 +42,9 @@ function populateFoodSelection() {
     container.innerHTML = ""; // Clear previous options
 
     uniqueFoods.forEach(food => {
+        let label = document.createElement("label");
+        label.classList.add("food-label");
+
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
         checkbox.value = food;
@@ -49,11 +52,12 @@ function populateFoodSelection() {
         checkbox.name = "foodCheckbox";
         checkbox.classList.add("food-checkbox");
 
-        let label = document.createElement("label");
-        label.htmlFor = `checkbox-${food}`;
-        label.textContent = food;
+        let textNode = document.createTextNode(food);
 
-        container.appendChild(checkbox);
+        // Ensure correct structure: <label> <input> Food Name </label>
+        label.appendChild(checkbox);
+        label.appendChild(textNode);
+
         container.appendChild(label);
         container.appendChild(document.createElement("br"));
     });
@@ -67,6 +71,7 @@ function populateFoodSelection() {
         }
     });
 }
+
 
 // Function to filter the food checkboxes based on search input
 function filterFoodSelection() {

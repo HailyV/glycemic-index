@@ -5,7 +5,7 @@ body {
     margin: 0;
     padding: 0;
     display: flex;
-    flex-direction: column;  /* Everything is stacked vertically */
+    flex-direction: column;
     align-items: center;
     justify-content: flex-start;
 }
@@ -20,10 +20,10 @@ body {
 /* ✅ Fix Layout: Ensure Stats, Pie Chart, and Legend are in a Row */
 .visualization-container {
     display: flex;
-    flex-direction: row; /* ✅ Ensures elements are side-by-side */
+    flex-direction: row;
     justify-content: center;
-    align-items: flex-start; /* Aligns elements to the top */
-    gap: 40px; /* Adds space between summary stats, pie chart, and legend */
+    align-items: flex-start;
+    gap: 40px;
     width: 90%;
     max-width: 1200px;
     margin-top: 20px;
@@ -42,8 +42,8 @@ body {
 
 /* ✅ Legend container auto-sizes based on content */
 .legend-container {
-    width: auto; /* Allows it to expand based on text size */
-    max-width: 300px; /* Optional: Prevents it from getting too wide */
+    width: auto;
+    max-width: 300px;
     background: #f4f4f4;
     padding: 15px;
     border-radius: 8px;
@@ -59,20 +59,20 @@ body {
 .legend-item {
     display: flex;
     align-items: center;
-    gap: 10px; /* Consistent spacing between box and text */
-    margin-bottom: 8px; /* Ensures spacing between items */
-    white-space: nowrap; /* Prevents text from wrapping */
+    gap: 10px;
+    margin-bottom: 8px;
+    white-space: nowrap;
 }
 
 /* ✅ Ensures color boxes stay uniform */
 .legend-box {
     width: 20px;
     height: 20px;
-    min-width: 20px; /* Prevents shrinking */
+    min-width: 20px;
     min-height: 20px;
     border-radius: 4px;
     border: 1px solid #000;
-    flex-shrink: 0; /* Prevents shrinking */
+    flex-shrink: 0;
 }
 
 /* ✅ Adjusts text to ensure readability */
@@ -80,125 +80,42 @@ body {
     font-size: 16px;
     font-weight: bold;
     color: #333;
-    white-space: normal; /* Allows wrapping for longer text */
-    max-width: 200px; /* Ensures it doesn’t overflow */
-    word-wrap: break-word; /* Breaks long words properly */
+    white-space: normal;
+    max-width: 200px;
+    word-wrap: break-word;
 }
-
 
 /* ✅ Hide initially */
 .hidden {
     display: none;
 }
 
-
 header {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 0; /* Reduced padding */
+    padding: 10px 0;
     width: 100%;
     text-align: center;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 24px;
     font-weight: bold;
-    margin-top: -20px; /* Remove any top margin */
+    margin-top: -20px;
 }
 
 h1 {
     margin: 0;
 }
 
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 20px;
-}
-
-.human-model {
-    width: 200px;
-    height: 400px;
-    background-color: #e0e0e0;
-    border-radius: 10px;
-    position: relative;
-    margin-bottom: 20px;
-}
-
-label[for="multiFoodSelect"] {
-    display: block;  /* Ensures it appears on its own line */
-    font-size: 16px; /* Readable text size */
-    font-weight: bold; /* Make it stand out */
-    color: #333; /* Dark gray for readability */
-    margin-bottom: 5px; /* Spacing between label and select box */
-    text-align: center; /* Center aligns with food selection */
-}
-
-/* Ensure the food selection container stays narrow */
-.food-selection {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 300px !important; /* Force fixed width */
-    max-width: 300px !important; /* Prevent expansion */
-    margin-bottom: 10px;
-}
-
-/* Ensure the select dropdown does not expand */
-.food-selection select {
-    padding: 10px;
-    font-size: 16px;
-    width: 100% !important; /* Match container width */
-    max-width: 100% !important; /* Prevent stretching */
-    margin-bottom: 10px;
-}
-
-/* Force button width to match food selection */
-.food-selection button {
-    width: 100% !important; /* Match container */
-    max-width: 300px !important; /* Prevent unwanted expansion */
-    padding: 12px;
-    font-size: 16px;
-    background-color: #4CAF50 !important; /* Match header */
-    color: white !important; /* White text */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-/* Button hover effect */
-.food-selection button:hover {
-    background-color: #45a049 !important; /* Slightly darker green */
-}
-
-.food-info {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    width: 300px;
-    text-align: center;
-}
-
-.tooltip {
-    position: absolute;
-    background-color: white;
-    border: 1px solid #ccc;
-    padding: 8px;
-    border-radius: 4px;
-    pointer-events: none; /* allows mouse to pass through the tooltip */
-    font-size: 14px;
-}
-
 nav {
     width: 100%;
-    background-color: #333; /* Dark background for contrast */
+    background-color: #333;
     color: white;
     text-align: center;
-    padding: 15px 0; /* Adds padding for better spacing */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-    z-index: 1000; /* Ensures it stays above other elements */
-    position: relative; /* Removes fixed positioning */
-    margin-bottom: 20px; /* Adds space below the nav */
+    padding: 15px 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    position: relative;
+    margin-bottom: 20px;
 }
 
 nav a {
@@ -218,13 +135,61 @@ nav a:hover {
     text-decoration: none;
     margin-right: 16px;
     font-size: 16px;
-    font-weight: normal; /* Default state */
+    font-weight: normal;
 }
 
+/* Scrollable Box for Checkboxes */
 .scroll-box {
     max-height: 200px;
     overflow-y: auto;
     border: 1px solid #ccc;
-    padding: 10px;
+    padding: 5px;
+    width: 300px;
+    background: white;
 }
 
+/* Ensure checkboxes and labels are in a single line and aligned */
+.scroll-box label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 5px 0;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Make checkboxes stay aligned directly to the left of the text */
+.food-checkbox {
+    margin: 0;
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    vertical-align: middle;
+}
+
+/* Ensure label text aligns with the checkbox */
+.scroll-box label span {
+    flex-grow: 1;
+    text-align: left;
+}
+
+.food-selection {
+    width: 300px;
+    max-width: 300px;
+}
+
+/* Update Button */
+#updateChartBtn {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#updateChartBtn:hover {
+    background-color: #45a049;
+}
