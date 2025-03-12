@@ -7,7 +7,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Define the pages and their correct paths
     const pages = [
         { name: "Home", url: isGlucosePage ? "../index.html" : "index.html" },  // Adjust path dynamically
-        { name: "Glucose", url: isGlucosePage ? "index.html" : "glucose-vis/index.html" }
+        { name: "Glucose", url: isGlucosePage ? "index.html" : "glucose-vis/index.html" },
+        { name: "IDK", url: isGlucosePage ? "index.html" : "placeholder/index.html" }
     ];
 
     // Get the navbar element
