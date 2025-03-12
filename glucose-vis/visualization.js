@@ -413,11 +413,11 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .text("Night (PM)");
 }
 
-
-
-
 document.getElementById("resetButton").addEventListener("click", function () {
     console.log("🔄 Resetting to bar chart...");
+
+    // 🔄 **Save Scroll Position**
+    const scrollPosition = window.scrollY;
 
     // 🔄 **Clear Everything Before Loading**
     d3.select("#chartContainer").html(""); // Remove old charts
@@ -426,6 +426,11 @@ document.getElementById("resetButton").addEventListener("click", function () {
 
     // 🔄 **Reload the Bar Chart**
     loadGlucoseData();
+
+    // 🔄 **Restore Scroll Position After Short Delay**
+    setTimeout(() => {
+        window.scrollTo(0, scrollPosition);
+    }, 50); // Short delay to allow rendering
 });
 
 document.addEventListener("DOMContentLoaded", function () {
