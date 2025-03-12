@@ -85,47 +85,52 @@ function drawGlucoseBarChart(data) {
         .style("font-size", "12px");
         
     // Draw Bars with Initial Height = 0
+        // Draw Bars with Initial Height = 0
     const bars = svg.selectAll("rect")
-        .data(data)
-        .enter().append("rect")
-        .attr("x", d => x(d.person))
-        .attr("y", height - margin.bottom) // Start from bottom
-        .attr("height", 0) // Start with no height
-        .attr("width", x.bandwidth())
-        .attr("fill", d3.color("steelblue"))
-        .on("mouseover", function (event, d) {
-            tooltip.style("visibility", "visible")
-                .html(`
-                    <strong>${d.person}</strong><br>
-                    🔽 Min Glucose: ${d.minGlucose} mg/dL<br>
-                    🔼 Max Glucose: ${d.maxGlucose} mg/dL
-                `);
-        })
-        .on("mousemove", function (event) {
-            tooltip.style("top", (event.pageY - 20) + "px")
-                   .style("left", (event.pageX + 10) + "px");
-        })
-        .on("mouseout", function () {
-            tooltip.style("visibility", "hidden");
-        })
-        .on("click", function (event, d) {  // 🔄 Click replaces chart with time series
-            const personIndex = data.findIndex(person => person.person === d.person);
-            console.log(`🔍 Fetching time series for ${d.person} (Index ${personIndex})`);
+    .data(data)
+    .enter().append("rect")
+    .attr("x", d => x(d.person))
+    .attr("y", height - margin.bottom) // Start from bottom
+    .attr("height", 0) // Start with no height
+    .attr("width", x.bandwidth())
+    .attr("fill", d3.color("steelblue"))
+    .style("cursor", "pointer") // 🖱️ Change cursor to pointer
+    .on("mouseover", function (event, d) {
+        d3.select(this).attr("fill", "orange"); // 🎨 Change bar color to orange on hover
+        tooltip.style("visibility", "visible")
+            .html(`
+                <strong>${d.person}</strong><br>
+                🔽 Min Glucose: ${d.minGlucose} mg/dL<br>
+                🔼 Max Glucose: ${d.maxGlucose} mg/dL
+            `);
+    })
+    .on("mousemove", function (event) {
+        tooltip.style("top", (event.pageY - 65) + "px") // Tooltip above cursor
+            .style("left", (event.pageX + 10) + "px"); // Tooltip to right of cursor
+    })
+    .on("mouseout", function () {
+        d3.select(this).attr("fill", "steelblue"); // 🔄 Reset bar color
+        tooltip.style("visibility", "hidden");
+    })
+    .on("click", function (event, d) {  // 🔄 Click replaces chart with time series
+        const personIndex = data.findIndex(person => person.person === d.person);
+        console.log(`🔍 Fetching time series for ${d.person} (Index ${personIndex})`);
 
-            if (personIndex === -1) {
-                console.error(`❌ Invalid person index: ${personIndex}`);
-                return;
-            }
+        if (personIndex === -1) {
+            console.error(`❌ Invalid person index: ${personIndex}`);
+            return;
+        }
 
-            loadGlucoseForPerson(personIndex);
-        });
+        loadGlucoseForPerson(personIndex);
+    });
 
     // 🚀 Animate Bars from Bottom to Correct Height
     bars.transition()
-        .duration(800) // Moderate pace
-        .delay((d, i) => i * 100) // Staggered delay for left-to-right effect
-        .attr("y", d => y(d.avgGlucose)) // Move up
-        .attr("height", d => height - margin.bottom - y(d.avgGlucose));
+    .duration(800) // Moderate pace
+    .delay((d, i) => i * 100) // Staggered delay for left-to-right effect
+    .attr("y", d => y(d.avgGlucose)) // Move up
+    .attr("height", d => height - margin.bottom - y(d.avgGlucose));
+
 
     // X-Axis
     svg.append("g")
