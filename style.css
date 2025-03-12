@@ -346,3 +346,35 @@ nav a:hover {
     background-color: #d32f2f;
     transform: scale(1.05);
 }
+
+/* Bar Chart and Total Stats Container */
+.bar-chart-total-stats-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    width: 90%;
+    max-width: 1200px;
+    margin-top: 20px;
+}
+
+/* Bar Chart Container */
+.bar-chart-container {
+    background: #ffffff;
+    padding: 10px 15px;  /* Reduced padding from top */
+    border-radius: 10px;
+    border: 1px solid #ddd; /* Soft border */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    max-width: 800px;
+    margin-top: 20px;
+}
+
+/* Reduce space between title and first item */
+.bar-chart-container h3 {
+    margin-top: 5px; /* Reduce top margin */
+    margin-bottom: 8px; /* Slightly closer to first food item */
+    font-size: 18px;
+    font-weight: bold;
+}

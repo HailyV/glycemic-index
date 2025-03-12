@@ -115,6 +115,109 @@ loadFoodCSV();
 
 // ---------------- PIE CHART AND SUMMARY STATS LOGIC ----------------
 
+// Function to draw the horizontal bar chart
+function drawBarChart(totalStats) {
+    const barChartContainer = document.getElementById("barChartContainer");
+    const svg = d3.select("#barChart");
+    svg.selectAll("*").remove(); // Clear previous chart
+
+    const data = [
+        { nutrient: "Calories", value: totalStats.calorie },
+        { nutrient: "Carbs", value: totalStats.total_carb },
+        { nutrient: "Fat", value: totalStats.total_fat },
+        { nutrient: "Protein", value: totalStats.protein },
+        { nutrient: "Sugar", value: totalStats.sugar }
+    ];
+
+    const recommendedIntake = {
+        carb: [0.45 * totalStats.calorie / 4, 0.65 * totalStats.calorie / 4],
+        fat: [0.2 * totalStats.calorie / 9, 0.35 * totalStats.calorie / 9],
+        protein: [0.1 * totalStats.calorie / 4, 0.35 * totalStats.calorie / 4],
+        sugar: [0, 0.1 * totalStats.calorie / 4]
+    };
+
+    const width = 800;
+    const height = 400;
+    const margin = { top: 20, right: 20, bottom: 50, left: 100 };
+
+    svg.attr("width", width)
+       .attr("height", height);
+
+    const x = d3.scaleLinear()
+                .domain([0, d3.max(data, d => d.value)])
+                .range([0, width - margin.left - margin.right]);
+
+    const y = d3.scaleBand()
+                .domain(data.map(d => d.nutrient))
+                .range([0, height - margin.top - margin.bottom])
+                .padding(0.1);
+
+    const g = svg.append("g")
+                 .attr("transform", `translate(${margin.left},${margin.top})`);
+
+    // Draw recommended intake zones
+    g.append("rect")
+     .attr("x", x(recommendedIntake.carb[0]))
+     .attr("y", y("Carbs"))
+     .attr("width", x(recommendedIntake.carb[1] - recommendedIntake.carb[0]))
+     .attr("height", y.bandwidth())
+     .attr("fill", "rgba(255, 0, 255, 0.3)");
+
+    g.append("rect")
+     .attr("x", x(recommendedIntake.fat[0]))
+     .attr("y", y("Fat"))
+     .attr("width", x(recommendedIntake.fat[1] - recommendedIntake.fat[0]))
+     .attr("height", y.bandwidth())
+     .attr("fill", "rgba(255, 0, 255, 0.3)");
+
+    g.append("rect")
+     .attr("x", x(recommendedIntake.protein[0]))
+     .attr("y", y("Protein"))
+     .attr("width", x(recommendedIntake.protein[1] - recommendedIntake.protein[0]))
+     .attr("height", y.bandwidth())
+     .attr("fill", "rgba(255, 0, 255, 0.3)");
+
+    g.append("rect")
+     .attr("x", x(recommendedIntake.sugar[0]))
+     .attr("y", y("Sugar"))
+     .attr("width", x(recommendedIntake.sugar[1] - recommendedIntake.sugar[0]))
+     .attr("height", y.bandwidth())
+     .attr("fill", "rgba(255, 0, 255, 0.3)");
+
+    // Draw bars
+    g.selectAll(".bar")
+     .data(data)
+     .enter()
+     .append("rect")
+     .attr("class", "bar")
+     .attr("x", 0)
+     .attr("y", d => y(d.nutrient))
+     .attr("width", d => x(d.value))
+     .attr("height", y.bandwidth())
+     .attr("fill", "#800080");
+
+    // Add x-axis
+    g.append("g")
+     .attr("class", "x-axis")
+     .attr("transform", `translate(0,${height - margin.top - margin.bottom})`)
+     .call(d3.axisBottom(x))
+     .append("text")
+     .attr("class", "x-axis-label")
+     .attr("x", (width - margin.left - margin.right) / 2)
+     .attr("y", 40)
+     .attr("fill", "#000")
+     .style("text-anchor", "middle")
+     .text("Intakes in grams");
+
+    // Add y-axis
+    g.append("g")
+     .attr("class", "y-axis")
+     .call(d3.axisLeft(y));
+
+    // Show the bar chart container
+    barChartContainer.classList.remove("hidden");
+}
+
 // Function to update the total stats
 function updateTotalStats(chartData) {
     const totalStatsDiv = document.getElementById("totalStats");
@@ -139,6 +242,9 @@ function updateTotalStats(chartData) {
 
     // Show the total stats
     totalStatsDiv.classList.remove("hidden");
+
+    // Draw the bar chart
+    drawBarChart(totalStats);
 }
 
 // Function to draw the pie chart and update summary stats
