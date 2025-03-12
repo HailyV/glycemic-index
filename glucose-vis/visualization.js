@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     loadGlucoseData();
 });
 
+
 async function loadGlucoseData() {
     const glucoseFiles = Array.from({ length: 16 }, (_, i) =>
         `../data/glucose/Dexcom_${String(i + 1).padStart(3, '0')}.csv`
@@ -215,18 +216,20 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
 
     d3.select("#resetButton").style("display", "block"); // Show the reset button
 
-    // **Add a Dynamic Title Indicating the Person's Data**
-    svgContainer.append("h2")
-        .attr("id", "chartTitle")
-        .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`)
-        .style("text-align", "center")
-        .style("margin-bottom", "10px");
+    const width = 800, height = 500, margin = { top: 60, right: 50, bottom: 70, left: 80 };
 
     const svg = svgContainer.append("svg")
-        .attr("width", 800)
-        .attr("height", 500);
+        .attr("width", width)
+        .attr("height", height);
 
-    const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
+    // **✅ Corrected Title Placement (Inside SVG)**
+    svg.append("text")
+        .attr("x", width / 2)   // Center the title
+        .attr("y", margin.top / 2)   // Place it within the margin area
+        .attr("text-anchor", "middle")   // Ensure centered alignment
+        .style("font-size", "18px")
+        .style("font-weight", "bold")
+        .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`);
 
     // **Step 1: Compute Hourly Averages from `glucoseData`**
     let hourlyAverages = {};
@@ -375,3 +378,4 @@ document.getElementById("resetButton").addEventListener("click", function () {
     // 🔄 **Reload the Bar Chart**
     loadGlucoseData();
 });
+
