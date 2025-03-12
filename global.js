@@ -73,6 +73,7 @@ function drawPieChartForSelectedFoods(selectedFoods) {
     // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
     d3.select("#legend").html(""); // Clear legend before redrawing
+    d3.select("#summaryStats").html(""); // Clear previous stats
 
     if (!selectedFoods.length) return;
 
@@ -124,10 +125,9 @@ function drawPieChartForSelectedFoods(selectedFoods) {
         protein: item.sumProtein / item.count
     }));
 
-    // If there's nothing to show, return early
     if (!chartData.length) return;
 
-    // Update summary stats
+    // Update summary stats with fade-in animation
     updateSummaryStats(chartData);
 
     // Dimensions
@@ -160,42 +160,92 @@ function drawPieChartForSelectedFoods(selectedFoods) {
         .append("g")
         .attr("class", "arc");
 
-    // Draw the slices
+    // Add animated slices
     arcs.append("path")
-        .attr("d", arc)
-        .attr("fill", d => color(d.data.food));
+        .attr("fill", d => color(d.data.food))
+        .transition()
+        .duration(1000)
+        .attrTween("d", function(d) {
+            const interpolate = d3.interpolate({ startAngle: 0, endAngle: 0 }, d);
+            return function(t) {
+                return arc(interpolate(t));
+            };
+        });
 
-    // Create the legend
-    // Create the legend
+    // Animate the legend
     const legend = d3.select("#legend")
         .selectAll(".legend-item")
         .data(chartData)
         .enter()
         .append("div")
         .attr("class", "legend-item")
+        .style("opacity", 0)  // Start hidden
+        .style("transform", "translateX(-20px)")  // Move left
         .html(d => `
             <div class="legend-box" style="background-color: ${color(d.food)}"></div>
             <span>${d.food}</span>
+        `)
+        .transition()
+        .duration(700)
+        .style("opacity", 1)  // Fade in
+        .style("transform", "translateX(0px)");  // Move to position
+}
+
+// Function to update the summary stats with animation
+function updateSummaryStats(chartData) {
+    const statsDiv = d3.select("#summaryStats");
+    statsDiv.html("<h3>Summary Stats</h3>");
+
+    const statsContent = statsDiv.selectAll(".food-stats")
+        .data(chartData)
+        .enter()
+        .append("div")
+        .attr("class", "food-stats")
+        .style("opacity", 0) // Start hidden
+        .html(d => `
+            <strong>${d.food}</strong>:<br/>
+            Calories: ${d.calorie.toFixed(1)}<br/>
+            Fat: ${d.total_fat.toFixed(1)} g<br/>
+            Carbs: ${d.total_carb.toFixed(1)} g<br/>
+            Sugar: ${d.sugar.toFixed(1)} g<br/>
+            Protein: ${d.protein.toFixed(1)} g<br/><br/>
+        `)
+        .transition()
+        .duration(800)
+        .style("opacity", 1); // Fade in smoothly
+}
+
+
+
+// Function to update the summary stats with a fade-in effect
+function updateSummaryStats(chartData) {
+    const statsDiv = d3.select("#summaryStats");
+    
+    // Clear existing stats but keep the container
+    statsDiv.html("<h3>Summary Stats</h3>");
+    
+    // Append food stats with a fade-in effect
+    const statsContent = statsDiv.selectAll(".stats-item")
+        .data(chartData)
+        .enter()
+        .append("div")
+        .attr("class", "stats-item")
+        .style("opacity", 0) // Start hidden
+        .html(d => `
+            <strong>${d.food}</strong>:<br/>
+            Calories: ${d.calorie.toFixed(1)}<br/>
+            Fat: ${d.total_fat.toFixed(1)} g<br/>
+            Carbs: ${d.total_carb.toFixed(1)} g<br/>
+            Sugar: ${d.sugar.toFixed(1)} g<br/>
+            Protein: ${d.protein.toFixed(1)} g<br/><br/>
         `);
 
+    // Apply fade-in transition
+    statsContent.transition()
+        .duration(500)
+        .style("opacity", 1);
 }
 
-// Function to update the summary stats
-function updateSummaryStats(chartData) {
-    const statsDiv = document.getElementById("summaryStats");
-    statsDiv.innerHTML = "<h3>Summary Stats</h3>";
-
-    chartData.forEach(food => {
-        statsDiv.innerHTML += `
-            <strong>${food.food}</strong>:<br/>
-            Calories: ${food.calorie.toFixed(1)}<br/>
-            Fat: ${food.total_fat.toFixed(1)} g<br/>
-            Carbs: ${food.total_carb.toFixed(1)} g<br/>
-            Sugar: ${food.sugar.toFixed(1)} g<br/>
-            Protein: ${food.protein.toFixed(1)} g<br/><br/>
-        `;
-    });
-}
 
 // Event listener for food selection updates
 document.addEventListener("DOMContentLoaded", function() {
