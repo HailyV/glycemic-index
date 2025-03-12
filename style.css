@@ -1,4 +1,3 @@
-
 /* ✅ Body: Adjust padding to prevent excess space */
 body {
     font-family: 'Open Sans', sans-serif;
@@ -220,5 +219,12 @@ nav a:hover {
     margin-right: 16px;
     font-size: 16px;
     font-weight: normal; /* Default state */
+}
+
+.scroll-box {
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
 }
 
