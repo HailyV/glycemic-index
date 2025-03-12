@@ -28,7 +28,7 @@ async function loadFoodCSV() {
             }
         });
 
-        // Populate the food selection checkboxes
+        // Populate the food selection dropdown
         populateFoodSelection();
 
     } catch (error) {
@@ -36,59 +36,31 @@ async function loadFoodCSV() {
     }
 }
 
-// Function to populate the food selection checkboxes dynamically
+// Function to populate the food selection dropdown dynamically
 function populateFoodSelection() {
-    const container = document.getElementById("foodCheckboxContainer");
-    container.innerHTML = ""; // Clear previous options
+    const selectElement = document.getElementById("multiFoodSelect");
+    selectElement.innerHTML = ""; // Clear previous options
 
     uniqueFoods.forEach(food => {
-        let checkbox = document.createElement("input");
-        checkbox.type = "checkbox";
-        checkbox.value = food;
-        checkbox.id = `checkbox-${food}`;
-        checkbox.name = "foodCheckbox";
-        checkbox.classList.add("food-checkbox");
-
-        let label = document.createElement("label");
-        label.htmlFor = `checkbox-${food}`;
-        label.textContent = food;
-
-        container.appendChild(checkbox);
-        container.appendChild(label);
-        container.appendChild(document.createElement("br"));
-    });
-
-    // Add event listener to limit the number of selected checkboxes to 5
-    container.addEventListener("change", function() {
-        const selectedCheckboxes = container.querySelectorAll(".food-checkbox:checked");
-        if (selectedCheckboxes.length > 5) {
-            alert("You can select up to 5 foods only.");
-            event.target.checked = false;
-        }
+        let option = document.createElement("option");
+        option.value = food;
+        option.textContent = food;
+        selectElement.appendChild(option);
     });
 }
 
-// Function to filter the food checkboxes based on search input
+// Function to filter the food dropdown based on search input
 function filterFoodSelection() {
     const searchQuery = document.getElementById("foodSearch").value.toLowerCase();
-    const checkboxes = document.querySelectorAll(".food-checkbox");
+    const selectElement = document.getElementById("multiFoodSelect");
 
-    checkboxes.forEach(checkbox => {
-        const label = document.querySelector(`label[for="${checkbox.id}"]`);
-        if (checkbox.value.toLowerCase().includes(searchQuery)) {
-            checkbox.style.display = "";
-            label.style.display = "";
+    Array.from(selectElement.options).forEach(option => {
+        if (option.value.toLowerCase().includes(searchQuery)) {
+            option.style.display = "";
         } else {
-            checkbox.style.display = "none";
-            label.style.display = "none";
+            option.style.display = "none";
         }
     });
-}
-
-// Function to get selected food items from checkboxes
-function getSelectedFoods() {
-    const selectedCheckboxes = Array.from(document.querySelectorAll(".food-checkbox:checked"));
-    return selectedCheckboxes.map(checkbox => checkbox.value).slice(0, 5);
 }
 
 // Load food CSV
@@ -233,8 +205,10 @@ function updateSummaryStats(chartData) {
 // Event listener for food selection updates
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("updateChartBtn").addEventListener("click", function() {
-        const selectedFoods = getSelectedFoods();
-        drawPieChartForSelectedFoods(selectedFoods);
+        const selectedOptions = Array.from(document.getElementById("multiFoodSelect").selectedOptions)
+                                    .map(opt => opt.value)
+                                    .slice(0, 5);
+        drawPieChartForSelectedFoods(selectedOptions);
     });
 
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
@@ -252,7 +226,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     updateChartBtn.addEventListener("click", function () {
         // Get selected options
-        const selectedFoods = getSelectedFoods();
+        const selectedFoods = Array.from(document.getElementById("multiFoodSelect").selectedOptions)
+                                   .map(option => option.value);
 
         if (selectedFoods.length > 0) {
             // Show summary stats and legend if at least one food is selected
