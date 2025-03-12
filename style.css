@@ -90,23 +90,35 @@ header {
     margin-top: 20px;
 }
 
-/* Summary Stats Box (Reduced Top Padding & Margin) */
 .summary-stats {
     background: #ffffff;
-    padding: 10px 15px;  /* Reduced padding from top */
+    padding: 10px 15px;
     border-radius: 10px;
-    border: 1px solid #ddd; /* Soft border */
+    border: 1px solid #ddd;
     box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);
     text-align: left;
-    max-width: 280px;
+    width: 400px;  /* Adjust for more width */
+    max-width: 450px; /* Ensure it doesn't stretch too much */
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Two columns */
+    gap: 10px 20px; /* Space between columns and rows */
 }
 
+/* Each food stat block should align properly */
+.summary-stats p {
+    margin: 0;
+    font-size: 15px;
+    padding: 10px;
+    background: #f8f8f8; /* Light background for better separation */
+    border-radius: 8px;
+}
 /* Reduce space between title and first item */
 .summary-stats h3 {
-    margin-top: 5px; /* Reduce top margin */
-    margin-bottom: 8px; /* Slightly closer to first food item */
+    margin: 0 0 10px 0; /* Remove excess top margin */
     font-size: 18px;
     font-weight: bold;
+    text-align: left; /* Ensures left alignment */
+    padding-left: 10px; /* Aligns with item titles below */
 }
 
 /* Reduce space between food items */
@@ -116,10 +128,18 @@ header {
     font-size: 16px;
 }
 
-/* Reduce space between nutrition rows */
-.summary-stats p {
-    margin: 2px 0; /* Shrink spacing between each nutrition fact */
-    font-size: 15px;
+#summaryImageContainer {
+    display: flex;
+    justify-content: left; /* Moves apple image to the left */
+    padding-left: 10px; /* Aligns with "Summary Stats" */
+    margin-bottom: 10px; /* Space before stats */
+}
+
+.summary-image {
+    width: 50px; /* Adjust size */
+    height: auto;
+    display: block;
+    margin: 0; /* Removes auto centering */
 }
 
 @keyframes slideInFromLeft {
