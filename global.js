@@ -7,6 +7,7 @@ console.log("Food Files:", foodFiles);
 
 let foodData = [];
 let uniqueFoods = new Set();
+let selectedItems = new Set();
 
 // Function to load food CSV files asynchronously
 async function loadFoodCSV() {
@@ -52,6 +53,10 @@ function populateFoodSelection() {
         checkbox.name = "foodCheckbox";
         checkbox.classList.add("food-checkbox");
 
+        if (selectedItems.has(food)) {
+            checkbox.checked = true;
+        }
+
         let textNode = document.createTextNode(food);
 
         // Ensure correct structure: <label> <input> Food Name </label>
@@ -59,41 +64,51 @@ function populateFoodSelection() {
         label.appendChild(textNode);
 
         container.appendChild(label);
-        // container.appendChild(document.createElement("br"));
+        container.appendChild(document.createElement("br"));
     });
 
-    // Add event listener to limit the number of selected checkboxes to 5
+    // Add event listener to save selected items to the list
     container.addEventListener("change", function(event) {
-        const selectedCheckboxes = container.querySelectorAll(".food-checkbox:checked");
-        if (selectedCheckboxes.length > 5) {
-            alert("You can select up to 5 foods only.");
-            event.target.checked = false;
+        const checkbox = event.target;
+        if (checkbox.checked) {
+            if (selectedItems.size < 5) {
+                selectedItems.add(checkbox.value);
+            } else {
+                alert("You can select up to 5 foods only.");
+                checkbox.checked = false;
+            }
+        } else {
+            selectedItems.delete(checkbox.value);
         }
     });
 }
-
 
 // Function to filter the food checkboxes based on search input
 function filterFoodSelection() {
     const searchQuery = document.getElementById("foodSearch").value.toLowerCase();
-    const checkboxes = document.querySelectorAll(".food-checkbox");
+    const container = document.getElementById("foodCheckboxContainer");
+    const checkboxes = Array.from(document.querySelectorAll(".food-checkbox"));
+    const labels = Array.from(document.querySelectorAll(".food-label"));
 
-    checkboxes.forEach(checkbox => {
-        const label = document.querySelector(`label[for="${checkbox.id}"]`);
+    container.innerHTML = ""; // Clear previous options
+
+    checkboxes.forEach((checkbox, index) => {
+        const label = labels[index];
         if (checkbox.value.toLowerCase().includes(searchQuery)) {
-            checkbox.style.display = "";
-            label.style.display = "";
-        } else {
-            checkbox.style.display = "none";
-            label.style.display = "none";
+            container.appendChild(label);
+            container.appendChild(document.createElement("br"));
         }
     });
+
+    // If search bar is empty, repopulate all food items
+    if (searchQuery === "") {
+        populateFoodSelection();
+    }
 }
 
-// Function to get selected food items from checkboxes
+// Function to get selected food items from the saved list
 function getSelectedFoods() {
-    const selectedCheckboxes = Array.from(document.querySelectorAll(".food-checkbox:checked"));
-    return selectedCheckboxes.map(checkbox => checkbox.value).slice(0, 5);
+    return Array.from(selectedItems);
 }
 
 // Load food CSV
@@ -248,6 +263,9 @@ function clearSelection() {
     // Hide summary stats and legend
     document.getElementById("summaryStats").classList.add("hidden");
     document.getElementById("legend").classList.add("hidden");
+
+    // Clear selected items
+    selectedItems.clear();
 }
 
 // Event listener for food selection updates
