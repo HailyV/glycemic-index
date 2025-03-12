@@ -234,12 +234,30 @@ function updateSummaryStats(chartData) {
     });
 }
 
+// Function to clear all selected items and reset the pie chart
+function clearSelection() {
+    const checkboxes = document.querySelectorAll(".food-checkbox:checked");
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = false;
+    });
+
+    // Remove any existing chart and legend
+    d3.select("#pieChart").selectAll("svg").remove();
+    d3.select("#legend").html(""); // Clear legend
+
+    // Hide summary stats and legend
+    document.getElementById("summaryStats").classList.add("hidden");
+    document.getElementById("legend").classList.add("hidden");
+}
+
 // Event listener for food selection updates
 document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("updateChartBtn").addEventListener("click", function() {
         const selectedFoods = getSelectedFoods();
         drawPieChartForSelectedFoods(selectedFoods);
     });
+
+    document.getElementById("clearSelectionBtn").addEventListener("click", clearSelection);
 
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
 });
