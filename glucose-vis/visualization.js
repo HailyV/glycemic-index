@@ -1,7 +1,18 @@
-document.addEventListener("DOMContentLoaded", function () {
-    loadGlucoseData();
-});
 
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ Visualization.js Loaded!");
+
+    // ✅ Call your main function that loads the glucose data visualization
+    loadGlucoseData(); // Ensure this function exists
+
+    // ✅ Debugging: Check if tooltip exists
+    const tooltip = d3.select("#tooltip");
+    if (tooltip.empty()) {
+        console.error("❌ Tooltip element not found! Make sure <div id='tooltip'></div> exists in HTML.");
+    } else {
+        console.log("✅ Tooltip detected!");
+    }
+});
 
 async function loadGlucoseData() {
     const glucoseFiles = Array.from({ length: 16 }, (_, i) =>
