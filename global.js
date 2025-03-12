@@ -220,6 +220,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const summaryStats = document.getElementById("summaryStats");
     const legend = document.getElementById("legend");
 
+    // Ensure the elements are initially hidden
+    summaryStats.classList.add("hidden");
+    legend.classList.add("hidden");
+
     updateChartBtn.addEventListener("click", function () {
         // Get selected options
         const selectedFoods = Array.from(document.getElementById("multiFoodSelect").selectedOptions)
@@ -230,8 +234,10 @@ document.addEventListener("DOMContentLoaded", function () {
             summaryStats.classList.remove("hidden");
             legend.classList.remove("hidden");
 
-            // Example: Update summary stats dynamically
-            document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
+            // Ensure `statsContent` exists before trying to update it
+            if (document.getElementById("statsContent")) {
+                document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
+            }
         } else {
             // Hide if nothing is selected
             summaryStats.classList.add("hidden");
