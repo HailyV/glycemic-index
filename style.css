@@ -36,7 +36,7 @@ header {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     font-size: 24px;
     font-weight: bold;
-
+    margin-top: -20px;
 }
 
 .food-search-container {
