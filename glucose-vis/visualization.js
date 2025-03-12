@@ -218,7 +218,7 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
     // **Add a Dynamic Title Indicating the Person's Data**
     svgContainer.append("h2")
         .attr("id", "chartTitle")
-        .text(`Glucose Levels Over 24 Hours for Person ${personIndex + 1}`)
+        .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`)
         .style("text-align", "center")
         .style("margin-bottom", "10px");
 
@@ -228,67 +228,78 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
 
     const width = 800, height = 500, margin = { top: 60, right: 50, bottom: 70, left: 80 };
 
-    // Sort data to ensure correct ordering on the X-axis
-    glucoseData.sort((a, b) => a.timestamp - b.timestamp);
+    // **Step 1: Compute Hourly Averages from `glucoseData`**
+    let hourlyAverages = {};
+    
+    glucoseData.forEach(d => {
+        let date = new Date(d.timestamp);
+        let hour = date.getHours(); // Extract hour (0 - 23)
 
-    // Get the first timestamp as reference point
-    const startTime = d3.min(glucoseData, d => d.timestamp);
+        if (!hourlyAverages[hour]) {
+            hourlyAverages[hour] = { sum: 0, count: 0 };
+        }
+        hourlyAverages[hour].sum += d.glucose;
+        hourlyAverages[hour].count += 1;
+    });
+
+    // Convert averages into an array
+    const averagedData = Object.keys(hourlyAverages).map(hour => ({
+        hour: +hour,
+        glucose: hourlyAverages[hour].sum / hourlyAverages[hour].count // Average glucose per hour
+    }));
+
+    console.log("✅ Computed Hourly Averages:", averagedData);
 
     // Define X and Y scales
-    const x = d3.scaleTime()
-        .domain([startTime, d3.timeHour.offset(startTime, 24)]) // Ensure full 24-hour range
+    const x = d3.scaleLinear()
+        .domain([0, 23]) // Use 24-hour format for proper alignment
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
-        .domain([0, d3.max(glucoseData, d => d.glucose)]).nice()
+        .domain([0, d3.max(averagedData, d => d.glucose)]).nice()
         .range([height - margin.bottom, margin.top]);
 
     // **Highlight AM (Midnight - 11:59 AM) and PM (Noon - 11:59 PM)**
     svg.append("rect")
-        .attr("x", x(d3.timeHour.offset(startTime, 0)))  // Midnight start
+        .attr("x", x(0))  // Midnight start
         .attr("y", margin.top)
-        .attr("width", x(d3.timeHour.offset(startTime, 12)) - x(d3.timeHour.offset(startTime, 0))) // 12-hour width
+        .attr("width", x(12) - x(0)) // 12-hour width
         .attr("height", height - margin.bottom - margin.top)
         .attr("fill", "rgba(135, 206, 250, 0.2)"); // Light blue for AM
 
     svg.append("rect")
-        .attr("x", x(d3.timeHour.offset(startTime, 12))) // Noon start
+        .attr("x", x(12)) // Noon start
         .attr("y", margin.top)
-        .attr("width", x(d3.timeHour.offset(startTime, 24)) - x(d3.timeHour.offset(startTime, 12))) // 12-hour width
+        .attr("width", x(24) - x(12)) // 12-hour width
         .attr("height", height - margin.bottom - margin.top)
         .attr("fill", "rgba(255, 182, 193, 0.2)"); // Light pink for PM
 
-    // Create the smoothed line generator
+    // **Step 2: Create Line Chart with Averages**
     const line = d3.line()
-        .x(d => x(d.timestamp)) // Keep exact timestamp for plotting
+        .x(d => x(d.hour)) // Align with hourly intervals
         .y(d => y(d.glucose))
-        .curve(d3.curveCatmullRom); // 🔄 **Smooths the line!**
+        .curve(d3.curveMonotoneX); // Smooth interpolation
 
     // Draw the line
     svg.append("path")
-        .datum(glucoseData)
+        .datum(averagedData)
         .attr("fill", "none")
         .attr("stroke", "steelblue")
         .attr("stroke-width", 2)
         .attr("d", line);
 
     // **Custom Function to Format X-Axis Labels**
-    function customTimeFormat(d) {
-        let hour = d3.timeFormat("%I")(d); // Get hour in 12-hour format (01-12)
-        let suffix = ""; // Default: No AM/PM unless it's 12
-
-        if (hour === "12") {
-            suffix = d3.timeFormat(" %p")(d); // Only add AM/PM for 12 AM or 12 PM
-        }
-
-        return `${hour}${suffix}`;
+    function customTimeFormat(hour) {
+        let period = hour >= 12 ? "PM" : "AM";
+        let formattedHour = hour % 12 || 12; // Convert 24-hour format to 12-hour (12 stays 12)
+        return `${formattedHour}${period}`;
     }
 
-    // X-Axis (Convert to HH:00 Format, but Change `12` to AM/PM)
+    // X-Axis (Ensure Proper Alignment)
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
         .call(d3.axisBottom(x)
-            .ticks(d3.timeHour.every(1)) // 🔄 **Ensure X-axis is labeled in full hours**
+            .ticks(24) // 🔄 **Force 1-24 interval alignment**
             .tickFormat(customTimeFormat) // ✅ Custom function for formatting
         )
         .selectAll("text")
@@ -314,7 +325,7 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("text-anchor", "middle")
         .attr("transform", "rotate(-90)")
         .style("font-size", "14px")
-        .text("Glucose Level (mg/dL)");
+        .text("Average Glucose Level (mg/dL)");
 
     // **Tooltip for Glucose Points**
     const tooltip = d3.select("body").append("div")
@@ -349,6 +360,7 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
             tooltip.style("visibility", "hidden");
         });
 }
+
 
 
 
