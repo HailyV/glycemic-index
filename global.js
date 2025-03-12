@@ -399,10 +399,13 @@ function clearSelection() {
     // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
     d3.select("#legend").html(""); // Clear legend
+    d3.select("#barChart").selectAll("*").remove(); // Clear bar chart
 
-    // Hide summary stats and legend
+    // Hide summary stats, legend, total stats, and bar chart
     document.getElementById("summaryStats").classList.add("hidden");
     document.getElementById("legend").classList.add("hidden");
+    document.getElementById("totalStats").classList.add("hidden");
+    document.getElementById("barChartContainer").classList.add("hidden");
 
     // Clear selected items
     selectedItems.clear();
