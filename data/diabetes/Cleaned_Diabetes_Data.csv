@@ -1,0 +1,55 @@
+,State,Diabetes_Percentage,Lower_Limit,Upper_Limit
+1,Alabama,13.4,12.3,14.7
+2,Alaska,8.3,7.5,9.2
+3,Arizona,11.3,10.3,12.3
+4,Arkansas,13.9,12.8,15.1
+5,California,10.6,9.8,11.4
+6,Colorado,7.6,6.9,8.3
+7,Connecticut,9.1,8.3,10
+8,Delaware,11.7,10.5,13.1
+9,District of Columbia,8.7,7.6,10
+10,Florida,9.6,8.7,10.5
+11,Georgia,10.9,10.1,11.7
+12,Hawaii,10.3,9.4,11.3
+13,Idaho,8.9,8.1,9.7
+14,Illinois,10.7,9.6,11.8
+15,Indiana,11.2,10.6,11.9
+16,Iowa,10.2,9.5,10.9
+17,Kansas,10.1,9.5,10.8
+18,Kentucky,12.9,11.6,14.2
+19,Louisiana,13.2,12.2,14.2
+20,Maine,9,8.2,9.8
+21,Maryland,10.5,9.8,11.2
+22,Massachusetts,9.2,8.4,10
+23,Michigan,10,9.3,10.7
+24,Minnesota,9,8.4,9.6
+25,Mississippi,13.7,12.4,15
+26,Missouri,10.1,9.3,11
+27,Montana,7.1,6.5,7.8
+28,Nebraska,9.7,8.9,10.5
+29,Nevada,8.8,7.7,10.1
+30,New Hampshire,8.1,7.3,9
+31,New Jersey,9.5,8.6,10.4
+32,New Mexico,11,9.9,12.2
+33,New York,9.9,9.3,10.6
+34,North Carolina,10.6,9.5,11.7
+35,North Dakota,8.9,8,9.8
+36,Ohio,11.3,10.6,12
+37,Oklahoma,12.1,11.2,13
+38,Oregon,9,8.1,9.9
+39,Pennsylvania,10,8.8,11.5
+40,Rhode Island,10,9.1,11
+41,South Carolina,11,10.2,11.8
+42,South Dakota,8,6.7,9.6
+43,Tennessee,13,12,14.1
+44,Texas,13.2,12.2,14.3
+45,Utah,8.9,8.3,9.6
+46,Vermont,7,6.2,7.8
+47,Virginia,11.3,10.6,12.1
+48,Washington,8.8,8.4,9.2
+49,West Virginia,14.4,13.4,15.5
+50,Wisconsin,8.8,8.2,9.4
+51,Wyoming,8.1,7.3,8.9
+52,Guam,Suppressed,Suppressed,Suppressed
+53,Puerto Rico,14.9,13.8,16.1
+54,Virgin Islands of the U.S.,12.8,9.6,16.8

@@ -3,25 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Glucose Level Bar Chart</title>
-    <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script defer src="placeholder.js"></script>
+    <title>Glucose & Diabetes Visualization</title>
+    
+    <!-- Load Mapbox & D3.js -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+    
+    <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-    <nav id="navbar">
-        <a href="#">Home</a>
-        <a href="#">Data</a>
-        <a href="#">About</a>
-    </nav>
-    
-    <h1>Average Glucose Levels</h1>
-    <button id="resetButton" style="display: none;">🔄 Reset to Bar Chart</button>
+<body> 
+    <!-- Navigation Bar -->
+    <nav id="navbar"></nav>
 
-    <div id="chartContainer">
-        <svg width="800" height="500"></svg>
+    <button id="toggleView" style="
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 999;
+    background: white;
+    border: 1px solid black;
+    padding: 8px;
+    font-size: 14px;
+    cursor: pointer;
+">View Counties</button>
+
+    <!-- Section for Interactive Map -->
+    <div id="map-container">
+        <h2>Diabetes & Food Map</h2>
+        <div id="map"></div>
+        <div class="tooltip" id="tooltip"></div>
     </div>
 
+    <!-- Load script last -->
+    <script src="placeholder.js"></script>
     <script src="../navbar.js"></script>
 </body>
 </html>
