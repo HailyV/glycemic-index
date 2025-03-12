@@ -430,12 +430,12 @@ function clearSelection() {
 
     // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
-    d3.select("#legend").html(""); // Clear legend
+    // d3.select("#legend").html(""); // Clear legend
     d3.select("#barChart").selectAll("*").remove(); // Clear bar chart
 
     // Hide summary stats, legend, total stats, bar chart, and footnote
     document.getElementById("summaryStats").classList.add("hidden");
-    document.getElementById("legend").classList.add("hidden");
+    // document.getElementById("legend").classList.add("hidden");
     document.getElementById("totalStats").classList.add("hidden");
     document.getElementById("barChartContainer").classList.add("hidden");
     document.getElementById("footnote").classList.add("hidden");
