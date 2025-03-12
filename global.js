@@ -131,10 +131,11 @@ function drawBarChart(totalStats) {
     ];
 
     const recommendedIntake = {
-        Carbs: [0.45 * totalStats.calorie, 0.65 * totalStats.calorie],
-        Fat: [0.2 * totalStats.calorie, 0.35 * totalStats.calorie],
-        Protein: [0.1 * totalStats.calorie, 0.35 * totalStats.calorie],
-        Sugar: [0, 0.1 * totalStats.calorie]
+        Calories: [totalStats.calorie, totalStats.calorie],
+        Carbs: [0.45 * totalStats.calorie / 4, 0.65 * totalStats.calorie / 4],
+        Fat: [0.2 * totalStats.calorie / 9, 0.35 * totalStats.calorie / 9],
+        Protein: [0.1 * totalStats.calorie / 4, 0.35 * totalStats.calorie / 4],
+        Sugar: [0, 0.1 * totalStats.calorie / 4]
     };
 
     const width = 800;
