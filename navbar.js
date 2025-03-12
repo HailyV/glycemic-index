@@ -1,14 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("🔄 Loading Navbar...");
 
-    // Detect the current location
-    const isGlucosePage = window.location.pathname.includes("glucose-vis");
+    // **Detect the current location depth**
+    const depth = window.location.pathname.split("/").length - 1;
+    const basePath = depth > 1 ? "../" : "./"; // Auto-adjust paths
 
     // Define the pages and their correct paths
     const pages = [
-        { name: "Home", url: isGlucosePage ? "../index.html" : "index.html" },  // Adjust path dynamically
-        { name: "Glucose", url: isGlucosePage ? "index.html" : "glucose-vis/index.html" },
-        { name: "IDK", url: isGlucosePage ? "index.html" : "placeholder/index.html" }
+        { name: "Home", url: basePath + "index.html" },  
+        { name: "Glucose", url: basePath + "glucose-vis/index.html" },
+        { name: "IDK", url: basePath + "placeholder/index.html" }
     ];
 
     // Get the navbar element
@@ -19,7 +20,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
     }
 
-    // Generate navigation links dynamically
+    // **Generate navigation links dynamically**
     navbar.innerHTML = ""; // Clear previous content
     pages.forEach(page => {
         let link = document.createElement("a");
