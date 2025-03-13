@@ -54,3 +54,66 @@ h1, h2 {
     font-size: 14px;
     display: none;
 }
+
+/* Search container styling */
+#search-container {
+  position: absolute;
+  top: 50px; /* adjust as needed */
+  right: 10px;
+  width: 260px;
+  z-index: 1000;
+  font-family: Arial, sans-serif;
+}
+
+/* Search input styling */
+#search-container input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  font-size: 14px;
+}
+/* Suggestions list styling */
+#suggestions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+/* Suggestion item styling */
+#suggestions li {
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  opacity: 0; /* initial opacity, then fade in via JS */
+  transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Hover effects with animation and "Click to zoom in" message */
+#suggestions li:hover {
+  background-color: #f0f0f0;
+  transform: scale(1.02);
+}
+
+/* Pseudo element for "Click to zoom in" message */
+#suggestions li::after {
+  content: "Click to zoom in";
+  font-size: 12px;
+  color: #0078ff;
+  margin-left: 10px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+#suggestions li:hover::after {
+  opacity: 1;
+}

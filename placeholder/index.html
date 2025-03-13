@@ -13,6 +13,8 @@
     <!-- Custom Styles -->
     <link rel="stylesheet" href="style.css" />
 </head>
+
+
 <body> 
     <!-- Navigation Bar -->
     <nav id="navbar"></nav>
@@ -29,6 +31,14 @@
     cursor: pointer;
 ">View Counties</button>
 
+    <!-- Search Box -->
+    <div id="search-container">
+        <input type="text" id="search" placeholder="Search for a state or county..." />
+        <ul id="suggestions"></ul>
+      </div>
+      
+
+
     <!-- Section for Interactive Map -->
     <div id="map-container">
         <h2>Diabetes & Food Map</h2>
@@ -40,4 +50,5 @@
     <script src="placeholder.js"></script>
     <script src="../navbar.js"></script>
 </body>
+
 </html>
