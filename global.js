@@ -3,6 +3,8 @@ const foodFiles = Array.from({ length: 16 }, (_, i) =>
     `data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
 );
 
+let firstClick = true;
+
 console.log("Food Files:", foodFiles);
 
 let foodData = [];
@@ -268,9 +270,7 @@ function updateTotalStats(chartData) {
 
 // Function to draw the pie chart and update summary stats
 function drawPieChartForSelectedFoods(selectedFoods) {
-    // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
-    d3.select("#legend").html(""); // Clear legend before redrawing
 
     if (!selectedFoods.length) return;
 
@@ -372,17 +372,17 @@ function drawPieChartForSelectedFoods(selectedFoods) {
             };
         });
 
-    // Create the legend
-    const legend = d3.select("#legend")
-        .selectAll(".legend-item")
-        .data(chartData)
-        .enter()
-        .append("div")
-        .attr("class", "legend-item")
-        .html(d => `
-            <div class="legend-box" style="background-color: ${color(d.food)}"></div>
-            <span>${d.food}</span>
-        `);
+    // // Create the legend
+    // const legend = d3.select("#legend")
+    //     .selectAll(".legend-item")
+    //     .data(chartData)
+    //     .enter()
+    //     .append("div")
+    //     .attr("class", "legend-item")
+    //     .html(d => `
+    //         <div class="legend-box" style="background-color: ${color(d.food)}"></div>
+    //         <span>${d.food}</span>
+    //     `);
 }
 
 // Function to update the summary stats
@@ -429,7 +429,6 @@ function clearSelection() {
     checkboxes.forEach(checkbox => {
         checkbox.checked = false;
     });
-
     // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
     // d3.select("#legend").html(""); // Clear legend
@@ -444,6 +443,8 @@ function clearSelection() {
 
     // Clear selected items
     selectedItems.clear();
+    firstClick = true;
+
 }
 
 // Event listener for food selection updates
@@ -462,11 +463,9 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", function () {
     const updateChartBtn = document.getElementById("updateChartBtn");
     const summaryStats = document.getElementById("summaryStats");
-    const legend = document.getElementById("legend");
 
     // Ensure the elements are initially hidden
     summaryStats.classList.add("hidden");
-    legend.classList.add("hidden");
 
     updateChartBtn.addEventListener("click", function () {
         // Get selected options
@@ -475,14 +474,12 @@ document.addEventListener("DOMContentLoaded", function () {
         if (selectedFoods.length > 0) {
             // Show summary stats and legend if at least one food is selected
             summaryStats.classList.remove("hidden");
-            legend.classList.remove("hidden");
 
             // Example: Update summary stats dynamically
             document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
         } else {
             // Hide if nothing is selected
             summaryStats.classList.add("hidden");
-            legend.classList.add("hidden");
         }
     });
 });
@@ -493,6 +490,70 @@ document.addEventListener("DOMContentLoaded", function () {
     navLinks.forEach(link => {
         if (window.location.href.includes(link.getAttribute("href"))) {
             link.classList.add("active");
+        }
+    });
+});
+
+console.log("✅ Script loaded!");
+
+document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ DOM fully loaded and parsed!");
+
+    const updateChartBtn = document.getElementById("updateChartBtn");
+    const summaryStats = document.getElementById("summaryStats");
+    const pieChart = document.getElementById("pieChart");
+
+    if (!updateChartBtn) {
+        console.error("❌ ERROR: updateChartBtn not found! Check if the button ID is correct.");
+        return;
+    }
+    if (!pieChart) {
+        console.error("❌ ERROR: pieChart element not found! Make sure it exists in your HTML.");
+        return;
+    }
+
+    // Ensure the elements are initially hidden
+    summaryStats?.classList.add("hidden");
+
+    updateChartBtn.addEventListener("click", function () {
+        console.log("🛠 Button clicked!");
+
+        // Get selected options
+        const selectedFoods = getSelectedFoods();
+        console.log("Selected foods:", selectedFoods);
+
+        if (selectedFoods.length > 0) {
+            console.log("✅ Food selected! Showing summary stats...");
+            summaryStats.classList.remove("hidden");
+
+            setTimeout(() => {
+                const statsContent = document.getElementById("statsContent");
+            
+                if (!statsContent) {
+                    console.error("❌ ERROR: statsContent not found! Check if it's inside #summaryStats and visible.");
+                    return; // Prevent further errors
+                }
+            
+                console.log("✅ statsContent found! Updating text...");
+                statsContent.innerText = `You selected: ${selectedFoods.join(", ")}`;
+            }, 100);
+
+            console.log("📌 firstClick value before checking:", firstClick);
+
+            if (firstClick) {
+                firstClick = false; // Prevent future scrolling
+                console.log("✅ First click detected! Attempting to scroll...");
+
+                setTimeout(() => {
+                    pieChart.scrollIntoView({ behavior: "smooth", block: "start" });
+                    console.log("✅ Scroll action triggered successfully!");
+                }, 300);
+            } else {
+                console.log("⚠️ First click already used, skipping scroll.");
+            }
+        } else {
+            console.warn("⚠️ No foods selected, skipping scroll.");
+            summaryStats.classList.add("hidden");
         }
     });
 });
