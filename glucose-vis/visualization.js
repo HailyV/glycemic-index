@@ -61,17 +61,20 @@ async function loadGlucoseData() {
 }
 
 function drawGlucoseBarChart(data) {
+    console.log("🚀 BEFORE: Starting Bar Chart Drawing...");
+    console.log("📊 Received Data:", data); // Debugging: Check if data exists
+
     const svgContainer = d3.select("#chartContainer");
     svgContainer.html(""); // 🔄 **Fully clear the previous chart**
 
     d3.select("#resetButton").style("display", "none"); // Hide reset button
 
-    const svg = svgContainer.append("svg")
-        .attr("width", 800)
-        .attr("height", 500);
-
     const width = 800, height = 500, margin = { top: 40, right: 50, bottom: 70, left: 80 };
     const averageGlucoseTarget = 100;
+
+    const svg = svgContainer.append("svg")
+        .attr("width", width)
+        .attr("height", height);
 
     const x = d3.scaleBand()
         .domain(data.map(d => d.person))
@@ -82,8 +85,16 @@ function drawGlucoseBarChart(data) {
         .domain([0, d3.max(data, d => d.avgGlucose)]).nice()
         .range([height - margin.bottom, margin.top]);
 
-    // 📌 Create Tooltip
-    const tooltip = d3.select("body").append("div")
+    // 📌 Debugging: Check if scales are correctly mapped
+    console.log("📌 X Domain:", x.domain());
+    console.log("📌 Y Domain:", y.domain());
+
+// 📌 Ensure only one tooltip exists
+let tooltip = d3.select("body").select(".tooltip");
+
+if (tooltip.empty()) {
+    console.log("📌 Creating new tooltip...");
+    tooltip = d3.select("body").append("div")
         .attr("class", "tooltip")
         .style("position", "absolute")
         .style("background", "#fff")
@@ -94,54 +105,71 @@ function drawGlucoseBarChart(data) {
         .style("visibility", "hidden")
         .style("pointer-events", "none")
         .style("font-size", "12px");
-        
-    // Draw Bars with Initial Height = 0
-        // Draw Bars with Initial Height = 0
+} else {
+    console.log("✅ Reusing existing tooltip.");
+}
+
+
+    // 📌 Draw Bars with Initial Height = 0 for animation
     const bars = svg.selectAll("rect")
-    .data(data)
-    .enter().append("rect")
-    .attr("x", d => x(d.person))
-    .attr("y", height - margin.bottom) // Start from bottom
-    .attr("height", 0) // Start with no height
-    .attr("width", x.bandwidth())
-    .attr("fill", d3.color("steelblue"))
-    .style("cursor", "pointer") // 🖱️ Change cursor to pointer
-    .on("mouseover", function (event, d) {
-        d3.select(this).attr("fill", "orange"); // 🎨 Change bar color to orange on hover
-        tooltip.style("visibility", "visible")
-            .html(`
+        .data(data)
+        .enter().append("rect")
+        .attr("x", d => x(d.person))
+        .attr("y", height - margin.bottom) // Start from bottom
+        .attr("height", 0) // Start with no height
+        .attr("width", x.bandwidth())
+        .attr("fill", d3.color("steelblue"))
+        .style("cursor", "pointer") // 🖱️ Pointer on hover
+        .on("mouseover", function (event, d) {
+            console.log(`🟢 Mouseover: ${d.person}`, d);
+        
+            d3.select(this).attr("fill", "orange"); // Highlight bar
+        
+            const tooltipContent = `
                 <strong>${d.person}</strong><br>
-                🔽 Min Glucose: ${d.minGlucose} mg/dL<br>
-                🔼 Max Glucose: ${d.maxGlucose} mg/dL
-            `);
-    })
-    .on("mousemove", function (event) {
-        tooltip.style("top", (event.pageY - 65) + "px") // Tooltip above cursor
-            .style("left", (event.pageX + 10) + "px"); // Tooltip to right of cursor
-    })
-    .on("mouseout", function () {
-        d3.select(this).attr("fill", "steelblue"); // 🔄 Reset bar color
-        tooltip.style("visibility", "hidden");
-    })
-    .on("click", function (event, d) {  // 🔄 Click replaces chart with time series
-        const personIndex = data.findIndex(person => person.person === d.person);
-        console.log(`🔍 Fetching time series for ${d.person} (Index ${personIndex})`);
+                Avg Glucose: ${d.avgGlucose.toFixed(1)} mg/dL<br>
+                🔽 Min: ${d.minGlucose} mg/dL<br>
+                🔼 Max: ${d.maxGlucose} mg/dL
+            `;
 
-        if (personIndex === -1) {
-            console.error(`❌ Invalid person index: ${personIndex}`);
-            return;
-        }
+            console.log(`📝 Tooltip Content:\n${tooltipContent}`);
+        
+            // Show and update tooltip
+            tooltip.style("visibility", "visible")
+                .style("opacity", 1) // Ensure tooltip is fully visible
+                .html(tooltipContent);
+        })
+        .on("mousemove", function (event) {
+            tooltip.style("top", `${event.pageY - 40}px`)
+                .style("left", `${event.pageX + 15}px`);
+        })
+        .on("mouseout", function () {
+            console.log("🔴 Mouseout: Reset tooltip & color");
+            d3.select(this).attr("fill", "steelblue"); // Reset bar color
+            tooltip.style("visibility", "hidden");
+        })
+        .on("click", function (event, d) {  
+            console.log(`🟠 Clicked on ${d.person}, loading time series...`);
+            const personIndex = data.findIndex(person => person.person === d.person);
+            
+            if (personIndex === -1) {
+                console.error(`❌ Invalid person index: ${personIndex}`);
+                return;
+            }
+            console.log(`🔍 Fetching time series for ${d.person} (Index ${personIndex})`);
+            loadGlucoseForPerson(personIndex);
+        });
 
-        loadGlucoseForPerson(personIndex);
-    });
+    console.log("✅ Bars Created Successfully!");
 
     // 🚀 Animate Bars from Bottom to Correct Height
     bars.transition()
-    .duration(800) // Moderate pace
-    .delay((d, i) => i * 100) // Staggered delay for left-to-right effect
-    .attr("y", d => y(d.avgGlucose)) // Move up
-    .attr("height", d => height - margin.bottom - y(d.avgGlucose));
+        .duration(800) // Moderate pace
+        .delay((d, i) => i * 100) // Staggered delay for left-to-right effect
+        .attr("y", d => y(d.avgGlucose)) // Move up
+        .attr("height", d => height - margin.bottom - y(d.avgGlucose));
 
+    console.log("✅ Bar Animation Completed");
 
     // X-Axis
     svg.append("g")
@@ -182,10 +210,11 @@ function drawGlucoseBarChart(data) {
         .style("fill", "red")
         .style("font-size", "12px")
         .text("Target: 100 mg/dL");
+
     // 📌 **X-Axis Label**
     svg.append("text")
         .attr("x", width / 2)
-        .attr("y", height + 5) // Adjusted for spacing
+        .attr("y", height - 10) // Adjusted for spacing
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .text("Individuals");
@@ -198,7 +227,10 @@ function drawGlucoseBarChart(data) {
         .attr("text-anchor", "middle")
         .style("font-size", "14px")
         .text("Average Glucose Level (mg/dL)");
+
+    console.log("🚀 AFTER: Chart Drawing Completed!");
 }
+
 function loadGlucoseForPerson(personIndex) {
     if (isNaN(personIndex) || personIndex < 0 || personIndex >= 16) {
         console.error(`❌ Invalid person index: ${personIndex}`);
@@ -222,13 +254,12 @@ function loadGlucoseForPerson(personIndex) {
     }).catch(error => {
         console.error("❌ Error loading glucose file:", error);
     });
-}
-function drawTimeSeriesChart(glucoseData, personIndex) {
+}function drawTimeSeriesChart(glucoseData, personIndex) {
+    console.log(`🟢 Drawing Time Series Chart for Person ${personIndex + 1}...`);
+    console.log("📊 Raw Glucose Data:", glucoseData);
+
     const svgContainer = d3.select("#chartContainer");
     svgContainer.html(""); // 🔄 Clear the previous chart
-
-    // 🔄 **Remove Any Existing Tooltip from Bar Chart**
-    d3.select(".tooltip").remove(); 
 
     d3.select("#resetButton").style("display", "block"); // Show the reset button
 
@@ -238,20 +269,20 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("width", width)
         .attr("height", height);
 
-    // **✅ Corrected Title Placement (Inside SVG)**
+    // ✅ Title Debugging
+    console.log("✅ Adding Chart Title...");
     svg.append("text")
-        .attr("x", width / 2)   // Center the title
-        .attr("y", margin.top / 2)   // Place it within the margin area
-        .attr("text-anchor", "middle")   // Ensure centered alignment
+        .attr("x", width / 2)
+        .attr("y", margin.top / 2)
+        .attr("text-anchor", "middle")
         .style("font-size", "16px")
         .text(`Average Glucose Levels Per Hour for Person ${personIndex + 1}`);
 
-    // **Step 1: Compute Hourly Averages from `glucoseData`**
+    // ✅ Compute Hourly Averages
     let hourlyAverages = {};
-    
     glucoseData.forEach(d => {
         let date = new Date(d.timestamp);
-        let hour = date.getHours(); // Extract hour (0 - 23)
+        let hour = date.getHours();
 
         if (!hourlyAverages[hour]) {
             hourlyAverages[hour] = { sum: 0, count: 0 };
@@ -263,42 +294,48 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
     // Convert averages into an array
     const averagedData = Object.keys(hourlyAverages).map(hour => ({
         hour: +hour,
-        glucose: hourlyAverages[hour].sum / hourlyAverages[hour].count // Average glucose per hour
+        glucose: hourlyAverages[hour].sum / hourlyAverages[hour].count
     }));
 
     console.log("✅ Computed Hourly Averages:", averagedData);
 
-    // Define X and Y scales
+    if (averagedData.length === 0) {
+        console.error("❌ No valid glucose data found for this person!");
+        return;
+    }
+
+    // ✅ Scales
     const x = d3.scaleLinear()
-        .domain([0, 23]) // Use 24-hour format for proper alignment
+        .domain([0, 23])
         .range([margin.left, width - margin.right]);
 
     const y = d3.scaleLinear()
         .domain([0, d3.max(averagedData, d => d.glucose)]).nice()
         .range([height - margin.bottom, margin.top]);
 
-    // **Highlight AM (Midnight - 11:59 AM) and PM (Noon - 11:59 PM)**
+    // ✅ AM/PM Highlighting
+    console.log("✅ Adding AM/PM Background Highlights...");
     svg.append("rect")
-        .attr("x", x(0))  // Midnight start
+        .attr("x", x(0))
         .attr("y", margin.top)
-        .attr("width", x(12) - x(0)) // 12-hour width
+        .attr("width", x(12) - x(0))
         .attr("height", height - margin.bottom - margin.top)
-        .attr("fill", "rgba(135, 206, 250, 0.2)"); // Light blue for AM
+        .attr("fill", "rgba(135, 206, 250, 0.2)");
 
     svg.append("rect")
-        .attr("x", x(12)) // Noon start
+        .attr("x", x(12))
         .attr("y", margin.top)
-        .attr("width", x(24) - x(12)) // 12-hour width
+        .attr("width", x(24) - x(12))
         .attr("height", height - margin.bottom - margin.top)
-        .attr("fill", "rgba(255, 182, 193, 0.2)"); // Light pink for PM
+        .attr("fill", "rgba(255, 182, 193, 0.2)");
 
-    // **Step 2: Create Line Chart with Averages**
+    // ✅ Line Chart
+    console.log("✅ Drawing Line Chart...");
     const line = d3.line()
-        .x(d => x(d.hour)) // Align with hourly intervals
+        .x(d => x(d.hour))
         .y(d => y(d.glucose))
-        .curve(d3.curveMonotoneX); // Smooth interpolation
+        .curve(d3.curveMonotoneX);
 
-    // Draw the line
     svg.append("path")
         .datum(averagedData)
         .attr("fill", "none")
@@ -306,29 +343,26 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("stroke-width", 2)
         .attr("d", line);
 
-    // **Custom Function to Format X-Axis Labels**
+    // ✅ Format X-Axis Labels
     function customTimeFormat(hour) {
         let period = hour >= 12 ? "PM" : "AM";
-        let formattedHour = hour % 12 || 12; // Convert 24-hour format to 12-hour (12 stays 12)
+        let formattedHour = hour % 12 || 12;
         return `${formattedHour}${period}`;
     }
 
-    // X-Axis (Ensure Proper Alignment)
+    // ✅ X & Y Axis
+    console.log("✅ Drawing Axes...");
     svg.append("g")
         .attr("transform", `translate(0,${height - margin.bottom})`)
-        .call(d3.axisBottom(x)
-            .ticks(24) // 🔄 **Force 1-24 interval alignment**
-            .tickFormat(customTimeFormat) // ✅ Custom function for formatting
-        )
+        .call(d3.axisBottom(x).ticks(24).tickFormat(customTimeFormat))
         .selectAll("text")
         .style("text-anchor", "middle");
 
-    // Y-Axis (Glucose Levels)
     svg.append("g")
         .attr("transform", `translate(${margin.left},0)`)
         .call(d3.axisLeft(y));
 
-    // **X-Axis Label**
+    // ✅ Axis Labels
     svg.append("text")
         .attr("x", width / 2)
         .attr("y", height - 30)
@@ -336,7 +370,6 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .style("font-size", "14px")
         .text("Time of Day");
 
-    // **Y-Axis Label**
     svg.append("text")
         .attr("x", -height / 2)
         .attr("y", 20)
@@ -345,57 +378,65 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .style("font-size", "14px")
         .text("Average Glucose Level (mg/dL)");
 
-    // **Tooltip for Glucose Points**
-    const tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
-        .style("position", "absolute")
-        .style("visibility", "hidden")
-        .style("background", "#fff")
-        .style("padding", "8px")
-        .style("border-radius", "5px")
-        .style("border", "1px solid #ccc")
-        .style("box-shadow", "2px 2px 10px rgba(0,0,0,0.2)")
-        .style("pointer-events", "none")
-        .style("font-size", "12px");
+    // ✅ Tooltip Debugging: Ensure Only One Exists
+    console.log("✅ Creating Tooltip...");
+    let tooltip = d3.select(".tooltip");
 
-    // **Scatter Plot Points (Transparent Steel Blue)**
+    if (tooltip.empty()) {
+        console.log("📌 Creating new tooltip...");
+        tooltip = d3.select("body").append("div")
+            .attr("class", "tooltip")
+            .style("position", "absolute")
+            .style("background", "#fff")
+            .style("padding", "8px")
+            .style("border-radius", "5px")
+            .style("border", "1px solid #ccc")
+            .style("box-shadow", "2px 2px 10px rgba(0,0,0,0.2)")
+            .style("visibility", "hidden")
+            .style("pointer-events", "none")
+            .style("font-size", "12px");
+    } else {
+        console.log("✅ Reusing existing tooltip.");
+    }
+
+    // ✅ Scatter Points
+    console.log("✅ Plotting Data Points...");
     svg.selectAll("circle")
         .data(averagedData)
         .enter().append("circle")
-        .attr("cx", d => x(d.hour)) // Align exactly to hours
+        .attr("cx", d => x(d.hour))
         .attr("cy", d => y(d.glucose))
-        .attr("r", 6) // Slightly larger for visibility
-        .attr("fill", "rgba(70, 130, 180, 0.7)") // More visible steel blue
+        .attr("r", 6)
+        .attr("fill", "rgba(70, 130, 180, 0.7)")
         .on("mouseover", function (event, d) {
+            console.log(`🟢 Mouseover: Hour ${d.hour}, Glucose ${d.glucose}`);
             tooltip.style("visibility", "visible")
                 .html(`<strong>${customTimeFormat(d.hour)}</strong><br>Avg Glucose: ${d.glucose.toFixed(1)} mg/dL`);
         })
         .on("mousemove", function (event) {
             tooltip.style("top", (event.pageY - 20) + "px")
-                   .style("left", (event.pageX + 10) + "px");
+                .style("left", (event.pageX + 10) + "px");
         })
         .on("mouseout", function () {
             tooltip.style("visibility", "hidden");
         });
 
-        const legendWidth = 120;
-        const legendHeight = 60;
-    
-        const legend = svg.append("g")
-            .attr("transform", `translate(${width - margin.right - legendWidth}, ${margin.top})`);
-    
-        // **Add White Background Behind the Legend**
-        legend.append("rect")
-            .attr("x", -10)
-            .attr("y", -5)
-            .attr("width", legendWidth)
-            .attr("height", legendHeight)
-            .attr("fill", "white")
-            .attr("stroke", "black") // Optional: add border
-            .attr("rx", 5) // Rounded corners
-            .attr("ry", 5)
-            .style("opacity", 0.8); // Slight transparency if needed
-    // Day Legend (Blue)
+    // ✅ Legend Debugging
+    console.log("✅ Adding Legend...");
+    const legend = svg.append("g")
+        .attr("transform", `translate(${width - margin.right - 120}, ${margin.top})`);
+
+    legend.append("rect")
+        .attr("x", -10)
+        .attr("y", -5)
+        .attr("width", 120)
+        .attr("height", 60)
+        .attr("fill", "white")
+        .attr("stroke", "black")
+        .attr("rx", 5)
+        .attr("ry", 5)
+        .style("opacity", 0.8);
+
     legend.append("rect")
         .attr("x", 0)
         .attr("y", 0)
@@ -409,7 +450,6 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .style("font-size", "14px")
         .text("Day (AM)");
 
-    // Night Legend (Red)
     legend.append("rect")
         .attr("x", 0)
         .attr("y", 25)
@@ -422,7 +462,10 @@ function drawTimeSeriesChart(glucoseData, personIndex) {
         .attr("y", 37)
         .style("font-size", "14px")
         .text("Night (PM)");
+
+    console.log("✅ Time Series Chart Completed!");
 }
+
 
 document.getElementById("resetButton").addEventListener("click", function () {
     console.log("🔄 Resetting to bar chart...");
