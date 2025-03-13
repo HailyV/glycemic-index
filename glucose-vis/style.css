@@ -112,7 +112,7 @@ th {
 .info-box {
     width: 50%;
     max-width: 800px;
-    margin: auto;
+    margin: 15px;
     padding: 20px;
     border: 2px solid #ccc;
     border-radius: 8px;
