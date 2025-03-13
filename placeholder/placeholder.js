@@ -239,26 +239,7 @@ map.on('load', function () {
         tooltip.style.display = 'none';
       });
 
-      // **🔹 Click event to toggle between states and counties**
-      map.on('click', 'states-layer', function (e) {
-        const stateName = e.features[0].properties.name;
-        console.log(`🗺️ Expanding to counties in ${stateName}`);
 
-        if (!map.getSource('counties')) {
-          console.error("❌ County data source not found.");
-          return;
-        }
-
-        const selectedStateCounties = {
-          type: "FeatureCollection",
-          features: map.getSource('counties')._data.features.filter(f => f.properties.STATE_NAME === stateName)
-        };
-
-        map.getSource('counties').setData(selectedStateCounties);
-        map.setLayoutProperty('states-layer', 'visibility', 'none');
-        map.setLayoutProperty('counties-layer', 'visibility', 'visible');
-        map.fitBounds(e.features[0].bbox, { padding: 50 });
-      });
 
       map.on('click', function (e) {
         const features = map.queryRenderedFeatures(e.point);
