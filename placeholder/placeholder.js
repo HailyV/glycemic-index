@@ -62,29 +62,38 @@ const stateData = [
 ];
 
 
-// **🔹 Load US States GeoJSON**
 map.on('load', function () {
-    // **🔹 Load County-Level Diabetes Data and Handle Missing Values**
-d3.csv("../data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData => {
-    const countyDiabetesDict = {};
+    d3.csv("../data/diabetes/Processed_Diabetes_County_Data.csv").then(countyDiabetesData => {
+        const countyDiabetesDict = {};
 
-    countyDiabetesData.forEach(d => {
-        if (d.fips) {
-            const fips = String(d.fips).padStart(5, "0"); // Ensure FIPS codes are 5-digit strings
-            const diabetesRate = parseFloat(d.diabetes_rate);
-            countyDiabetesDict[fips] = isNaN(diabetesRate) ? 0 : diabetesRate; // Use 0 for missing values
-        }
-    });
+        countyDiabetesData.forEach(d => {
+            if (d.County) {
+                const countyName = d.County.trim().toLowerCase();
+                const diabetesRate = parseFloat(d.Percentage);
+                countyDiabetesDict[countyName] = isNaN(diabetesRate) ? null : diabetesRate;
+            }
+        });
+
+    console.log("County Diabetes Dictionary Sample:", Object.entries(countyDiabetesDict).slice(0, 10));
 
     d3.json("https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json")
-        .then(countyGeoJSON => {
-            // Merge county diabetes data
-            countyGeoJSON.features.forEach(feature => {
-                const countyFIPS = feature.properties.GEO_ID.slice(-5); // Extract county FIPS code
-                feature.properties.diabetes_rate = countyDiabetesDict[countyFIPS] || 0; // Use 0 if missing
-            });
+    .then(countyGeoJSON => {
+        console.log("Before Assigning Data - Sample Feature:", countyGeoJSON.features[0].properties);
 
-            // **🔹 Add County Source (Initially Hidden)**
+        // Merge county diabetes data into the GeoJSON
+        countyGeoJSON.features.forEach(feature => {
+            const countyName = feature.properties.NAME.trim().toLowerCase();
+            
+            if (countyDiabetesDict.hasOwnProperty(countyName)) {
+                feature.properties.diabetes_rate = countyDiabetesDict[countyName];
+            } else {
+                feature.properties.diabetes_rate = null; // Explicitly set null for missing values
+            }
+        });
+
+            console.log("After Assigning Data - Sample Feature:", countyGeoJSON.features[0].properties);
+
+            // **🔹 Add County Data as a Heatmap**
             map.addSource('counties', { type: 'geojson', data: countyGeoJSON });
 
             map.addLayer({
@@ -94,39 +103,42 @@ d3.csv("../data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData 
                 paint: {
                     'fill-color': [
                         'case',
-                        ['!=', ['get', 'diabetes_rate'], 0], // If diabetes_rate is NOT zero
+                        ['!=', ['get', 'diabetes_rate'], null], // If diabetes_rate is NOT null
                         ['interpolate', ['linear'], ['get', 'diabetes_rate'],
-                            5, '#fee5d9',
-                            10, '#fcae91',
-                            15, '#fb6a4a',
-                            20, '#de2d26',
-                            25, '#a50f15'
+                            5, '#f7fcf0',  // Lightest green (low diabetes)
+                            7, '#c7e9c0',
+                            9, '#73c476',
+                            11, '#238b45', // Medium green
+                            13, '#00441b'  // Dark green (high diabetes)
                         ],
-                        '#D3D3D3' // Gray for missing data (zero values)
+                        '#D3D3D3' // Gray for missing data
                     ],
-                    'fill-opacity': 0.75
+                    'fill-opacity': 0.85
                 },
-                layout: { 'visibility': 'none' } // Initially hidden
+                layout: { 'visibility': 'none' } // Initially hidden until toggled
             });
 
             // **🔹 County Hover Tooltip**
             const tooltip = document.getElementById('tooltip');
 
             map.on('mousemove', 'counties-layer', function (e) {
-                const county = e.features[0].properties.NAME;
-                const diabetesRate = e.features[0].properties.diabetes_rate;
+                const county = e.features[0].properties.NAME || "Unknown";
+                let diabetesRate = e.features[0].properties.diabetes_rate;
 
-                if (diabetesRate > 0) {
-                    tooltip.style.display = 'block';
-                    tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
-                    tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
-                    tooltip.innerHTML = `
-                        <strong>${county} County</strong><br>
-                        📊 Diabetes Rate: ${diabetesRate.toFixed(1)}%
-                    `;
+                // **🔹 Fix Error: Ensure diabetes_rate is a valid number**
+                if (diabetesRate === null || isNaN(diabetesRate)) {
+                    diabetesRate = "No Data"; // Show "No Data" instead of breaking the tooltip
                 } else {
-                    tooltip.style.display = 'none'; // Hide tooltip for missing data
+                    diabetesRate = diabetesRate.toFixed(1) + "%"; // Fixes the `.toFixed()` error
                 }
+
+                tooltip.style.display = 'block';
+                tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
+                tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
+                tooltip.innerHTML = `
+                    <strong>${county} County</strong><br>
+                    📊 Diabetes Rate: ${diabetesRate}
+                `;
             });
 
             map.on('mouseleave', 'counties-layer', function () {
@@ -134,6 +146,35 @@ d3.csv("../data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData 
             });
         });
 });
+
+
+
+
+
+// **🔹 Remove Failing API Calls for State Food Markers**
+// Commenting out or handling failed API calls
+stateData.forEach(d => {
+    /*
+    fetch(`https://nominatim.openstreetmap.org/search?state=${d.state}&country=USA&format=json`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.length > 0) {
+                const coords = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
+
+                const marker = new mapboxgl.Marker({ color: 'red' })
+                    .setLngLat(coords)
+                    .setPopup(new mapboxgl.Popup().setHTML(`
+                        <strong>${d.state}</strong><br>
+                        📊 Diabetes Rate: ${d.diabetes_rate}%<br>
+                        🍽 Favorite Food: ${d.food}
+                    `))
+                    .addTo(map);
+            }
+        })
+        .catch(error => console.error(`Error loading marker for ${d.state}:`, error));
+    */
+});
+
 
 
     d3.json("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json")
