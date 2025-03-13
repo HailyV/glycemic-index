@@ -37,7 +37,7 @@ h1, h2 {
 }
 
 #map {
-    width: 100%;
+    width: 900px;
     height: 500px;
     border-radius: 8px;
 }

@@ -4,7 +4,7 @@ const map = new mapboxgl.Map({
   container: 'map',
   style: 'mapbox://styles/mapbox/light-v10',
   center: [-98.5795, 39.8283], // Center on the US
-  zoom: 4
+  zoom: 3.5,
 });
 
 // **🔹 Data: Diabetes Rate & Favorite Food**

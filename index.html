@@ -18,6 +18,21 @@
   <header>
     <h1>Glycemic Index Project</h1>
   </header>
+      <!-- Search Box -->
+      <div id="search-container">
+        <input type="text" id="search" placeholder="Search for a state or county..." />
+        <ul id="suggestions"></ul>
+      </div>
+      
+
+
+    <!-- Section for Interactive Map -->
+    <div id="map-container">
+        <h2>Diabetes & Food Map</h2>
+        <div id="map"></div>
+        <div class="tooltip" id="tooltip"></div>
+    </div>
+
     <div class="info-box">
         <p>
             People everywhere, especially in the United States, are beginning to see diabetes as a common occurrence. 
@@ -93,6 +108,20 @@
 
   </div>
 
+    <button id="toggleView" style="
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 999;
+        background: white;
+        border: 1px solid black;
+        padding: 8px;
+        font-size: 14px;
+        cursor: pointer;
+    ">View Counties</button>
+
+    <div id="map"></div>
+
   <!-- Horizontal Bar Chart and Total Stats Container -->
   <div class="bar-chart-total-stats-container">
     <div id="barChartContainer" class="bar-chart-container hidden">
@@ -116,5 +145,24 @@
 
 
     <script defer src="../glucose-vis/visualization.js"></script>
+
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+
+
+        <!-- Load Mapbox & D3.js (Ensure Single Instance) -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js" defer></script>
+    <script src="https://d3js.org/d3.v7.min.js" defer></script>
+
+    <!-- Map Initialization (Ensure this is at the bottom) -->
+    <script src="map-initialization.js" defer></script>
+    <link rel="stylesheet" href="../placeholder/style.css" />
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" defer rel="stylesheet">
+
+    <!-- Navbar and Other Scripts -->
+    <script src="../navbar.js" defer></script>
+    <script src="../placeholder/placeholder.js" defer></script>
+
+
 </body>
 </html>
