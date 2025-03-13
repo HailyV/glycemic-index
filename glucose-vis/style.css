@@ -130,15 +130,87 @@ th {
     text-decoration: underline;
 }
 
-.tooltip {
+.map-tooltip {
     position: absolute;
-    opacity: 0;
-    background: white;
-    padding: 8px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
-    box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+    border: 1px solid #ddd;
+    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     pointer-events: none;
-    font-size: 12px;
-    transition: opacity 0.2s ease-in-out;
+    font-size: 14px;
+    display: none;
 }
+
+#search-container {
+    position: absolute;
+    top: 10px;
+    right: 20px; / Align to the right /
+    width: 280px;
+    z-index: 1000;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+  }
+  
+  / 🔹 Search Input: Modern Styling /
+  #search-container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  / 🔹 Input Hover & Focus Effect /
+  #search-container input:focus {
+    border-color: #0078ff;
+    outline: none;
+    box-shadow: 0px 0px 8px rgba(0, 120, 255, 0.3);
+  }
+  
+  / 🔹 Suggestions Dropdown /
+  #suggestions {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 0 0 6px 6px;
+    max-height: 200px;
+    overflow-y: auto;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  / 🔹 Individual Suggestion Item /
+  #suggestions li {
+    padding: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: background 0.3s ease, transform 0.2s ease;
+  }
+  
+  / 🔹 Hover Effect on Suggestions /
+  #suggestions li:hover {
+    background-color: #f0f0f0;
+    transform: scale(1.02);
+  }
+  
+  / 🔹 Click to Zoom Message */
+  #suggestions li::after {
+    content: "🔍 Click to zoom in";
+    font-size: 12px;
+    color: #0078ff;
+    margin-left: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  #suggestions li:hover::after {
+    opacity: 1;
+  }
