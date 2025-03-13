@@ -22,6 +22,9 @@ html, body {
 * {
     background: transparent;
 }
+h1 {
+    padding: 20px;
+}
 
 #content {
     flex-grow: 1; /* Pushes footer down and expands */
