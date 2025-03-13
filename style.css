@@ -405,3 +405,44 @@ nav a:hover {
     margin-left: 10px; /* Space between name and square */
     flex-shrink: 0; /* Prevents shrinking */
 }
+
+/* Style the search container */
+#search-container {
+    position: absolute; /* Allows precise positioning */
+    margin-top: 150px;
+    margin-right: 100px; /* Aligns it to the right */
+    width: auto; /* Shrinks to fit content */
+
+}
+
+/* Remove the white background box */
+#search {
+    padding: 8px 14px;
+    font-size: 16px;
+    border: 2px solid #4CAF50;
+    border-radius: 8px;
+    outline: none;
+    background: transparent; /* Removes the white box */
+    color: #333; /* Ensures text is visible */
+}
+
+/* Add placeholder color */
+#search::placeholder {
+    color: #666;
+}
+
+/* Ensure suggestions list is well-positioned */
+#suggestions {
+    position: absolute;
+    width: 100%;
+    background: white;
+    list-style: none;
+    margin-top: 5px;
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15);
+    max-height: 200px;
+    overflow-y: auto;
+    display: none; /* Hide by default */
+    z-index: 10;
+}
