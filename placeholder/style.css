@@ -37,7 +37,7 @@ h1, h2 {
 }
 
 #map {
-    width: 900px;
+    width: 100%;
     height: 500px;
     border-radius: 8px;
 }
@@ -55,58 +55,66 @@ h1, h2 {
     display: none;
 }
 
-/* Search container styling */
+/* 🔹 Search Container: Positioning & Layout */
 #search-container {
   position: absolute;
-  top: 50px; /* adjust as needed */
-  right: 10px;
-  width: 260px;
+  top: 150px; /* Move it down */
+  right: 1800px; /* Move it more to the left */
+  width: 280px;
   z-index: 1000;
-  font-family: Arial, sans-serif;
+
 }
 
-/* Search input styling */
+/* 🔹 Search Input: Modern Styling */
 #search-container input {
   width: 100%;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 6px;
   transition: all 0.3s ease;
   font-size: 14px;
+  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
-/* Suggestions list styling */
+
+/* 🔹 Input Hover & Focus Effect */
+#search-container input:focus {
+  border-color: #0078ff;
+  outline: none;
+  box-shadow: 0px 0px 8px rgba(0, 120, 255, 0.3);
+}
+
+/* 🔹 Suggestions Dropdown */
 #suggestions {
   margin: 0;
   padding: 0;
   list-style: none;
   background: white;
   border: 1px solid #ccc;
-  border-top: none;
-  border-radius: 0 0 4px 4px;
+  border-radius: 0 0 6px 6px;
   max-height: 200px;
   overflow-y: auto;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-/* Suggestion item styling */
+/* 🔹 Individual Suggestion Item */
 #suggestions li {
-  padding: 10px;
+  padding: 12px;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  opacity: 0; /* initial opacity, then fade in via JS */
-  transition: background 0.3s ease, transform 0.3s ease, opacity 0.3s ease;
+  transition: background 0.3s ease, transform 0.2s ease;
 }
 
-/* Hover effects with animation and "Click to zoom in" message */
+/* 🔹 Hover Effect on Suggestions */
 #suggestions li:hover {
   background-color: #f0f0f0;
   transform: scale(1.02);
 }
 
-/* Pseudo element for "Click to zoom in" message */
+/* 🔹 Click to Zoom Message */
 #suggestions li::after {
-  content: "Click to zoom in";
+  content: "🔍 Click to zoom in";
   font-size: 12px;
   color: #0078ff;
   margin-left: 10px;
@@ -116,4 +124,51 @@ h1, h2 {
 
 #suggestions li:hover::after {
   opacity: 1;
+}
+
+/* 🔹 Make the Search Box More Interactive */
+#search-container:hover {
+  transform: scale(1.02);
+  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
+}
+
+/* 🔹 Smooth Animations */
+#search-container,
+#search-container input,
+#suggestions {
+  transition: all 0.3s ease-in-out;
+}
+
+.info-box {
+  width: 50%;
+  max-width: 800px;
+  margin: 20px auto; /* Center horizontally */
+  padding: 10px 20px 0 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #f9f9f9;
+}
+
+
+.info-box a {
+  color: #007BFF;
+  text-decoration: none;
+  font-weight: bold;
+}
+.info-box a:hover {
+  text-decoration: underline;
+}
+
+
+.info-box {
+  width: 50%;
+  max-width: 800px;
+  padding: 5px 20px 0 20px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  background-color: #f9f9f9;
 }

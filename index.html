@@ -19,65 +19,8 @@
     <h1>Glycemic Index Project</h1>
   </header>
       <!-- Search Box -->
-      <div id="search-container">
-        <input type="text" id="search" placeholder="Search for a state or county..." />
-        <ul id="suggestions"></ul>
-      </div>
-      
-
-
-    <!-- Section for Interactive Map -->
-    <div id="map-container">
-        <h2>Diabetes & Food Map</h2>
-        <div id="map"></div>
-        <div class="map-tooltip" id="mapTooltip" style="opacity: 0;"></div>
-
-    </div>
-
-    <div class="info-box">
-        <p>
-            People everywhere, especially in the United States, are beginning to see diabetes as a common occurrence. 
-            <a href="https://www.cdc.gov/diabetes/php/data-research/index.html" target="_blank">
-                38.4 million people of all ages or 11.6% of the U.S. population
-            </a>
-            are currently diagnosed with diabetes. This raises the question: <b><u>Are you likely to get diabetes?</u></b>
-        </p>
-    </div>
     
-    <h1>Blood Glucose Chart</h1>
-
-    <table>
-        <tr>
-            <th>Mg/DL</th>
-            <th>Fasting</th>
-            <th>After Eating</th>
-            <th>2 - 3 Hours After Eating</th>
-        </tr>
-        <tr class="normal">
-            <td><strong>Normal</strong></td>
-            <td>80 - 100</td>
-            <td>170 - 200</td>
-            <td>120 - 140</td>
-        </tr>
-        <tr class="impaired">
-            <td><strong>Impaired Glucose</strong></td>
-            <td>101 - 125</td>
-            <td>190 - 230</td>
-            <td>140 - 160</td>
-        </tr>
-        <tr class="diabetic">
-            <td><strong>Diabetic</strong></td>
-            <td>126+</td>
-            <td>220 - 300</td>
-            <td>200+</td>
-        </tr>
-    </table>
-    <h1>Average Glucose of 16 People</h1>
-    <button id="resetButton" style="display: none;">🔄 Reset to Bar Chart</button>
-    <div id="chartContainer">
-        <svg width="800" height="500"></svg>
-    </div>
-
+    
   <!-- Search bar for filtering foods -->
   <div class="food-search-container">
     <label for="foodSearch">Search for a food:</label>
@@ -121,7 +64,7 @@
         cursor: pointer;
     ">View Counties</button>
 
-    <div id="map"></div>
+   
 
   <!-- Horizontal Bar Chart and Total Stats Container -->
   <div class="bar-chart-total-stats-container">

@@ -16,6 +16,9 @@
 
 
 <body> 
+
+
+
     <!-- Navigation Bar -->
     <nav id="navbar"></nav>
 
@@ -31,11 +34,13 @@
     cursor: pointer;
 ">View Counties</button>
 
+
+
     <!-- Search Box -->
     <div id="search-container">
         <input type="text" id="search" placeholder="Search for a state or county..." />
         <ul id="suggestions"></ul>
-      </div>
+    </div>
       
 
 
@@ -45,7 +50,15 @@
         <div id="map"></div>
         <div class="tooltip" id="tooltip"></div>
     </div>
-
+    <div class="info-box">
+        <p>
+            People everywhere, especially in the United States, are beginning to see diabetes as a common occurrence. 
+            <a href="https://www.cdc.gov/diabetes/php/data-research/index.html" target="_blank">
+                38.4 million people of all ages or 11.6% of the U.S. population
+            </a>
+            are currently diagnosed with diabetes. This raises the question: <b><u>Are you likely to get diabetes?</u></b>
+        </p>
+    </div>
     <!-- Load script last -->
     <script src="placeholder.js"></script>
     <script src="../navbar.js"></script>
