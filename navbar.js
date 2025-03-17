@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const pages = [
         { name: "Home", url: basePath + "index.html" },  
         { name: "Glucose", url: basePath + "glucose-vis/index.html" },
-        { name: "Diabetes Map", url: basePath + "placeholder/index.html" }
+        { name: "Diabetes Map", url: basePath + "glucose-vis/placeholder/index.html" }
     ];
 
     // Get the navbar element
