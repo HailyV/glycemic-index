@@ -7,7 +7,6 @@ const map = new mapboxgl.Map({
   zoom: 3.5,
 });
 
-// **🔹 Data: Diabetes Rate & Favorite Food**
 const stateData = [
   { state: "Alabama", diabetes_rate: 13.4, lower_limit: 12.3, upper_limit: 14.7, food: "Pecans" },
   { state: "Alaska", diabetes_rate: 8.3, lower_limit: 7.5, upper_limit: 9.2, food: "Salmon" },
