@@ -8,8 +8,8 @@ document.addEventListener("DOMContentLoaded", function () {
     // Define the pages and their correct paths
     const pages = [
         { name: "Home", url: basePath + "index.html" },  
-        { name: "Glucose", url: basePath + "glycemic-index/glucose-vis/index.html" },
-        { name: "Diabetes Map", url: basePath + "glycemic-index/placeholder/index.html" }
+        { name: "Glucose", url: basePath + "glucose-vis/index.html" },
+        { name: "Diabetes Map", url: basePath + "placeholder/index.html" }
     ];
 
     // Get the navbar element
