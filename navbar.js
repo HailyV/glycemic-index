@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("🔄 Loading Navbar...");
 
     const depth = window.location.pathname.split("/").filter(Boolean).length;
-    const basePath = depth > 1 ? "../" : "./";
-    
+    const basePath = window.location.hostname.includes("github.io") ? "/glycemic-index/" : "./";
+
 
     // Define the pages and their correct paths
     const pages = [
