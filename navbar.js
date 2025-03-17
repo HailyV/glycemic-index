@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("🔄 Loading Navbar...");
 
-    // **Detect the current location depth**
-    const depth = window.location.pathname.split("/").length - 1;
-    const basePath = depth > 1 ? "../" : "./"; // Auto-adjust paths
+    const depth = window.location.pathname.split("/").filter(Boolean).length;
+    const basePath = depth > 1 ? "../" : "./";
+    
 
     // Define the pages and their correct paths
     const pages = [
