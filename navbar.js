@@ -1,9 +1,15 @@
 document.addEventListener("DOMContentLoaded", function () {
     console.log("🔄 Loading Navbar...");
 
-    const depth = window.location.pathname.split("/").filter(Boolean).length;
-    const basePath = window.location.hostname.includes("github.io") ? "/glycemic-index/" : "./";
+    const isGitHubPages = window.location.hostname.includes("github.io");
+    const repoName = "glycemic-index"; // Adjust if your repo name is different
 
+    const basePath = isGitHubPages
+        ? (window.location.pathname.startsWith(`/${repoName}/`) ? `/${repoName}/` : "/")
+        : "./";
+
+    console.log("Current Path:", window.location.pathname);
+    console.log("Base Path:", basePath);
 
     // Define the pages and their correct paths
     const pages = [
@@ -30,5 +36,4 @@ document.addEventListener("DOMContentLoaded", function () {
         navbar.appendChild(link);
     });
 
-    console.log("✅ Navbar Loaded Successfully!");
 });
