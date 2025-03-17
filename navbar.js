@@ -2,11 +2,21 @@ document.addEventListener("DOMContentLoaded", function () {
     console.log("🔄 Loading Navbar...");
 
     const isGitHubPages = window.location.hostname.includes("github.io");
-    const repoName = "glycemic-index"; // Adjust if your repo name is different
+    const repoName = "glycemic-index"; // Your repository name
 
-    const basePath = isGitHubPages
-        ? (window.location.pathname.startsWith(`/${repoName}/`) ? `/${repoName}/` : "/")
-        : "./";
+    let basePath = "./"; // Default for local development
+
+    if (isGitHubPages) {
+        // Remove duplicate occurrences of `glycemic-index/` if present
+        let path = window.location.pathname;
+        if (path.startsWith(`/${repoName}/${repoName}/`)) {
+            basePath = `/${repoName}/`; // Fix duplicated repo name issue
+        } else if (path.startsWith(`/${repoName}/`)) {
+            basePath = `/${repoName}/`; // Normal case
+        } else {
+            basePath = "/"; // Edge case where the path is unexpected
+        }
+    }
 
     console.log("Current Path:", window.location.pathname);
     console.log("Base Path:", basePath);
@@ -36,4 +46,5 @@ document.addEventListener("DOMContentLoaded", function () {
         navbar.appendChild(link);
     });
 
+    console.log("✅ Navbar Loaded Successfully!");
 });
