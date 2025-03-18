@@ -2,19 +2,15 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Exercise Chart</title>
+    <title>Heart Rate Line Chart</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
     <script defer src="heartrate.js"></script>
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Heartrate</h1>
-    <div id="StackedAreaChart">
-        <svg width="800" height="500"></svg>
-    </div>
-    <script src="../navbar.js"></script>
-    
+    <h1>Heart Rate Over Time</h1>
+    <div id="filters"></div>
+    <div id="chartContainer"><svg width="800" height="500"></svg></div>
 </body>
 </html>
