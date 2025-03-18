@@ -29,7 +29,7 @@ html, body {
 
 /* Darker Edges, Lighter Center Gradient */
 header {
-    background: linear-gradient(90deg, #0d4412, #1b5e20 30%, #2e7d32 50%, #1b5e20 70%, #0d4412);  
+    background: linear-gradient(90deg, #1e6225, #2e7d32 30%, #43a047 50%, #2e7d32 70%, #1e6225);  
     color: white;
     padding: 20px 0;
     width: 100%;
