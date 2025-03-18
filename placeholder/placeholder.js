@@ -64,7 +64,7 @@ const stateData = [
 
 map.on('load', function () {
   // Load and process county diabetes CSV
-  d3.csv("../data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData => {
+  d3.csv("data/diabetes/DiabetesAtlas_CountyData.csv").then(countyDiabetesData => {
     const countyDiabetesDict = {};
 
     countyDiabetesData.forEach(d => {
@@ -353,7 +353,7 @@ const miniMap = new mapboxgl.Map({
 // ✅ Function to fetch Fast Food locations locally
 async function fetchFastFoodFromFile() {
   try {
-    const response = await fetch("../data/export.geojson");
+    const response = await fetch("data/export.geojson");
     const data = await response.json();
     console.log("✅ Loaded fast food data from file:", data);
     return data;
