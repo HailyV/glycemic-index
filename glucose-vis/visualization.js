@@ -90,12 +90,12 @@ function drawGlucoseBarChart(data) {
     console.log("📌 Y Domain:", y.domain());
 
 // 📌 Ensure only one tooltip exists
-let tooltip = d3.select("body").select(".tooltip");
+let tooltip = d3.select("body").select(".glucose-tooltip");
 
 if (tooltip.empty()) {
-    console.log("📌 Creating new tooltip...");
+    console.log("📌 Creating new glucose tooltip...");
     tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "glucose-tooltip")
         .style("position", "absolute")
         .style("background", "#fff")
         .style("padding", "8px")
@@ -106,7 +106,7 @@ if (tooltip.empty()) {
         .style("pointer-events", "none")
         .style("font-size", "12px");
 } else {
-    console.log("✅ Reusing existing tooltip.");
+    console.log("✅ Reusing existing glucose tooltip.");
 }
 
 
@@ -121,32 +121,24 @@ if (tooltip.empty()) {
         .attr("fill", d3.color("steelblue"))
         .style("cursor", "pointer") // 🖱️ Pointer on hover
         .on("mouseover", function (event, d) {
-            console.log(`🟢 Mouseover: ${d.person}`, d);
-        
             d3.select(this).attr("fill", "orange"); // Highlight bar
         
-            const tooltipContent = `
-                <strong>${d.person}</strong><br>
-                Avg Glucose: ${d.avgGlucose.toFixed(1)} mg/dL<br>
-                🔽 Min: ${d.minGlucose} mg/dL<br>
-                🔼 Max: ${d.maxGlucose} mg/dL
-            `;
-
-            console.log(`📝 Tooltip Content:\n${tooltipContent}`);
-        
-            // Show and update tooltip
             tooltip.style("visibility", "visible")
-                .style("opacity", 1) // Ensure tooltip is fully visible
-                .html(tooltipContent);
+                   .style("opacity", "1")
+                   .html(`
+                        <strong>${d.person}</strong><br>
+                        Avg Glucose: ${d.avgGlucose.toFixed(1)} mg/dL<br>
+                        🔽 Min: ${d.minGlucose} mg/dL<br>
+                        🔼 Max: ${d.maxGlucose} mg/dL
+                    `);
         })
         .on("mousemove", function (event) {
             tooltip.style("top", `${event.pageY - 40}px`)
-                .style("left", `${event.pageX + 15}px`);
+                   .style("left", `${event.pageX + 15}px`);
         })
         .on("mouseout", function () {
-            console.log("🔴 Mouseout: Reset tooltip & color");
             d3.select(this).attr("fill", "steelblue"); // Reset bar color
-            tooltip.style("visibility", "hidden");
+            tooltip.style("visibility", "hidden").style("opacity", "0");
         })
         .on("click", function (event, d) {  
             console.log(`🟠 Clicked on ${d.person}, loading time series...`);
@@ -380,7 +372,7 @@ function loadGlucoseForPerson(personIndex) {
 
     // ✅ Tooltip Debugging: Ensure Only One Exists
     console.log("✅ Creating Tooltip...");
-    let tooltip = d3.select(".tooltip");
+    let tooltip = d3.select(".glucose-tooltip");
 
     if (tooltip.empty()) {
         console.log("📌 Creating new tooltip...");
