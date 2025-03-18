@@ -1,6 +1,6 @@
 // Generate file paths for food logs
 const foodFiles = Array.from({ length: 16 }, (_, i) =>
-    `../data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
+    `data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
 );
 
 
@@ -395,9 +395,9 @@ function updateSummaryStats(chartData) {
     statsDiv.innerHTML = `
         <h3>Summary Stats</h3>
         <div id="summaryImageContainer">    
-            <img src="../data/assets/apple.png" alt="Apple" class="summary-image">
-            <img src="../data/assets/egg.png" alt="Egg" class="summary-image">
-            <img src="../data/assets/pizza.png" alt="Pizza" class="summary-image">
+            <img src="data/assets/apple.png" alt="Apple" class="summary-image">
+            <img src="data/assets/egg.png" alt="Egg" class="summary-image">
+            <img src="data/assets/pizza.png" alt="Pizza" class="summary-image">
         </div>
         <div class="summary-content"></div> <!-- Container for food info -->
     `;
