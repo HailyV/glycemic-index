@@ -22,24 +22,57 @@ html, body {
 * {
     background: transparent;
 }
-h1 {
-    padding: 20px;
-}
 
 #content {
     flex-grow: 1; /* Pushes footer down and expands */
 }
 
+/* Darker Edges, Lighter Center Gradient */
 header {
-    background: linear-gradient(to right, #2e7d32, #66bb6a, #2e7d32);
+    background: linear-gradient(90deg, #0d4412, #1b5e20 30%, #2e7d32 50%, #1b5e20 70%, #0d4412);  
     color: white;
-    padding: 10px 0;
+    padding: 20px 0;
     width: 100%;
     text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    font-size: 24px;
+    top: 0;
+    left: 0;
+    transition: all 0.4s ease-in-out;
+    font-size: 28px;
     font-weight: bold;
-    margin-top: -20px;
+    z-index: 1000;
+}
+
+/* Text Styling - White with Black Border */
+h1 {
+    margin: 0;
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+    color: white; /* White Text */
+    text-shadow: 
+        -1px -1px 0 black,  
+         1px -1px 0 black,  
+        -1px  1px 0 black,  
+         1px  1px 0 black;  /* Creates a subtle black border */
+    position: relative;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* Underline Animation on Hover */
+h1::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 3px;
+    background: white;
+    transform: scaleX(0);
+    transition: transform 0.4s ease-in-out;
+}
+
+h1:hover::after {
+    transform: scaleX(1);
 }
 
 /* ✅ Ensure Food Search is on the Left */
@@ -165,9 +198,7 @@ header {
 }
 
 
-h1 {
-    margin: 0;
-}
+
 
 nav {
     width: 100%;
