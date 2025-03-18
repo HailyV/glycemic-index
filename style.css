@@ -474,16 +474,31 @@ nav a:hover {
     box-shadow: 2px 2px 10px rgba(0,0,0,0.1);
 }
 
-/* ✅ Improve Food Checkbox Styles */
+/* ✅ Ensure Labels and Checkboxes Are Aligned Properly */
+.food-label {
+    display: flex;
+    align-items: center; /* Align checkbox and text vertically */
+    gap: 8px; /* Space between checkbox and text */
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    padding: 6px 10px; /* Reduce padding for better spacing */
+    border-radius: 6px;
+    transition: background 0.2s ease-in-out;
+    width: 100%; /* Ensure full width */
+}
+
+/* ✅ Fix Checkbox Alignment & Visibility */
 .food-checkbox {
     appearance: none; /* Remove default checkbox */
     width: 18px;
     height: 18px;
     border: 2px solid #4CAF50; /* Green border */
-    border-radius: 5px; /* Soft rounded edges */
+    border-radius: 4px; /* Rounded edges */
     background: white;
     display: inline-block;
     position: relative;
+    flex-shrink: 0; /* Prevents shrinking */
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 }
@@ -506,32 +521,17 @@ nav a:hover {
     font-weight: bold;
 }
 
-/* ✅ Improve Label Style */
-.food-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #333;
-    padding: 8px 12px;
-    border-radius: 8px;
-    transition: background 0.2s ease-in-out;
-}
-
-/* ✅ Hover Effect for Label */
-.food-label:hover {
-    background: rgba(76, 175, 80, 0.1); /* Light green hover */
-}
-
-/* ✅ Scrollable Box for Checkboxes */
+/* ✅ Improve Scroll Box Spacing */
 .scroll-box {
-    max-height: 180px; /* Limit height */
+    max-height: 200px; /* Slightly increased height */
     overflow-y: auto;
     border: 1px solid #ccc;
-    padding: 8px;
+    padding: 10px;
     width: 320px;
     background: white;
-    border-radius: 8px; /* Softer edges */
+    border-radius: 8px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1px; /* Add spacing between items */
 }
