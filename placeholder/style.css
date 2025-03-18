@@ -12,7 +12,6 @@ h1, h2 {
 #map {
   width: 100%;
   height: 100%;
-  border-radius: 8px; /* Matches container */
 }
 
 
@@ -47,24 +46,16 @@ h1, h2 {
 
 /* ✅ Further Shortened Tooltip */
 .map-tooltip {
-  position: absolute; /* Ensures it stays near the hovered element */
-  bottom: auto; /* Removes fixed positioning */
-  left: auto;
-  transform: none; /* Prevents shifting */
-  background: rgba(0, 0, 0, 0.85);
-  color: white;
-  padding: 5px 10px; /* Further reduced padding */
-  border-radius: 4px; /* Slightly rounded for better appearance */
-  border: 1px solid #ccc;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  font-size: 13px; /* Slightly smaller text */
-  line-height: 1.2; /* Compact line height to reduce space */
-  display: none;
-  z-index: 1000;
-  white-space: normal; /* ✅ Allows wrapping instead of forcing a long shape */
-  max-width: 220px; /* ✅ Prevents excessive width */
-  text-align: left; /* ✅ Aligns text better */
+  position: absolute;
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    pointer-events: none; /* ✅ Prevents blocking interactions */
+    white-space: nowrap;
+    transform: translate(10px, 10px); /* ✅ Starts slightly offset from cursor */
+    display: none; /* Hidden by default */
 }
 
 
@@ -115,32 +106,31 @@ h1, h2 {
   transform: scale(1.02);
 }
 
-/* ✅ Ensure Mini-Map Fits Perfectly Inside Its Border */
-/* ✅ Mini-Map in Bottom Right Corner of the Main Map */
-/* ✅ Mini-Map in Bottom-Right Corner of the Map */
+/* 
+✅ Mini-Map inside Main Map at Bottom-Right */
 #mini-map {
-  width: 350px; /* Keep original size */
-  height: 200px;
-  border: 3px solid black;
+  width: 250px; /* ✅ Keeps mini-map properly sized */
+  height: 150px;
+  border: 2px solid black;
   border-radius: 8px;
-  position: absolute; /* ✅ Keeps it inside the map */
-  bottom: 10px; /* ✅ Positions it at the bottom */
-  right: 10px; /* ✅ Positions it at the right */
+  position: absolute; /* ✅ Positions it inside the main map */
+  bottom: 10px; /* ✅ Keeps it inside */
+  right: 10px; /* ✅ Moves it fully into the bottom-right corner */
   background: white;
   z-index: 10; /* ✅ Ensures it's above the map */
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.2);
 }
 
-/* ✅ Fix Mini-Map Image Scaling */
+/* ✅ Ensures Mini-Map Content Scales Correctly */
 #mini-map img, #mini-map canvas {
-    width: 100%; /* Ensures it fills the container */
-    height: 100%; /* Matches container height */
-    object-fit: contain; /* ✅ Keeps aspect ratio while fitting inside */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* ✅ Keeps aspect ratio */
 }
-
 /* 🔹 Suggestions Dropdown */
 #suggestions {
   margin: 0;
@@ -228,18 +218,14 @@ h1, h2 {
   text-align: center;
   background-color: #f9f9f9;
 }
-
 #map-container {
+  position: relative; /* Ensures child elements are positioned correctly */
   width: 100%;
-  max-width: 900px;
-  height: 500px;
-  margin: 0 auto;
-  border: 3px solid gray; /* Keeps gray border */
+  height: 600px;
+  border: 2px solid rgba(0, 0, 0, 0.5); /* ✅ Soft black border restored */
   border-radius: 8px;
-  overflow: hidden; /* Ensures no overflow */
-  display: flex; /* Aligns content properly */
-  justify-content: center; /* Centers the map */
-  align-items: center;
+  overflow: hidden;
+  box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
 
