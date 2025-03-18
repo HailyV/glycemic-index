@@ -51,39 +51,74 @@ h1, h2 {
     border-radius: 8px;
 }
 
-/* Tooltip styling */
-.tooltip {
-    position: absolute;
-    background: white;
+/* ✅ Ensure the Hovered State Name is Visible */
+.map-tooltip {
+    position: fixed; /* Keep it on screen */
+    bottom: 10px; /* Keep it visible near the bottom */
+    left: 50%;
+    transform: translateX(-50%); /* Center it */
+    background: rgba(0, 0, 0, 0.7); /* Dark background for readability */
+    color: white;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid #ddd;
-    box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
     pointer-events: none;
-    font-size: 14px;
-    display: none;
+    font-size: 16px;
+    display: none; /* Initially hidden */
+    z-index: 1000; /* Ensure it's on top */
 }
 
-/* 🔹 Search Container: Positioning & Layout */
+/* ✅ Display tooltip when hovering over a state */
+.map-tooltip.visible {
+  display: block;
+}
+
+/* ✅ Move the "View Counties" Button Right Below the Search Bar */
+#toggleView {
+  display: block;
+  margin: 10px auto 20px auto; /* Space between search bar and map */
+  background: white;
+  border: 2px solid black;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
+
+/* ✅ Adjust the search bar and button positioning */
 #search-container {
-  position: absolute;
-  top: 150px; /* Move it down */
-  right: 1800px; /* Move it more to the left */
-  width: 280px;
-  z-index: 1000;
-
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center search and button */
+  max-width: 900px;
+  margin: 20px auto; /* Proper spacing */
+  padding: 10px;
 }
 
-/* 🔹 Search Input: Modern Styling */
-#search-container input {
+/* ✅ Ensure Mini-Map has Proper Spacing Below */
+#mini-map {
   width: 100%;
+  max-width: 350px;
+  height: 200px;
+  margin: 40px auto 20px auto; /* More space between map & button */
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+/* ✅ Style the Input Box */
+#search-container input {
+  width: 280px; /* Keep it a good size */
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  transition: all 0.3s ease;
   font-size: 14px;
+  transition: all 0.3s ease;
   box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 
 /* 🔹 Input Hover & Focus Effect */
 #search-container input:focus {
@@ -199,16 +234,6 @@ h1, h2 {
   overflow: hidden; /* Prevent weird overflows */
 }
 
-/* Ensure mini-map is properly sized */
-#mini-map {
-  width: 100%; /* Make it responsive */
-  max-width: 350px; /* Adjust as needed */
-  height: 200px; /* Increase height */
-  margin: 20px auto; /* Center it */
-  border: 2px solid black;
-  border-radius: 8px;
-}
-
 /* Search bar should be centered */
 #search-container {
   text-align: center;
@@ -216,9 +241,10 @@ h1, h2 {
 }
 
 /* Ensure the toggle button is properly positioned */
+/* ✅ Center the Toggle Button */
 #toggleView {
   display: block;
-  margin: 15px auto; /* Center the button */
+  margin: 20px auto; /* Increased margin for spacing */
   background: white;
   border: 2px solid black;
   padding: 10px 14px;
