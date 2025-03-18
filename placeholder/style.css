@@ -8,11 +8,11 @@ h1, h2 {
     text-align: center;
 }
 
+/* ✅ Ensure the map fills its container */
 #map {
   width: 100%;
-  height: 500px;
-  border: 3px solid gray; /* 🔹 Gray border */
-  border-radius: 8px; /* Optional: Rounded corners */
+  height: 100%;
+  border-radius: 8px; /* Matches container */
 }
 
 
@@ -45,12 +45,6 @@ h1, h2 {
     height: 400px;
 }
 
-#map {
-    width: 100%;
-    height: 500px;
-    border-radius: 8px;
-}
-
 /* ✅ Further Shortened Tooltip */
 .map-tooltip {
   position: absolute; /* Ensures it stays near the hovered element */
@@ -81,14 +75,17 @@ h1, h2 {
 
 
 
-/* ✅ Center & Improve Search Bar Layout */
-#search-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center; /* Center content */
-  max-width: 900px;
-  margin: 20px auto; /* Adds spacing */
-  padding: 10px;
+/* ✅ Smooth Hover Animation for Search Box */
+#map-search-container {
+  text-align: center;
+  margin-bottom: 15px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+/* 🔹 Hover Effect */
+#map-search-container:hover {
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
 }
 
 /* ✅ Mini-Map Positioned Lower for More Space */
@@ -101,7 +98,7 @@ h1, h2 {
   border-radius: 8px;
 }
 /* ✅ Style the Search Input */
-#search-container input {
+#map-search-container input {
   width: 280px;
   padding: 12px;
   border: 1px solid #ccc;
@@ -113,7 +110,7 @@ h1, h2 {
 
 
 /* 🔹 Input Hover & Focus Effect */
-#search-container input:focus {
+#map-search-container input:focus {
   border-color: #0078ff;
   outline: none;
   box-shadow: 0px 0px 8px rgba(0, 120, 255, 0.3);
@@ -163,12 +160,12 @@ h1, h2 {
 }
 
 /* 🔹 Make the Search Box More Interactive */
-#search-container:hover {
+#map-search-container:hover {
   transform: scale(1.02);
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
 }
 
-#search-container input {
+#map-search-container input {
   width: 100%;
   padding: 12px;
   border: 1px solid #ccc;
@@ -217,31 +214,35 @@ h1, h2 {
 }
 
 #map-container {
-  width: 90%; /* Use a percentage to make it responsive */
-  max-width: 900px; /* Set a reasonable max width */
-  height: 500px; /* Increase height */
-  margin: 0 auto; /* Center it */
-  border: 2px solid gray;
+  width: 100%;
+  max-width: 900px;
+  height: 500px;
+  margin: 0 auto;
+  border: 3px solid gray; /* Keeps gray border */
   border-radius: 8px;
-  overflow: hidden; /* Prevent weird overflows */
+  overflow: hidden; /* Ensures no overflow */
+  display: flex; /* Aligns content properly */
+  justify-content: center; /* Centers the map */
+  align-items: center;
 }
 
+
 /* Search bar should be centered */
-#search-container {
+#map-search-container {
   text-align: center;
   margin-bottom: 15px;
 }
 
-/* ✅ Button Now Right Below Search Bar */
+/* ✅ Smooth Hover Animation for Toggle Button */
 #toggleView {
   width: 300px;
-  margin-top: 10px; /* Adds space between input & button */
+  margin-top: 10px;
   background: white;
   border: 2px solid black;
   padding: 10px 14px;
   font-size: 14px;
   cursor: pointer;
   border-radius: 6px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
+  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
+
