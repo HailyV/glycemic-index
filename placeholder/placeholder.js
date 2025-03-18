@@ -123,10 +123,13 @@ map.on('load', function () {
           diabetesRate = (diabetesRate === null || isNaN(diabetesRate))
             ? "No Data"
             : diabetesRate.toFixed(1) + "%";
-        
+
+          const offsetX = -400; // Small right offset
+          const offsetY = -350; // Small downward offset
+          tooltip.style.left = `${e.originalEvent.pageX + offsetX}px`;  
+          tooltip.style.top = `${e.originalEvent.pageY + offsetY}px`;
           tooltip.style.display = 'block';
-          tooltip.style.left = `${e.originalEvent.pageX -400}px`;  // 🔹 Closer to cursor (reduce offset)
-          tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
+
           tooltip.innerHTML = `<strong>${county} County</strong><br>📊 Diabetes Rate: ${diabetesRate}`;
         });
       });
@@ -205,8 +208,10 @@ map.on('load', function () {
         const diabetesRate = e.features[0].properties.diabetes_rate;
         const food = e.features[0].properties.food;
 
-        tooltip.style.left = `${e.originalEvent.pageX -400}px`;  // 🔹 Closer to cursor (reduce offset)
-        tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
+        const offsetX = -400; // Small right offset
+        const offsetY = -350; // Small downward offset
+        tooltip.style.left = `${e.originalEvent.pageX + offsetX}px`;  
+        tooltip.style.top = `${e.originalEvent.pageY + offsetY}px`;
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <strong>${state}</strong><br>
