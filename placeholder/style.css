@@ -51,66 +51,58 @@ h1, h2 {
     border-radius: 8px;
 }
 
-/* ✅ Ensure the Hovered State Name is Visible */
+/* ✅ Further Shortened Tooltip */
 .map-tooltip {
-    position: fixed; /* Keep it on screen */
-    bottom: 10px; /* Keep it visible near the bottom */
-    left: 50%;
-    transform: translateX(-50%); /* Center it */
-    background: rgba(0, 0, 0, 0.7); /* Dark background for readability */
-    color: white;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-    pointer-events: none;
-    font-size: 16px;
-    display: none; /* Initially hidden */
-    z-index: 1000; /* Ensure it's on top */
+  position: absolute; /* Ensures it stays near the hovered element */
+  bottom: auto; /* Removes fixed positioning */
+  left: auto;
+  transform: none; /* Prevents shifting */
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 5px 10px; /* Further reduced padding */
+  border-radius: 4px; /* Slightly rounded for better appearance */
+  border: 1px solid #ccc;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  font-size: 13px; /* Slightly smaller text */
+  line-height: 1.2; /* Compact line height to reduce space */
+  display: none;
+  z-index: 1000;
+  white-space: normal; /* ✅ Allows wrapping instead of forcing a long shape */
+  max-width: 220px; /* ✅ Prevents excessive width */
+  text-align: left; /* ✅ Aligns text better */
 }
 
-/* ✅ Display tooltip when hovering over a state */
+
+/* ✅ Make Tooltip Visible when Needed */
 .map-tooltip.visible {
   display: block;
 }
 
-/* ✅ Move the "View Counties" Button Right Below the Search Bar */
-#toggleView {
-  display: block;
-  margin: 10px auto 20px auto; /* Space between search bar and map */
-  background: white;
-  border: 2px solid black;
-  padding: 10px 14px;
-  font-size: 14px;
-  cursor: pointer;
-  border-radius: 6px;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transition: all 0.3s ease-in-out;
-}
 
-/* ✅ Adjust the search bar and button positioning */
+
+/* ✅ Center & Improve Search Bar Layout */
 #search-container {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center search and button */
+  align-items: center; /* Center content */
   max-width: 900px;
-  margin: 20px auto; /* Proper spacing */
+  margin: 20px auto; /* Adds spacing */
   padding: 10px;
 }
 
-/* ✅ Ensure Mini-Map has Proper Spacing Below */
+/* ✅ Mini-Map Positioned Lower for More Space */
 #mini-map {
   width: 100%;
   max-width: 350px;
   height: 200px;
-  margin: 40px auto 20px auto; /* More space between map & button */
+  margin: 50px auto 20px auto; /* More spacing */
   border: 2px solid black;
   border-radius: 8px;
 }
-
-/* ✅ Style the Input Box */
+/* ✅ Style the Search Input */
 #search-container input {
-  width: 280px; /* Keep it a good size */
+  width: 280px;
   padding: 12px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -240,11 +232,10 @@ h1, h2 {
   margin-bottom: 15px;
 }
 
-/* Ensure the toggle button is properly positioned */
-/* ✅ Center the Toggle Button */
+/* ✅ Button Now Right Below Search Bar */
 #toggleView {
-  display: block;
-  margin: 20px auto; /* Increased margin for spacing */
+  width: 300px;
+  margin-top: 10px; /* Adds space between input & button */
   background: white;
   border: 2px solid black;
   padding: 10px 14px;
