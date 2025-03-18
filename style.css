@@ -535,3 +535,40 @@ nav a:hover {
     flex-direction: column;
     gap: 1px; /* Add spacing between items */
 }
+.food-chart-container {
+    display: flex;
+    align-items: center; /* Align vertically */
+    justify-content: space-between; /* Spread items */
+    gap: 20px; /* Add spacing */
+    padding: 20px;
+    flex-wrap: wrap; /* Ensure responsiveness */
+}
+
+/* Food Selection Box */
+.food-selection {
+    flex: 1; /* Allow resizing */
+    min-width: 250px; /* Prevent shrinking */
+}
+
+/* Info Text */
+#infoText {
+    background-color: white;
+    padding: 8px 12px;
+    border-radius: 5px;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    transition: all 0.3s ease-in-out; /* Smooth transition */
+}
+
+/* Hide the paragraph properly */
+.hidden {
+    visibility: hidden;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    opacity: 0;
+}
+
+

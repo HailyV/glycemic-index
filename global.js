@@ -1111,3 +1111,26 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    const updateChartBtn = document.getElementById("updateChartBtn");
+    const clearSelectionBtn = document.getElementById("clearSelectionBtn");
+    const infoText = document.getElementById("infoText"); // Target the <p> tag
+
+    // Hide the <p> tag when "Update Pie Chart" is clicked
+    updateChartBtn.addEventListener("click", function () {
+        infoText.style.display = "none"; // Hide paragraph
+    });
+
+    // Show the <p> tag when "Clear Selection" is clicked
+    clearSelectionBtn.addEventListener("click", function () {
+        infoText.style.display = "block"; // Show paragraph again
+    });
+});
+document.getElementById("updateChartBtn").addEventListener("click", function () {
+    document.getElementById("infoText").classList.add("hidden"); // Hide text
+});
+
+document.getElementById("clearSelectionBtn").addEventListener("click", function () {
+    document.getElementById("infoText").classList.remove("hidden"); // Show text
+});
