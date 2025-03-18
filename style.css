@@ -588,5 +588,12 @@ nav a:hover {
     transform: scale(0.98);
 }
 
-
-
+.diabetes-text-container {
+    max-width: 800px; /* 🔹 Limits width for readability */
+    margin: 30px auto; /* 🔹 Centers it and adds spacing from the map */
+    padding: 20px; /* 🔹 Adds inner spacing */
+    background: white; /* 🔹 White background behind text */
+    border-radius: 12px; /* 🔹 Rounds the edges */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1); /* 🔹 Soft shadow */
+    text-align: justify; /* 🔹 Neat text alignment */
+}

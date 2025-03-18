@@ -63,46 +63,38 @@ h1, h2 {
   display: block;
 }
 
-
-/* ✅ Make Map Search Container Match Button Width */
+/* 🔹 Keep container clean, no hover animation */
 #map-search-container {
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 6px; /* 🔹 Reduced space between input & button */
-  padding: 6px 8px; /* 🔹 Less padding for a tighter fit */
+  width: 250px; /* ✅ Matches the button */
+  padding: 10px;
   background: white;
-  border-radius: 6px;
+  border-radius: 8px;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
-  width: 300px; /* ✅ Match "View Counties" Button */
+  margin-bottom: 20px;
+  gap: 2px;
 }
 
-/* 🔹 Reduce Search Input Width */
+/* 🔹 Ensure search bar is the same width as the button */
 #map-search-container input {
-  width: 90%; /* ✅ Match container width */
+  width: 90%; /* ✅ Slightly smaller for a cleaner fit */
   padding: 8px;
   border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 13px;
+  border-radius: 6px;
+  font-size: 14px;
   transition: all 0.3s ease;
   box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
-
-/* 🔹 Input Hover & Focus Effect */
+/* 🔹 Light green opaque background when active */
 #map-search-container input:focus {
-  border-color: #0078ff;
+  background: rgba(144, 238, 144, 0.2);
+  border-color: #4CAF50;
   outline: none;
-  box-shadow: 0px 0px 8px rgba(0, 120, 255, 0.3);
-}
-
-
-/* 🔹 Hover Effect */
-#map-search-container:hover {
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
+  box-shadow: 0px 0px 8px rgba(76, 175, 80, 0.4);
 }
 
 /* 
@@ -173,12 +165,6 @@ h1, h2 {
   opacity: 1;
 }
 
-/* 🔹 Make the Search Box More Interactive */
-#map-search-container:hover {
-  transform: scale(1.02);
-  box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
-}
-
 #suggestions {
   transition: all 0.3s ease-in-out;
 }
@@ -227,22 +213,27 @@ h1, h2 {
   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.3);
 }
 
-
-/* ✅ Ensure Button Aligns with Input */
+/* 🔹 Style the "View Counties" button */
 #toggleView {
-  width: 100%; /* ✅ Matches search container */
-  background: white;
-  border: 2px solid black;
-  padding: 8px;
-  font-size: 13px;
+  width: 100%; /* ✅ Matches search bar */
+  background: #4CAF50; /* ✅ Light green */
+  color: white; /* ✅ White text */
+  font-weight: bold; /* ✅ Bold font */
+  border: none; /* ✅ Removes black border */
+  padding: 10px;
+  font-size: 14px;
   cursor: pointer;
-  border-radius: 5px;
-  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+  border-radius: 6px;
+  transition: background 0.3s ease, box-shadow 0.2s ease;
 }
 
-/* 🔹 Hover Effect for Search Box & Button */
-#map-search-container:hover,
+/* 🔹 Button Hover Effect */
 #toggleView:hover {
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
-  transform: scale(1.01);
+  background: #45a049; /* Slightly darker green */
+}
+
+/* 🔹 Button Active Click Effect */
+#toggleView:active {
+  background: #3e8e41;
+  transform: scale(0.98);
 }
