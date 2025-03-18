@@ -11,49 +11,49 @@
     <link rel="stylesheet" href="placeholder/style.css" />
 
     <style>
-        html {
-            scroll-behavior: smooth;
-        }
+      html {
+          scroll-behavior: smooth;
+      }
 
-        /* Section fading effect */
-        .section {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            position: relative;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-        }
-        .section.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+      /* Section fading effect */
+      .section {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          text-align: center;
+          position: relative;
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      }
+      .section.active {
+          opacity: 1;
+          transform: translateY(0);
+      }
 
-        /* Visualization container */
-        .visual-container {
-            width: 100%;
-            max-width: 800px;
-            height: 60vh;
-            margin-bottom: 20px;
-        }
-        .text-container {
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 15px;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 900px;
-            opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-        }
-        .section.active .text-container {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    </style>    
+      /* Visualization container */
+      .visual-container {
+          width: 100%;
+          max-width: 800px;
+          height: 60vh;
+          margin-bottom: 20px;
+      }
+      .text-container {
+          background-color: rgba(255, 255, 255, 0.9);
+          padding: 15px;
+          border-radius: 8px;
+          width: 90%;
+          max-width: 900px;
+          opacity: 0;
+          transform: translateY(30px);
+          transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+      }
+      .section.active .text-container {
+          opacity: 1;
+          transform: translateY(0);
+      }
+  </style>    
 </head>
 <body>
   <header class="glucose-header">
