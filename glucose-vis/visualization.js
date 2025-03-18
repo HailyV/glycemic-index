@@ -90,12 +90,12 @@ function drawGlucoseBarChart(data) {
     console.log("📌 Y Domain:", y.domain());
 
 // 📌 Ensure only one tooltip exists
-let tooltip = d3.select("body").select(".tooltip");
+let tooltip = d3.select("body").select(".glucose-tooltip");
 
 if (tooltip.empty()) {
-    console.log("📌 Creating new tooltip...");
+    console.log("📌 Creating new glucose tooltip...");
     tooltip = d3.select("body").append("div")
-        .attr("class", "tooltip")
+        .attr("class", "glucose-tooltip")
         .style("position", "absolute")
         .style("background", "#fff")
         .style("padding", "8px")
@@ -106,7 +106,7 @@ if (tooltip.empty()) {
         .style("pointer-events", "none")
         .style("font-size", "12px");
 } else {
-    console.log("✅ Reusing existing tooltip.");
+    console.log("✅ Reusing existing glucose tooltip.");
 }
 
 
@@ -372,7 +372,7 @@ function loadGlucoseForPerson(personIndex) {
 
     // ✅ Tooltip Debugging: Ensure Only One Exists
     console.log("✅ Creating Tooltip...");
-    let tooltip = d3.select(".tooltip");
+    let tooltip = d3.select(".glucose-tooltip");
 
     if (tooltip.empty()) {
         console.log("📌 Creating new tooltip...");

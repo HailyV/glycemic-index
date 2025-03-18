@@ -130,7 +130,7 @@ th {
     text-decoration: underline;
 }
 
-.tooltip {
+.glucose-tooltip {
     position: absolute;
     background: rgba(255, 255, 255, 0.9);
     padding: 10px;
@@ -139,9 +139,20 @@ th {
     box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
     pointer-events: none;
     font-size: 14px;
-    visibility: hidden; /* ✅ Allows tooltip to be toggled */
-    opacity: 0; /* ✅ Starts invisible */
+    visibility: hidden;
+    opacity: 0;
     transition: opacity 0.2s ease-in-out;
-    z-index: 9999; /* ✅ Ensures tooltip appears above other elements */
+    z-index: 9999;
 }
+section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;  /* ✅ Centers items horizontally */
+    justify-content: center;  /* ✅ Centers items vertically (if needed) */
+    text-align: center;  /* ✅ Centers text inside */
+    width: 100%;
+    padding: 20px; /* ✅ Adds spacing */
+}
+
+
 
