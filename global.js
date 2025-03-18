@@ -333,8 +333,8 @@ function drawPieChartForSelectedFoods(selectedFoods) {
     updateTotalStats(chartData);
 
     // Dimensions
-    const width = 400;
-    const height = 400;
+    const width = 520;
+    const height = 520;
     const margin = 40;
     const radius = Math.min(width, height) / 2 - margin;
 
