@@ -5,6 +5,7 @@ const map = new mapboxgl.Map({
   style: 'mapbox://styles/mapbox/light-v10',
   center: [-98.5795, 39.8283], // Center on the US
   zoom: 3.5,
+  attributionControl: false // 🔹 Hides the Mapbox text
 });
 
 const stateData = [
@@ -59,6 +60,7 @@ const stateData = [
   { state: "Wisconsin", diabetes_rate: 8.8, lower_limit: 8.2, upper_limit: 9.4, food: "Cheese" },
   { state: "Wyoming", diabetes_rate: 8.1, lower_limit: 7.3, upper_limit: 8.9, food: "Soda bread" }
 ];
+
 
 map.on('load', function () {
   // Load and process county diabetes CSV
@@ -128,27 +130,6 @@ map.on('load', function () {
           tooltip.innerHTML = `<strong>${county} County</strong><br>📊 Diabetes Rate: ${diabetesRate}`;
         });
       });
-  });
-
-  // **🔹 Remove Failing API Calls for State Food Markers**
-  stateData.forEach(d => {
-    fetch(`https://nominatim.openstreetmap.org/search?state=${d.state}&country=USA&format=json`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.length > 0) {
-          const coords = [parseFloat(data[0].lon), parseFloat(data[0].lat)];
-
-          const marker = new mapboxgl.Marker({ color: 'red' })
-            .setLngLat(coords)
-            .setPopup(new mapboxgl.Popup().setHTML(`
-              <strong>${d.state}</strong><br>
-              📊 Diabetes Rate: ${d.diabetes_rate}%<br>
-              🍽 Favorite Food: ${d.food}
-            `))
-            .addTo(map);
-        }
-      })
-      .catch(error => console.error(`Error loading marker for ${d.state}:`, error));
   });
 
   d3.json("https://raw.githubusercontent.com/PublicaMundi/MappingAPI/master/data/geojson/us-states.json")
@@ -337,11 +318,6 @@ map.on('load', function () {
     });
 });
 
-map.on('load', function () {
-  map.setPaintProperty('counties-layer', 'fill-opacity-transition', { duration: 1000 });
-  map.setPaintProperty('states-layer', 'fill-opacity-transition', { duration: 1000 });
-  map.setPaintProperty('state-borders', 'line-opacity-transition', { duration: 1000 });
-});
 
 // Toggle button: Switch between state and county views by animating opacity
 const toggleButton = document.getElementById("toggleView");
@@ -363,4 +339,53 @@ toggleButton.addEventListener("click", function () {
     map.setPaintProperty('state-borders', 'line-opacity', 0);
     toggleButton.textContent = "View States";
   }
+});
+
+const miniMap = new mapboxgl.Map({
+  container: "mini-map", // Ensure this div exists in HTML
+  style: "mapbox://styles/mapbox/light-v10",
+  center: [-98.5795, 39.8283], // Same initial center as main map
+  zoom: 1.8, // Adjusted zoom level
+  interactive: true, // Disable interactions
+  attributionControl: false // 🔹 Hides the Mapbox tex
+});
+
+// ✅ Function to fetch Fast Food locations locally
+async function fetchFastFoodFromFile() {
+  try {
+    const response = await fetch("../data/export.geojson");
+    const data = await response.json();
+    console.log("✅ Loaded fast food data from file:", data);
+    return data;
+  } catch (error) {
+    console.error("❌ Error loading local fast food data:", error);
+    return null;
+  }
+}
+
+miniMap.on("load", async function () {
+  console.log("✅ Mini-map loaded successfully.");
+
+  let fastFoodGeoJSON = await fetchFastFoodFromFile();
+  if (!fastFoodGeoJSON) return;
+
+  // ✅ Mini-map uses "fast-food-density-mini"
+  miniMap.addSource("fast-food-density-mini", {
+    type: "geojson",
+    data: fastFoodGeoJSON,
+  });
+
+   // ✅ Remove the heatmap and replace with dots
+miniMap.addLayer({
+  id: "fast-food-dots-mini",
+  type: "circle",
+  source: "fast-food-density-mini",
+  paint: {
+    "circle-radius": ["interpolate", ["linear"], ["zoom"], 3, 1.5, 12, 4], // Adjust size by zoom
+    "circle-color": "rgb(255, 128, 128)", // Bright red to stand out
+    "circle-opacity": 0.8, // Slightly transparent
+  }
+});
+
+  console.log("✅ Fast food heatmap added to mini-map.");
 });
