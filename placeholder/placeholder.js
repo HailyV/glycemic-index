@@ -125,7 +125,7 @@ map.on('load', function () {
             : diabetesRate.toFixed(1) + "%";
         
           tooltip.style.display = 'block';
-          tooltip.style.left = `${e.originalEvent.pageX -350}px`;  // 🔹 Closer to cursor (reduce offset)
+          tooltip.style.left = `${e.originalEvent.pageX -400}px`;  // 🔹 Closer to cursor (reduce offset)
           tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
           tooltip.innerHTML = `<strong>${county} County</strong><br>📊 Diabetes Rate: ${diabetesRate}`;
         });
