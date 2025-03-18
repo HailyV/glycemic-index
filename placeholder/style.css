@@ -44,18 +44,17 @@ h1, h2 {
     height: 400px;
 }
 
-/* ✅ Further Shortened Tooltip */
 .map-tooltip {
   position: absolute;
-    background: rgba(0, 0, 0, 0.8);
-    color: white;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    pointer-events: none; /* ✅ Prevents blocking interactions */
-    white-space: nowrap;
-    transform: translate(10px, 10px); /* ✅ Starts slightly offset from cursor */
-    display: none; /* Hidden by default */
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-size: 14px;
+  pointer-events: none; /* ✅ Prevents blocking interactions */
+  white-space: nowrap;
+  display: none; /* Hidden by default */
+  z-index: 1000; /* 🔹 Ensures it stays above everything */
 }
 
 

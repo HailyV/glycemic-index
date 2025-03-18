@@ -27,10 +27,9 @@ html, body {
     flex-grow: 1; /* Pushes footer down and expands */
 }
 
-/* Header Styling */
 .glucose-header {
-    background: linear-gradient(90deg, #1e6225, #2e7d32 30%, #43a047 50%, #2e7d32 70%, #1e6225);  
-    color: white;
+    background: linear-gradient(90deg, #1e6225, #2e7d32 30%, #43a047 50%, #2e7d32 70%, #1e6225) !important;
+    color: white !important; /* Ensure text is white */
     padding: 20px 0;
     width: 100%;
     text-align: center;
@@ -41,18 +40,13 @@ html, body {
     font-weight: bold;
     z-index: 1000;
 }
-
 /* H1 Styling - Applies Only to This Header */
 .glucose-title {
     margin: 0;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
     color: white; /* White Text */
-    text-shadow: 
-        -1px -1px 0 black,  
-         1px -1px 0 black,  
-        -1px  1px 0 black,  
-         1px  1px 0 black;  /* Creates a subtle black border */
+    /* text-shadow removed */
     position: relative;
     display: inline-block;
     padding-bottom: 5px;
@@ -567,30 +561,32 @@ nav a:hover {
     gap: 1px; /* Add spacing between items */
 }
 
-/* Reset Button Styling */
 .reset-button {
-    background: rgba(173, 216, 230, 0.8); /* Light Blue with Opacity */
-    color: #003366; /* Dark Blue Text for Contrast */
-    border: 2px solid #003366; /* Matching Border */
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: bold;
-    font-family: 'Poppins', sans-serif;
-    border-radius: 8px; /* Rounded Corners */
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+    background: rgba(200, 230, 250, 0.8) !important; 
+    color: #002244 !important;
+    border: 2px solid #004488 !important;
+    padding: 10px 20px !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    font-family: 'Poppins', sans-serif !important;
+    border-radius: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease-in-out !important;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2) !important;
 }
 
 /* Hover Effect */
 .reset-button:hover {
-    background: rgba(173, 216, 230, 1); /* Fully Opaque Light Blue */
-    color: #002244; /* Slightly Darker Blue for Interaction */
+    background: rgba(220, 240, 255, 1); /* Even Lighter Blue on Hover */
+    color: #001a33; /* Slightly Darker Blue for Interaction */
     box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
 }
 
 /* Active/Clicked Effect */
 .reset-button:active {
-    background: rgba(135, 206, 235, 1); /* Slightly Darker Light Blue */
+    background: rgba(180, 220, 250, 1); /* Slightly Darker Light Blue */
     transform: scale(0.98);
 }
+
+
+

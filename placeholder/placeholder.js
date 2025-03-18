@@ -205,8 +205,8 @@ map.on('load', function () {
         const diabetesRate = e.features[0].properties.diabetes_rate;
         const food = e.features[0].properties.food;
 
-        tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
-        tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
+        tooltip.style.left = `${e.originalEvent.pageX -350}px`;  // 🔹 Closer to cursor (reduce offset)
+        tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
           <strong>${state}</strong><br>
