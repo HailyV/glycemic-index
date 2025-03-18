@@ -566,6 +566,7 @@ nav a:hover {
     flex-direction: column;
     gap: 1px; /* Add spacing between items */
 }
+<<<<<<< Updated upstream
 .food-chart-container {
     display: flex;
     align-items: center; /* Align vertically */
@@ -603,3 +604,33 @@ nav a:hover {
 }
 
 
+=======
+
+/* Reset Button Styling */
+.reset-button {
+    background: rgba(173, 216, 230, 0.8); /* Light Blue with Opacity */
+    color: #003366; /* Dark Blue Text for Contrast */
+    border: 2px solid #003366; /* Matching Border */
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    font-family: 'Poppins', sans-serif;
+    border-radius: 8px; /* Rounded Corners */
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Hover Effect */
+.reset-button:hover {
+    background: rgba(173, 216, 230, 1); /* Fully Opaque Light Blue */
+    color: #002244; /* Slightly Darker Blue for Interaction */
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Active/Clicked Effect */
+.reset-button:active {
+    background: rgba(135, 206, 235, 1); /* Slightly Darker Light Blue */
+    transform: scale(0.98);
+}
+>>>>>>> Stashed changes
