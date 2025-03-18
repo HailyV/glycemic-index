@@ -72,7 +72,7 @@ function populateFoodSelection() {
     container.addEventListener("change", function(event) {
         const checkbox = event.target;
         if (checkbox.checked) {
-            if (selectedItems.size < 7) {
+            if (selectedItems.size < 6) {
                 selectedItems.add(checkbox.value);
             } else {
                 alert("You can select up to 6 foods only.");
@@ -394,38 +394,65 @@ function updateSummaryStats(chartData) {
     // Keep Summary Title & Images
     statsDiv.innerHTML = `
         <h3>Summary Stats</h3>
-        <div id="summaryImageContainer">
-            <img src="data/assets/apple.png" alt="Apple" class="summary-image">
-            <img src="data/assets/egg.png" alt="Egg" class="summary-image">
-            <img src="data/assets/pizza.png" alt="Pizza" class="summary-image">
+        <div id="summaryImageContainer">    
+            <img src="../data/assets/apple.png" alt="Apple" class="summary-image">
+            <img src="../data/assets/egg.png" alt="Egg" class="summary-image">
+            <img src="../data/assets/pizza.png" alt="Pizza" class="summary-image">
         </div>
+        <div class="summary-content"></div> <!-- Container for food info -->
     `;
 
-    // Define colors for each food (Using D3's color scheme)
-    const colorScale = d3.scaleOrdinal(d3.schemeCategory10); // Generates different colors
+    const contentDiv = statsDiv.querySelector(".summary-content");
+
+    // Define colors for each food
+    const colorScale = d3.scaleOrdinal(d3.schemeCategory10);
 
     chartData.forEach((food, index) => {
-        const foodInfo = document.createElement("p");
-        const foodColor = colorScale(food.food); // Assign unique color to each food
+        const foodInfo = document.createElement("div");
+        foodInfo.classList.add("food-item");
+
+        const foodColor = colorScale(food.food);
 
         foodInfo.innerHTML = `
-            <strong>${food.food}<span class="food-color-dot" style="background-color: ${foodColor};"></span></strong> 
+            <strong>${food.food} <span class="food-color-dot" style="background-color: ${foodColor};"></span></strong> 
             <br/>
             🍽 Calories: ${food.calorie.toFixed(1)}<br/>
             🥑 Fat: ${food.total_fat.toFixed(1)} g<br/>
             🍞 Carbs: ${food.total_carb.toFixed(1)} g<br/>
             🍬 Sugar: ${food.sugar.toFixed(1)} g<br/>
-            💪 Protein: ${food.protein.toFixed(1)} g<br/><br/>
+            💪 Protein: ${food.protein.toFixed(1)} g<br/>
         `;
-        foodInfo.style.animationDelay = `${index * 0.1}s`; // Delay each item slightly
-        statsDiv.appendChild(foodInfo);
+        contentDiv.appendChild(foodInfo);
     });
 
     // Show the summary stats
     statsDiv.classList.remove("hidden");
 }
 
-// Function to clear all selected items and reset the pie chart
+// // Function to clear all selected items and reset the pie chart
+// function clearSelection() {
+//     const checkboxes = document.querySelectorAll(".food-checkbox:checked");
+//     checkboxes.forEach(checkbox => {
+//         checkbox.checked = false;
+//     });
+
+//     // Remove any existing chart and legend
+//     d3.select("#pieChart").selectAll("svg").remove();
+//     // d3.select("#legend").html(""); // Clear legend
+//     d3.select("#barChart").selectAll("*").remove(); // Clear bar chart
+
+//     // Hide summary stats, legend, total stats, bar chart, and footnote
+//     document.getElementById("summaryStats").classList.add("hidden");
+//     // document.getElementById("legend").classList.add("hidden");
+//     document.getElementById("totalStats").classList.add("hidden");
+//     document.getElementById("barChartContainer").classList.add("hidden");
+//     document.getElementById("footnote").classList.add("hidden");
+
+//     // Clear selected items
+//     selectedItems.clear();
+//     firstClick = true;
+// }
+
 function clearSelection() {
     const checkboxes = document.querySelectorAll(".food-checkbox:checked");
     checkboxes.forEach(checkbox => {
@@ -434,12 +461,10 @@ function clearSelection() {
 
     // Remove any existing chart and legend
     d3.select("#pieChart").selectAll("svg").remove();
-    // d3.select("#legend").html(""); // Clear legend
     d3.select("#barChart").selectAll("*").remove(); // Clear bar chart
 
-    // Hide summary stats, legend, total stats, bar chart, and footnote
-    document.getElementById("summaryStats").classList.add("hidden");
-    // document.getElementById("legend").classList.add("hidden");
+    // Hide summary stats, total stats, bar chart, and footnote
+    document.getElementById("summaryStats").style.display = "none";  // ✅ Ensure it's fully hidden
     document.getElementById("totalStats").classList.add("hidden");
     document.getElementById("barChartContainer").classList.add("hidden");
     document.getElementById("footnote").classList.add("hidden");
@@ -448,6 +473,7 @@ function clearSelection() {
     selectedItems.clear();
     firstClick = true;
 }
+
 
 // Event listener for food selection updates
 document.addEventListener("DOMContentLoaded", function() {
@@ -461,6 +487,68 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
 });
 
+// document.addEventListener("DOMContentLoaded", function () {
+//     console.log("✅ DOM fully loaded and parsed!");
+
+//     const updateChartBtn = document.getElementById("updateChartBtn");
+//     const summaryStats = document.getElementById("summaryStats");
+//     const pieChart = document.getElementById("pieChart");
+
+//     if (!updateChartBtn) {
+//         console.error("❌ ERROR: updateChartBtn not found! Check if the button ID is correct.");
+//         return;
+//     }
+//     if (!pieChart) {
+//         console.error("❌ ERROR: pieChart element not found! Make sure it exists in your HTML.");
+//         return;
+//     }
+
+//     // Ensure the elements are initially hidden
+//     summaryStats?.classList.add("hidden");
+
+//     updateChartBtn.addEventListener("click", function () {
+//         console.log("🛠 Button clicked!");
+
+//         // Get selected options
+//         const selectedFoods = getSelectedFoods();
+//         console.log("Selected foods:", selectedFoods);
+
+//         if (selectedFoods.length > 0) {
+//             console.log("✅ Food selected! Showing summary stats...");
+//             summaryStats.classList.remove("hidden");
+
+//             setTimeout(() => {
+//                 const statsContent = document.getElementById("statsContent");
+            
+//                 if (!statsContent) {
+//                     console.error("❌ ERROR: statsContent not found! Check if it's inside #summaryStats and visible.");
+//                     return; // Prevent further errors
+//                 }
+            
+//                 console.log("✅ statsContent found! Updating text...");
+//                 statsContent.innerText = `You selected: ${selectedFoods.join(", ")}`;
+//             }, 100);
+
+//             console.log("📌 firstClick value before checking:", firstClick);
+
+//             if (firstClick) {
+//                 firstClick = false; // Prevent future scrolling
+//                 console.log("✅ First click detected! Attempting to scroll...");
+
+//                 setTimeout(() => {
+//                     pieChart.scrollIntoView({ behavior: "smooth", block: "start" });
+//                     console.log("✅ Scroll action triggered successfully!");
+//                 }, 300);
+//             } else {
+//                 console.log("⚠️ First click already used, skipping scroll.");
+//             }
+//         } else {
+//             console.warn("⚠️ No foods selected, skipping scroll.");
+//             summaryStats.classList.add("hidden");
+//         }
+//     });
+// });
+
 document.addEventListener("DOMContentLoaded", function () {
     console.log("✅ DOM fully loaded and parsed!");
 
@@ -469,56 +557,46 @@ document.addEventListener("DOMContentLoaded", function () {
     const pieChart = document.getElementById("pieChart");
 
     if (!updateChartBtn) {
-        console.error("❌ ERROR: updateChartBtn not found! Check if the button ID is correct.");
+        console.error("❌ ERROR: updateChartBtn not found!");
         return;
     }
     if (!pieChart) {
-        console.error("❌ ERROR: pieChart element not found! Make sure it exists in your HTML.");
+        console.error("❌ ERROR: pieChart element not found!");
         return;
     }
 
-    // Ensure the elements are initially hidden
-    summaryStats?.classList.add("hidden");
+    // ✅ Ensure summary stats is hidden at start
+    summaryStats.style.display = "none";
 
     updateChartBtn.addEventListener("click", function () {
         console.log("🛠 Button clicked!");
-
-        // Get selected options
         const selectedFoods = getSelectedFoods();
         console.log("Selected foods:", selectedFoods);
 
         if (selectedFoods.length > 0) {
             console.log("✅ Food selected! Showing summary stats...");
-            summaryStats.classList.remove("hidden");
+            summaryStats.style.display = "block";  // ✅ Show summary stats when button is clicked
 
             setTimeout(() => {
                 const statsContent = document.getElementById("statsContent");
             
                 if (!statsContent) {
-                    console.error("❌ ERROR: statsContent not found! Check if it's inside #summaryStats and visible.");
-                    return; // Prevent further errors
+                    console.error("❌ ERROR: statsContent not found!");
+                    return;
                 }
             
-                console.log("✅ statsContent found! Updating text...");
                 statsContent.innerText = `You selected: ${selectedFoods.join(", ")}`;
             }, 100);
 
-            console.log("📌 firstClick value before checking:", firstClick);
-
             if (firstClick) {
-                firstClick = false; // Prevent future scrolling
-                console.log("✅ First click detected! Attempting to scroll...");
-
+                firstClick = false;
                 setTimeout(() => {
                     pieChart.scrollIntoView({ behavior: "smooth", block: "start" });
-                    console.log("✅ Scroll action triggered successfully!");
                 }, 300);
-            } else {
-                console.log("⚠️ First click already used, skipping scroll.");
             }
         } else {
-            console.warn("⚠️ No foods selected, skipping scroll.");
-            summaryStats.classList.add("hidden");
+            console.warn("⚠️ No foods selected, hiding summary stats.");
+            summaryStats.style.display = "none"; // ✅ Hide if no food is selected
         }
     });
 });

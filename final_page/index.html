@@ -11,6 +11,9 @@
     
 </head>
 <body>
+  <header>
+    <h1>Glycemic Index Project</h1>
+  </header>
     <section id="visualization-section">
         <div id="glucose-tooltip" style="position:absolute; visibility:hidden;"></div>
 
@@ -60,63 +63,64 @@
         </div>
     </section>
 
-<!-- ✅ Food Visualization Section -->
-<section id="food-visualization">
-    <header>
-      <h1>Glycemic Index Project</h1>
-    </header>
+    <section id="food-visualization">
   
-    <!-- Search Bar -->
-    <div class="food-search-container">
-      <label for="foodSearch">Search for a food:</label>
-      <input type="text" id="foodSearch" placeholder="Type to search..." />
-    </div>
+      <!-- Grid Layout for Search, Pie Chart, and Summary Stats -->
+      <div class="visualization-container">
   
-    <!-- Checkbox selection for 6 Foods -->
-    <div class="food-selection">
-      <label><b>Select up to 6 foods:</b></label>
-      <div id="foodCheckboxContainer" class="scroll-box"></div>
-      <button id="updateChartBtn">Update Pie Chart</button>
-      <button id="clearSelectionBtn">Clear Selection</button>
-    </div>
+          <!-- Food Search Box (Left) -->
+          <div class="food-search-container">
+              <label for="foodSearch">Search for a food:</label>
+              <input type="text" id="foodSearch" placeholder="Type to search..." />
+              <div class="food-selection">
+                  <label><b>Select up to 6 foods:</b></label>
+                  <div id="foodCheckboxContainer" class="scroll-box"></div>
+                  <button id="updateChartBtn">Update Pie Chart</button>
+                  <button id="clearSelectionBtn">Clear Selection</button>
+              </div>
+          </div>
   
-    <!-- Visualization Container -->
-    <div class="visualization-container">
-      <!-- Summary Stats -->
-      <div id="summaryStats" class="summary-stats">
-        <h3>Summary Stats</h3>
-        <div id="summaryImageContainer">
-          <img src="data/assets/apple.png" alt="Apple Image" class="summary-image">
-        </div>
-        <div id="statsContent">
-          <p>Select foods to see their nutritional information here.</p>
-        </div>
+          <!-- Pie Chart (Right) -->
+          <div id="pieChart"></div>
+  
+          <!-- Summary Stats (Below Both) -->
+          <div id="summaryStats" class="summary-stats">
+              <h3>Summary Stats</h3>
+              <div id="summaryImageContainer">
+                  <img src="data/assets/apple.png" alt="Apple Image" class="summary-image">
+              </div>
+              <div id="statsContent">
+                  <p>Select foods to see their nutritional information here.</p>
+              </div>
+          </div>
+  
       </div>
-      <!-- Pie Chart -->
-      <div id="pieChart"></div>
-    </div>
   
-    <!-- Bar Chart and Total Stats Container -->
-    <div class="bar-chart-total-stats-container">
-      <div id="barChartContainer" class="bar-chart-container hidden">
-        <h3>Macronutrient Intake</h3>
-        <svg id="barChart"></svg>
+      <!-- Bar Chart and Total Stats -->
+      <div class="bar-chart-total-stats-container">
+          <div id="barChartContainer" class="bar-chart-container hidden">
+              <h3>Macronutrient Intake</h3>
+              <svg id="barChart"></svg>
+          </div>
+          <div id="totalStats" class="total-stats hidden">
+              <h3>Total Stats</h3>
+              <p>Sum of selected foods' nutritional information will be displayed here.</p>
+          </div>
       </div>
-      <div id="totalStats" class="total-stats hidden">
-        <h3>Total Stats</h3>
-        <p>Sum of selected foods' nutritional information will be displayed here.</p>
-      </div>
-    </div>
   
-    <!-- Tooltip Container -->
-    <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
+      <!-- Tooltip Container -->
+      <div id="tooltip" class="tooltip" style="opacity: 0;"></div>
   
-    <!-- Footnote -->
-    <footer>
-      <p id="footnote" class="footnote hidden">
-        *Recommended macronutrient intake relative to caloric intake from <a href="https://www.healthline.com/nutrition/what-are-macronutrients#:~:text=The%20bottom%20line-,Macronutrients%20include%20carbs%2C%20protein%2C%20and%20fat.,However%2C%20individual%20needs%20vary." target="_blank">The Healthline</a>
-      </p>
-    </footer>
+      <!-- Footnote -->
+      <footer>
+          <p id="footnote" class="footnote hidden">
+              *Recommended macronutrient intake relative to caloric intake from 
+              <a href="https://www.healthline.com/nutrition/what-are-macronutrients#:~:text=The%20bottom%20line-,Macronutrients%20include%20carbs%2C%20protein%2C%20and%20fat.,However%2C%20individual%20needs%20vary." target="_blank">
+                  The Healthline
+              </a>
+          </p>
+      </footer>
+  
   </section>
 
 <link rel="stylesheet" href="../style.css" />
