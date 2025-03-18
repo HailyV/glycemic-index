@@ -27,8 +27,8 @@ html, body {
     flex-grow: 1; /* Pushes footer down and expands */
 }
 
-/* Darker Edges, Lighter Center Gradient */
-header {
+/* Header Styling */
+.glucose-header {
     background: linear-gradient(90deg, #1e6225, #2e7d32 30%, #43a047 50%, #2e7d32 70%, #1e6225);  
     color: white;
     padding: 20px 0;
@@ -42,8 +42,8 @@ header {
     z-index: 1000;
 }
 
-/* Text Styling - White with Black Border */
-h1 {
+/* H1 Styling - Applies Only to This Header */
+.glucose-title {
     margin: 0;
     padding: 20px;
     font-family: 'Poppins', sans-serif;
@@ -59,7 +59,7 @@ h1 {
 }
 
 /* Underline Animation on Hover */
-h1::after {
+.glucose-title::after {
     content: "";
     position: absolute;
     left: 0;
@@ -71,7 +71,7 @@ h1::after {
     transition: transform 0.4s ease-in-out;
 }
 
-h1:hover::after {
+.glucose-title:hover::after {
     transform: scaleX(1);
 }
 
