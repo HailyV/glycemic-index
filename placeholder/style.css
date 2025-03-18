@@ -74,38 +74,30 @@ h1, h2 {
 }
 
 
-
-/* ✅ Smooth Hover Animation for Search Box */
+/* ✅ Make Map Search Container Match Button Width */
 #map-search-container {
-  text-align: center;
-  margin-bottom: 15px;
-  transition: box-shadow 0.3s ease-in-out;
-}
-
-/* 🔹 Hover Effect */
-#map-search-container:hover {
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
-  transform: scale(1.02);
-}
-
-/* ✅ Mini-Map Positioned Lower for More Space */
-#mini-map {
-  width: 100%;
-  max-width: 350px;
-  height: 200px;
-  margin: 50px auto 20px auto; /* More spacing */
-  border: 2px solid black;
-  border-radius: 8px;
-}
-/* ✅ Style the Search Input */
-#map-search-container input {
-  width: 280px;
-  padding: 12px;
-  border: 1px solid #ccc;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px; /* 🔹 Reduced space between input & button */
+  padding: 6px 8px; /* 🔹 Less padding for a tighter fit */
+  background: white;
   border-radius: 6px;
-  font-size: 14px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
+  width: 300px; /* ✅ Match "View Counties" Button */
+}
+
+/* 🔹 Reduce Search Input Width */
+#map-search-container input {
+  width: 90%; /* ✅ Match container width */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 13px;
   transition: all 0.3s ease;
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: inset 1px 1px 4px rgba(0, 0, 0, 0.1);
 }
 
 
@@ -114,6 +106,39 @@ h1, h2 {
   border-color: #0078ff;
   outline: none;
   box-shadow: 0px 0px 8px rgba(0, 120, 255, 0.3);
+}
+
+
+/* 🔹 Hover Effect */
+#map-search-container:hover {
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+  transform: scale(1.02);
+}
+
+/* ✅ Ensure Mini-Map Fits Perfectly Inside Its Border */
+/* ✅ Mini-Map in Bottom Right Corner of the Main Map */
+/* ✅ Mini-Map in Bottom-Right Corner of the Map */
+#mini-map {
+  width: 350px; /* Keep original size */
+  height: 200px;
+  border: 3px solid black;
+  border-radius: 8px;
+  position: absolute; /* ✅ Keeps it inside the map */
+  bottom: 10px; /* ✅ Positions it at the bottom */
+  right: 10px; /* ✅ Positions it at the right */
+  background: white;
+  z-index: 10; /* ✅ Ensures it's above the map */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* ✅ Fix Mini-Map Image Scaling */
+#mini-map img, #mini-map canvas {
+    width: 100%; /* Ensures it fills the container */
+    height: 100%; /* Matches container height */
+    object-fit: contain; /* ✅ Keeps aspect ratio while fitting inside */
 }
 
 /* 🔹 Suggestions Dropdown */
@@ -165,15 +190,6 @@ h1, h2 {
   box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.15);
 }
 
-#map-search-container input {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  transition: all 0.3s ease;
-  font-size: 14px;
-  box-shadow: inset 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
 #suggestions {
   transition: all 0.3s ease-in-out;
 }
@@ -227,22 +243,21 @@ h1, h2 {
 }
 
 
-/* Search bar should be centered */
-#map-search-container {
-  text-align: center;
-  margin-bottom: 15px;
-}
-
-/* ✅ Smooth Hover Animation for Toggle Button */
+/* ✅ Ensure Button Aligns with Input */
 #toggleView {
-  width: 300px;
-  margin-top: 10px;
+  width: 100%; /* ✅ Matches search container */
   background: white;
   border: 2px solid black;
-  padding: 10px 14px;
-  font-size: 14px;
+  padding: 8px;
+  font-size: 13px;
   cursor: pointer;
-  border-radius: 6px;
+  border-radius: 5px;
   transition: box-shadow 0.3s ease-in-out, transform 0.2s ease-in-out;
 }
 
+/* 🔹 Hover Effect for Search Box & Button */
+#map-search-container:hover,
+#toggleView:hover {
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  transform: scale(1.01);
+}
