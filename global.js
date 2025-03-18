@@ -3,8 +3,10 @@ const foodFiles = Array.from({ length: 16 }, (_, i) =>
     `../data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
 );
 
+
 console.log("Food Files:", foodFiles);
 
+let firstClick = true;
 let foodData = [];
 let uniqueFoods = new Set();
 let selectedItems = new Set();
@@ -444,6 +446,7 @@ function clearSelection() {
 
     // Clear selected items
     selectedItems.clear();
+    firstClick = true;
 }
 
 // Event listener for food selection updates
@@ -458,31 +461,64 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementById("foodSearch").addEventListener("input", filterFoodSelection);
 });
 
-// hides summary stats and legend until you submit
 document.addEventListener("DOMContentLoaded", function () {
+    console.log("✅ DOM fully loaded and parsed!");
+
     const updateChartBtn = document.getElementById("updateChartBtn");
     const summaryStats = document.getElementById("summaryStats");
-    const legend = document.getElementById("legend");
+    const pieChart = document.getElementById("pieChart");
+
+    if (!updateChartBtn) {
+        console.error("❌ ERROR: updateChartBtn not found! Check if the button ID is correct.");
+        return;
+    }
+    if (!pieChart) {
+        console.error("❌ ERROR: pieChart element not found! Make sure it exists in your HTML.");
+        return;
+    }
 
     // Ensure the elements are initially hidden
-    summaryStats.classList.add("hidden");
-    legend.classList.add("hidden");
+    summaryStats?.classList.add("hidden");
 
     updateChartBtn.addEventListener("click", function () {
+        console.log("🛠 Button clicked!");
+
         // Get selected options
         const selectedFoods = getSelectedFoods();
+        console.log("Selected foods:", selectedFoods);
 
         if (selectedFoods.length > 0) {
-            // Show summary stats and legend if at least one food is selected
+            console.log("✅ Food selected! Showing summary stats...");
             summaryStats.classList.remove("hidden");
-            legend.classList.remove("hidden");
 
-            // Example: Update summary stats dynamically
-            document.getElementById("statsContent").innerText = `You selected: ${selectedFoods.join(", ")}`;
+            setTimeout(() => {
+                const statsContent = document.getElementById("statsContent");
+            
+                if (!statsContent) {
+                    console.error("❌ ERROR: statsContent not found! Check if it's inside #summaryStats and visible.");
+                    return; // Prevent further errors
+                }
+            
+                console.log("✅ statsContent found! Updating text...");
+                statsContent.innerText = `You selected: ${selectedFoods.join(", ")}`;
+            }, 100);
+
+            console.log("📌 firstClick value before checking:", firstClick);
+
+            if (firstClick) {
+                firstClick = false; // Prevent future scrolling
+                console.log("✅ First click detected! Attempting to scroll...");
+
+                setTimeout(() => {
+                    pieChart.scrollIntoView({ behavior: "smooth", block: "start" });
+                    console.log("✅ Scroll action triggered successfully!");
+                }, 300);
+            } else {
+                console.log("⚠️ First click already used, skipping scroll.");
+            }
         } else {
-            // Hide if nothing is selected
+            console.warn("⚠️ No foods selected, skipping scroll.");
             summaryStats.classList.add("hidden");
-            legend.classList.add("hidden");
         }
     });
 });
@@ -496,3 +532,4 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
+
