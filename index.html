@@ -6,7 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Glucose Level Bar Chart</title>
     <script src="https://d3js.org/d3.v6.min.js"></script>
-    <script defer src="glucose-vis/visualization.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js" defer></script>
+
+  <!-- ✅ Global Helper Scripts -->
+    <script src="global.js" defer></script>
+
+<!-- ✅ Navigation Bar Script -->
+    <script src="navbar.js" defer></script>
+
+<!-- ✅ Feature-Specific Scripts -->
+    <script src="glucose-vis/visualization.js" defer></script>
+    <script src="placeholder/placeholder.js" defer></script>
+    
+    <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="glucose-vis/style.css" />
     <link rel="stylesheet" href="placeholder/style.css" />
     <style>
@@ -207,21 +219,7 @@
       </footer>
       
   </section>
-
-<link rel="stylesheet" href="style.css" />
-<!-- ✅ Navigation Bar Script -->
-<script src="navbar.js" defer></script>
-
-<!-- ✅ Global Functions & Event Listeners -->
-<script src="global.js" defer></script>
-
-<!-- ✅ Food Visualization Script -->
-<script defer src="glucose-vis/visualization.js"></script>
-
-<!-- ✅ Mapbox (Only If You Are Using Maps) -->
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js" defer></script>
-
-<script src="placeholder/placeholder.js" defer></script>  
+  
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const sections = document.querySelectorAll(".section");
