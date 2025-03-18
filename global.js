@@ -629,7 +629,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 async function loadGlucoseData() {
     const glucoseFiles = Array.from({ length: 16 }, (_, i) =>
-        `../data/glucose/Dexcom_${String(i + 1).padStart(3, '0')}.csv`
+        `data/glucose/Dexcom_${String(i + 1).padStart(3, '0')}.csv`
     );
 
     try {
