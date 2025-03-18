@@ -75,7 +75,7 @@ function populateFoodSelection() {
             if (selectedItems.size < 7) {
                 selectedItems.add(checkbox.value);
             } else {
-                alert("You can select up to 6 foods only.");
+                alert("You can select up to 7 foods only.");
                 checkbox.checked = false;
             }
         } else {
