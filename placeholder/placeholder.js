@@ -125,8 +125,8 @@ map.on('load', function () {
             : diabetesRate.toFixed(1) + "%";
         
           tooltip.style.display = 'block';
-          tooltip.style.left = e.originalEvent.pageX + 15 + 'px';
-          tooltip.style.top = e.originalEvent.pageY - 25 + 'px';
+          tooltip.style.left = `${e.originalEvent.pageX -350}px`;  // 🔹 Closer to cursor (reduce offset)
+          tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
           tooltip.innerHTML = `<strong>${county} County</strong><br>📊 Diabetes Rate: ${diabetesRate}`;
         });
       });
@@ -205,7 +205,7 @@ map.on('load', function () {
         const diabetesRate = e.features[0].properties.diabetes_rate;
         const food = e.features[0].properties.food;
 
-        tooltip.style.left = `${e.originalEvent.pageX -350}px`;  // 🔹 Closer to cursor (reduce offset)
+        tooltip.style.left = `${e.originalEvent.pageX -400}px`;  // 🔹 Closer to cursor (reduce offset)
         tooltip.style.top = `${e.originalEvent.pageY - 350}px`;
         tooltip.style.display = 'block';
         tooltip.innerHTML = `
