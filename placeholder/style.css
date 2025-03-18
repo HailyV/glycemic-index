@@ -189,3 +189,42 @@ h1, h2 {
   background-color: #f9f9f9;
 }
 
+#map-container {
+  width: 90%; /* Use a percentage to make it responsive */
+  max-width: 900px; /* Set a reasonable max width */
+  height: 500px; /* Increase height */
+  margin: 0 auto; /* Center it */
+  border: 2px solid gray;
+  border-radius: 8px;
+  overflow: hidden; /* Prevent weird overflows */
+}
+
+/* Ensure mini-map is properly sized */
+#mini-map {
+  width: 100%; /* Make it responsive */
+  max-width: 350px; /* Adjust as needed */
+  height: 200px; /* Increase height */
+  margin: 20px auto; /* Center it */
+  border: 2px solid black;
+  border-radius: 8px;
+}
+
+/* Search bar should be centered */
+#search-container {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+/* Ensure the toggle button is properly positioned */
+#toggleView {
+  display: block;
+  margin: 15px auto; /* Center the button */
+  background: white;
+  border: 2px solid black;
+  padding: 10px 14px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 6px;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease-in-out;
+}
