@@ -72,7 +72,7 @@ function populateFoodSelection() {
     container.addEventListener("change", function(event) {
         const checkbox = event.target;
         if (checkbox.checked) {
-            if (selectedItems.size < 6) {
+            if (selectedItems.size < 7) {
                 selectedItems.add(checkbox.value);
             } else {
                 alert("You can select up to 6 foods only.");
