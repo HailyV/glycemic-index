@@ -1,6 +1,6 @@
 // Generate file paths for food logs
 const foodFiles = Array.from({ length: 16 }, (_, i) =>
-    `data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
+    `../data/food/Food_Log_${String(i + 1).padStart(3, '0')}.csv`
 );
 
 console.log("Food Files:", foodFiles);
